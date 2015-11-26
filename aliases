@@ -1,0 +1,249 @@
+#!/usr/bin/zsh
+
+
+# Default Options
+# ===============
+
+# colors
+# ------
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# convenient cd
+# -------------
+chpwd() { ls }              # cd and ls
+mc() { mv $@ && ${(P)#} }   # mv and cd
+cc() { cp $@ && ${(P)#} }   # cp and cd
+
+# tail/head
+# ---------
+alias tail='tail -n50'
+alias head='head -n50'
+
+# compression
+# -----------
+alias tarx='tar -xvf'
+tarc() { tar -cvf $1.tar $1 }
+zipd() { zip -rv $1.zip $1 }
+alias unrar='unrar e'
+
+
+# Shortcuts
+# =========
+
+# app specifiers
+# --------------
+alias e='vim'                       # editor
+alias o='elinks'                    # browser
+gg() { sr "duckduckgo" $@ }         # search engine
+pdf() {                             # pdf/img viewer
+    [[ ! -f "$1" ]] && return 1
+    $HOME/src/JFBView/jfbview $1
+    shift
+    tmux refresh-client
+    [[ "$#" -gt "0" ]] && pdf $@
+    return 0
+}
+alias img='pdf'
+
+# portage
+# -------
+alias emerge='sudo emerge --ask --verbose'
+alias esync='sudo emerge --sync'
+alias update='sudo emerge --ask --update --deep --newuse --backtrack=30 @world'
+
+# save/go (for directories)
+# -------------------------
+s() {
+    dir_alias="$1"
+    [[ -z "$dir_alias" ]] && dir_alias="default"
+    echo "$dir_alias=$(pwd)" >> "$HOME/.local/share/zsh/old_dirs"
+}
+g() {
+    dir_alias="$1"
+    [[ -z "$dir_alias" ]] && dir_alias="default"
+    source "$HOME/.local/share/zsh/old_dirs"
+    eval next_dir="\$$dir_alias"
+    [[ -z "$next_dir" ]] && return 1
+    cd "$next_dir"
+}
+
+# git shortcuts
+# -------------
+gn_push() {
+    curr_dir=$(pwd)
+    remote_dir=${curr_dir#$HOME/}
+    git push
+    ssh gitnet "cd $remote_dir; git reset --hard ehildenb"
+}
+alias gcb='git commit -a --allow-empty-message -m ""'
+
+# easy-launch X sessions
+# ----------------------
+alias emul='startx /usr/bin/qemu-system-x86_64 -kernel'
+alias mpv='startx /usr/bin/mpv'
+alias firefox='startx /usr/bin/firefox'
+alias compass='startx /usr/bin/firefox "compass2g.illinois.edu"'
+alias enterprise='startx /usr/bin/firefox "https://eas.admin.uillinois.edu/eas/servlet/EasLogin?redirect=https://webprod.admin.uillinois.edu/ssa/servlet/SelfServiceLogin?appName=edu.uillinois.aits.SelfServiceLogin&dad=BANPROD1"'
+
+# checker framework
+# -----------------
+javach() {
+    export CHECKERFRAMEWORK="$HOME/src/checker-framework"
+    CLASSPATH="$CLASSPATH:$JAVA_HOME/lib/tools.jar"
+    export CLASSPATH="$CLASSPATH:$CHECKERFRAMEWORK/checker/dist/checker.jar"
+    "$CHECKERFRAMEWORK/checker/bin/javac" -source 7 -target 7 \
+        "-Xbootclasspath/p:$CHECKERFRAMEWORK/checker/dist/jdk7.jar" $@
+}
+alias antch='ant -lib /usr/share/ant-junit/lib'
+
+# crest concolic tester
+# ---------------------
+alias crest='LD_LIBRARY_PATH=~/src/yices-1.0.40/lib ~/src/crest/bin/run_crest'
+alias crestc='LD_LIBRARY_PATH=~/src/yices-1.0.40/lib ~/src/crest/bin/crestc'
+alias crestprint='LD_LIBRARY_PATH=~/src/yices-1.0.40/lib ~/src/crest/bin/print_execution'
+alias crestcfg='LD_LIBRARY_PATH=~/src/yices-1.0.40/lib ~/src/crest/bin/process_cfg'
+
+
+# Remote Control
+# ==============
+
+# remote x control
+# ----------------
+xdo_remote() {
+    ssh_serv="$1"
+    [[ -z "$ssh_serv" ]] && return 1
+    xdotoolize | ssh "$ssh_serv" 'export DISPLAY=:0; while read key_line; do \
+        xdotool key $key_line; done'
+}
+
+# remote printing
+# ---------------
+remote_print() {
+    file="$1"
+    ssh_server="$2"
+    printer="$3"
+    [[ ! -f "$file" ]]     && return 1
+    [[ -z "$ssh_server" ]] && ssh_server="ews"
+    [[ -z "$printer" ]]    && printer="siebl-0403-bwd1"
+    #[[ -z "$printer" ]]    && printer="siebl-2203-printer"
+    cat "$file" | ssh "$ssh_server" "lpr -C $file -P $printer"
+}
+
+
+# Hardware
+# ========
+
+# system-stats
+# ------------
+alias bat='cat /sys/class/power_supply/BAT1/energy_*'
+alias temp='ls -d /sys/class/thermal/thermal_zone* | xargs -I f cat f/temp'
+
+# suspend/hibernate
+# -----------------
+mem() {
+    lid_file='/proc/acpi/button/lid/LID0/state'
+    while grep 'open' "$lid_file" &> /dev/null; do sleep 2; done
+    sudo pm-suspend
+    grep 'closed' "$lid_file" && mem
+    return 0
+}
+alias hib='sudo pm-hibernate'
+
+# wireless
+# --------
+wifi_connect() {
+    wifi_file="/etc/wpa_supplicant/wifi_networks.conf"
+    net_card="wlp4s0"
+    sudo pkill wpa_supplicant
+    sudo dhcpcd -k
+    sudo wpa_supplicant -B -Dnl80211 -i"$net_card" -c"$wifi_file"
+    sudo dhcpcd "$net_card"
+}
+alias wifi_scan='sudo iw dev wlp4s0 scan | grep "SSID:"'
+alias wifi_del='sudo ip addr del 169.254.137.85/16 dev wlp4s0'
+
+# brightness
+# ----------
+brightness() {
+    BL_FILE='/sys/class/backlight/intel_backlight/brightness'
+    BL_MAX="$(cat '/sys/class/backlight/intel_backlight/max_brightness')"
+    BL_CURR="$(cat "$BL_FILE")"
+    if [[ -n "$1" ]]
+    then
+        sudo zsh -c "echo $(($1 * $BL_MAX / 100)) > $BL_FILE"
+    else
+        echo "$((100 * $BL_CURR / $BL_MAX))%"
+    fi
+}
+
+
+# Media
+# =====
+
+# mpv on remote server
+# --------------------
+remote_mpv() {
+    server="$1"
+    [[ -z "$server" ]] && return 1
+    url="$2"
+    [[ -z "$url" ]] && return 1
+    ssh $1 'export DISPLAY=:0; mpv '"$url"
+}
+
+# explode gif
+# -----------
+ungif() {
+    GIF_FILE="$1"
+    GIF_DIR="$(echo "$GIF_FILE" | cut -d'.' -f1 -)"'.ungif'
+    mkdir "$GIF_DIR"
+    gm convert "$GIF_FILE" +adjoin "$GIF_DIR"'/%04d.png'
+}
+
+
+# Scheduling
+# ==========
+
+# schedule/events
+# ---------------
+schedule() { sed -n '/schedule/,$p' ~/todo.md && echo && echo }
+events() { sed -n '/events/,/schedule/p' ~/todo.md | head -n-1 }
+
+# schedule today
+# --------------
+today() {
+    day_offset="$1"
+    schedule_file="$HOME/todo.md"
+    [[ -z "$day_offset" ]] && day_offset='0'
+    day="$(date --date="$day_offset days" +%A | awk '{print tolower($0)}')"
+    sed -n '/^'"$day"'$/,/^$/p' $schedule_file
+    date="$(date --date="$day_offset days" +'%b %-d')"
+    sed -n '/^'"$date"'$/,/^$/p' $schedule_file
+}
+
+# schedule for week
+# -----------------
+week() {
+    week_offset="$1"
+    [[ -z "$week_offset" ]] && week_offset='0'
+    let day="$week_offset*7"
+    for i in 0 1 2 3 4 5 6; do
+        let day="$day+$i"
+        today $day
+    done
+}
+
+# next event
+# ----------
+next() {
+    day_offset="$1"
+    [[ -z "$day_offset" ]] && day_offset="0"
+    next_event="$(today "$day_offset" | grep '^-   ' | cut --characters=5-)"
+    [[ -z "$next_event" ]] && return 1
+    curr_time="$(date +'%H:%M') {NOW}"
+    [[ "$day_offset" != "0" ]] && curr_time="-$curr_time"
+    next_event="$(echo "$next_event\n$curr_time" | sort)"
+    echo "$next_event" | grep -A1 "{NOW}" | tail -n1
+}
