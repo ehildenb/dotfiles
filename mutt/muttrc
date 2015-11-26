@@ -1,0 +1,186 @@
+# General Settings
+# ================
+
+# Charsets
+set send_charset = "utf-8"
+set assumed_charset = "iso-8859-1"
+
+# Editor
+set editor = "vim -c 'set syntax=markdown ft=mail enc=utf-8'"
+
+# Pager
+set menu_scroll = yes
+set pager_format = " %C - %[%H:%M] %.20v, %s%* %?H? [%H] ?"
+set markers = no
+
+# Sort by threads
+set sort = threads
+set strict_threads = yes
+
+# do not show all headers, just a few
+ignore          *
+unignore        From To Cc Bcc Date Subject
+# and in this order
+unhdr_order     *
+hdr_order       From To Cc Bcc Date Subject
+
+
+# Colors
+# ======
+
+color normal yellow default
+color error red default
+color tilde black default
+color message cyan default
+color markers red white
+color attachment white default
+color search magenta yellow
+color status brightgreen black
+color indicator black cyan
+color tree yellow default
+mono bold bold
+mono underline underline
+mono indicator reverse
+mono error bold
+
+# index
+# -----
+color index red default "~A" # all messages
+color index red default "~E" # expired messages
+color index brightgreen default "~N" # new messages
+color index blue default "~O" # old messages
+color index magenta default "~Q" # messages that have been replied to
+color index green default "~R" # read messages
+color index blue default "~U" # unread messages
+color index blue default "~U~$" # unread, unreferenced messages
+color index yellow default "~v" # messages part of a collapsed thread
+color index yellow default "~P" # messages from me
+color index cyan default "~p!~F" # messages to me
+color index cyan default "~N~p!~F" # new messages to me
+color index cyan default "~U~p!~F" # unread messages to me
+color index green default "~R~p!~F" # messages to me
+color index red default "~F" # flagged messages
+color index red default "~F~p" # flagged messages to me
+color index red default "~N~F" # new flagged messages
+color index red default "~N~F~p" # new flagged messages to me
+
+# progress bar on bottom
+# ----------------------
+color progress    white          black
+
+
+# personal settings
+# =================
+
+# Send with msmtp
+set sendmail = /usr/bin/msmtp
+
+# Template info
+set realname = "Everett Hildenbrandt"
+set from = "hildenb2@illinois.edu"
+source ~/dotfiles/mutt/contacts
+# set signature = ~/.signature
+
+# offlineimap Maildir
+# -------------------
+set mbox_type=Maildir
+set folder="~/.mail/uiuc"
+set spoolfile="~/.mail/uiuc/INBOX"
+set postponed="+Drafts"
+set record="+Sent"
+mailboxes =INBOX =~/.mail/mines/INBOX
+
+# Switch mailboxes quickly
+macro index <esc>1 "c~/.mail/uiuc/INBOX<return>"
+macro index <esc>2 "c~/.mail/mines/INBOX<return>"
+
+# viewing content
+# ---------------
+
+# html emails (applications defined in mailcap)
+auto_view text/html
+
+
+# GPG Options
+# ===========
+
+# -*-muttrc-*-
+#
+# Command formats for gpg.
+#
+# This version uses gpg-2comp from
+#   http://70t.de/download/gpg-2comp.tar.gz
+#
+# $Id$
+#
+# %p    The empty string when no passphrase is needed,
+#       the string "PGPPASSFD=0" if one is needed.
+#
+#       This is mostly used in conditional % sequences.
+#
+# %f    Most PGP commands operate on a single file or a file
+#       containing a message.  %f expands to this file's name.
+#
+# %s    When verifying signatures, there is another temporary file
+#       containing the detached signature.  %s expands to this
+#       file's name.
+#
+# %a    In "signing" contexts, this expands to the value of the
+#       configuration variable $pgp_sign_as.  You probably need to
+#       use this within a conditional % sequence.
+#
+# %r    In many contexts, mutt passes key IDs to pgp.  %r expands to
+#       a list of key IDs.
+
+# Note that we explicitly set the comment armor header since GnuPG, when used
+# in some localiaztion environments, generates 8bit data in that header, thereby
+# breaking PGP/MIME.
+
+# decode application/pgp
+set pgp_decode_command="gpg --status-fd=2 %?p?--passphrase-fd 0? --no-verbose --quiet --batch --output - %f"
+
+# verify a pgp/mime signature
+set pgp_verify_command="gpg --status-fd=2 --no-verbose --quiet --batch --output - --verify %s %f"
+
+# decrypt a pgp/mime attachment
+set pgp_decrypt_command="gpg --status-fd=2 %?p?--passphrase-fd 0? --no-verbose --quiet --batch --output - %f"
+
+# create a pgp/mime signed attachment
+set pgp_sign_command="gpg --no-verbose --batch --quiet --output - %?p?--passphrase-fd 0? --armor --detach-sign --textmode %?a?-u %a? %f"
+
+# create a application/pgp signed (old-style) message
+set pgp_clearsign_command="gpg --no-verbose --batch --quiet --output - %?p?--passphrase-fd 0? --armor --textmode --clearsign %?a?-u %a? %f"
+
+# create a pgp/mime encrypted attachment
+set pgp_encrypt_only_command="pgpewrap gpg --batch --quiet --no-verbose --output - --encrypt --textmode --armor --always-trust -- -r %r -- %f"
+
+# create a pgp/mime encrypted and signed attachment
+set pgp_encrypt_sign_command="pgpewrap gpg %?p?--passphrase-fd 0? --batch --quiet --no-verbose --textmode --output - --encrypt --sign %?a?-u %a? --armor --always-trust -- -r %r -- %f"
+
+# import a key into the public key ring
+set pgp_import_command="gpg --no-verbose --import %f"
+
+# export a key from the public key ring
+set pgp_export_command="gpg --no-verbose --export --armor %r"
+
+# verify a key
+set pgp_verify_key_command="gpg --verbose --batch --fingerprint --check-sigs %r"
+
+# read in the public key ring
+set pgp_list_pubring_command="gpg --no-verbose --batch --quiet --with-colons --list-keys %r"
+
+# read in the secret key ring
+set pgp_list_secring_command="gpg --no-verbose --batch --quiet --with-colons --list-secret-keys %r"
+
+# fetch keys
+# set pgp_getkeys_command="pkspxycwrap %r"
+
+# pattern for good signature - may need to be adapted to locale!
+
+# set pgp_good_sign="^gpgv?: Good signature from "
+
+# OK, here's a version which uses gnupg's message catalog:
+# set pgp_good_sign="`gettext -d gnupg -s 'Good signature from "' | tr -d '"'`"
+
+# This version uses --status-fd messages
+set pgp_good_sign="^\\[GNUPG:\\] GOODSIG"
