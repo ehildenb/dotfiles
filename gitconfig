@@ -1,0 +1,7 @@
+[user]
+    name = Everett Hildenbrandt
+    email = hildenb2@illinois.edu
+[push]
+    default = simple
+[merge]
+    tool = vimdiff2

@@ -1,0 +1,1 @@
+/home/ehildenb/src/maude/maude.vim/syntax/maude.vim
