@@ -1,5 +1,5 @@
 # Lines configured by zsh-newuser-install
-HISTFILE=~/.local/share/zsh/histfile
+HISTFILE=~/dotfiles/zsh/histfile
 HISTSIZE=500
 SAVEHIST=10000
 setopt appendhistory autocd extendedglob nomatch hist_ignore_all_dups

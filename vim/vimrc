@@ -66,8 +66,8 @@ syntax on
 
 "" markdown fenced syntax highlighting
 let g:markdown_fenced_languages = ['c', 'sh', 'bash=sh', 'python', 'ruby',
-    \ 'haskell', 'javascript', 'tex', 'ada', 'java', 'jack=java', 'vim',
-    \ 'asm', 'ld', 'maude']
+    \ 'haskell', 'hs=haskell', 'javascript', 'tex', 'ada', 'java', 'jack=java',
+    \ 'vim', 'asm', 'ld', 'maude']
 
 "" numbers in margin
 set number

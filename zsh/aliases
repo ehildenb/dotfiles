@@ -59,12 +59,12 @@ alias update='sudo emerge --ask --update --deep --newuse --backtrack=30 @world'
 s() {
     dir_alias="$1"
     [[ -z "$dir_alias" ]] && dir_alias="default"
-    echo "$dir_alias=$(pwd)" >> "$HOME/.local/share/zsh/old_dirs"
+    echo "$dir_alias=$(pwd)" >> "$HOME/dotfiles/zsh/old_dirs"
 }
 g() {
     dir_alias="$1"
     [[ -z "$dir_alias" ]] && dir_alias="default"
-    source "$HOME/.local/share/zsh/old_dirs"
+    source "$HOME/dotfiles/zsh/old_dirs"
     eval next_dir="\$$dir_alias"
     [[ -z "$next_dir" ]] && return 1
     cd "$next_dir"
