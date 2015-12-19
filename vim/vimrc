@@ -158,11 +158,15 @@ autocmd filetype make setlocal noexpandtab
 
 "" latex files, @w compiles, @o opens in pdf reader, @p prints the pdf
 autocmd BufRead,BufNewFile *.md,*.tex
-    \ let @w=':wa:!build_pdf %:r %:e'
-    \ | let @o=':!/home/ehildenb/src/JFBView/jfbview %:r.pdf'
-    \ | let @e=':w:!md_exec % %:r'
-    \ | syn match markdownIgnore "_"
+    \ syn match markdownIgnore "_"
     \ | syn match markdownIgnore "\*"
+"    \ let @w=':wa:!build_pdf %:r %:e'
+"    \ | let @o=':!/home/ehildenb/src/JFBView/jfbview %:r.pdf'
+"    \ | let @e=':w:!md_exec % %:r'
+map <leader>w :wa<cr>:!md make doc %<cr><cr>
+map <leader>e :w<cr>:!md make exec %<cr><cr>
+map <leader>o :!md view %:r.pdf<cr><cr>
+"map <leader>p :!md print %:r.pdf<cr><cr>
 
 "" c/c++ files, @w calls make all, @o calls make run
 autocmd BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let @w=':wa:!make all 2>&1 | less'

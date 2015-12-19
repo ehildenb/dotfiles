@@ -38,15 +38,7 @@ alias unrar='unrar e'
 alias e='vim'                       # editor
 alias o='elinks'                    # browser
 gg() { sr "duckduckgo" $@ }         # search engine
-pdf() {                             # pdf/img viewer
-    [[ ! -f "$1" ]] && return 1
-    $HOME/src/JFBView/jfbview $1
-    shift
-    tmux refresh-client
-    [[ "$#" -gt "0" ]] && pdf $@
-    return 0
-}
-alias img='pdf'
+alias pdf='md view'
 
 # portage
 # -------

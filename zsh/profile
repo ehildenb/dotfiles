@@ -25,14 +25,13 @@ export MAUDE_LIB="$HOME/src/maude/src/Main:$HOME/src/maude/full-maude:$HOME/src/
 
 # XDG dirs
 export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CONFIG_HOME="$HOME/dotfiles"
 export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DOWNLOAD_DIR="$HOME/downloads"
-#export XDG_DOCUMENTS_DIR="$HOME/documents"
+export XDG_DOWNLOAD_DIR="$HOME/dl"
 export XDG_MUSIC_DIR="$HOME/media/music"
-#export XDG_PICTURES_DIR="$HOME/pictures"
-#export XDG_VIDEOS_DIR="$HOME/videos"
-#export XDG_SCREENSHOT_DIR="$HOME/media/scrot"
+export XDG_PRINT_SERVER="ews"
+export XDG_PRINTER="siebl-0403-bwd1"
+export XDG_VIEWER="$HOME/src/JFBView/jfbview"
 
 # gitnet!
 export gn_dir="$HOME/src/gn"
