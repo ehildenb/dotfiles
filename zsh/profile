@@ -37,6 +37,9 @@ echo -en "\e]PC4374a6" # ls blue (default vim blue)
 # Specific Environments
 # ---------------------
 
+### Markdown
+export MD_DATA="$DOTFILES/md"
+
 ### Python
 export PYTHONPATH="$PYTHONPATH:$HOME/qgl"
 
