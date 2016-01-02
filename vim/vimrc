@@ -61,8 +61,10 @@ set expandtab
 set list listchars=tab:\ \ ,trail:_,extends:»,precedes:«
 map <leader>lc :set list!<cr>
 
-"" syntax highlighting
+"" syntax highlighting (but md is weird in 8-colors)
 syntax on
+syn match markdownIgnore "_"
+syn match markdownIgnore "\*"
 
 "" markdown fenced syntax highlighting
 let g:markdown_fenced_languages = ['c', 'sh', 'bash=sh', 'python', 'ruby',
@@ -138,17 +140,10 @@ map <leader>ss :setlocal spell!<cr>
 map <leader>g gq}kA
 
 "" make various markdown boilerplate
-map <leader>h1 VypVr=
-map <leader>h2 VypVr-
+map <leader>h1 Vyp^v$r=
+map <leader>h2 Vyp^v$r-
 map <leader>h3 I### 
 map <leader>cb I```VypkA
-
-"" run ctags
-let @t=':wa:!ctags -R --exclude=.git'
-
-"" print file
-let @p=':wa:!ssh_print m_mh247 % -o page-left=56 -o page-right=56
-            \ -o page-bottom=56 -o page-top=56 -o cpi=12 -o lpi=8'
 
 
 " Filetype specific commands
@@ -156,17 +151,10 @@ let @p=':wa:!ssh_print m_mh247 % -o page-left=56 -o page-right=56
 "" makefiles need tabs, not spaces, disable expanding the tabs
 autocmd filetype make setlocal noexpandtab
 
-"" latex files, @w compiles, @o opens in pdf reader, @p prints the pdf
-autocmd BufRead,BufNewFile *.md,*.tex
-    \ syn match markdownIgnore "_"
-    \ | syn match markdownIgnore "\*"
-"    \ let @w=':wa:!build_pdf %:r %:e'
-"    \ | let @o=':!/home/ehildenb/src/JFBView/jfbview %:r.pdf'
-"    \ | let @e=':w:!md_exec % %:r'
+"" \w compiles, \o opens viewer, \e extracts executable portions
 map <leader>w :wa<cr>:!md make doc %<cr><cr>
-map <leader>e :w<cr>:!md make exec %<cr><cr>
 map <leader>o :!md view %:r.pdf<cr><cr>
-"map <leader>p :!md print %:r.pdf<cr><cr>
+map <leader>e :w<cr>:!md make exec %<cr><cr>
 
 "" c/c++ files, @w calls make all, @o calls make run
 autocmd BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let @w=':wa:!make all 2>&1 | less'

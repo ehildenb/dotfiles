@@ -80,6 +80,13 @@ alias firefox='startx /usr/bin/firefox'
 alias compass='startx /usr/bin/firefox "compass2g.illinois.edu"'
 alias enterprise='startx /usr/bin/firefox "https://eas.admin.uillinois.edu/eas/servlet/EasLogin?redirect=https://webprod.admin.uillinois.edu/ssa/servlet/SelfServiceLogin?appName=edu.uillinois.aits.SelfServiceLogin&dad=BANPROD1"'
 
+# backup
+# ------
+backup() {
+    rsync --progress --partial --archive --verbose --ignore-existing \
+        bin docs dotfiles .mail media .passwd src todo.md work $@
+}
+
 # checker framework
 # -----------------
 javach() {
