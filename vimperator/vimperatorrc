@@ -1,5 +1,7 @@
 "3.9 (created: 2015/02/15 15:49:05)
 
+set runtimepath=/home/ehildenb/dotfiles/vimperatorrc
+
 "easier back button
 map b <C-o>
 
