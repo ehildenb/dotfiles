@@ -1,22 +1,22 @@
 " General
+" =======
 
-"" not vi-compatible mode
+" Settings
+" --------
 set nocompatible
+set viminfo+=n$HOME/dotfiles/vim/viminfo
+set shell=/bin/zsh
 
-"" persistant undos
+" undos
+" -----
 set undodir=$HOME/dotfiles/vim/undo
 set undofile
 set undolevels=1000
 set undoreload=10000
 
-"" viminfo location
-set viminfo+=n$HOME/dotfiles/vim/viminfo
-
-"" zsh
-set shell=/bin/zsh
-
 
 " Plugins
+" =======
 
 " vundle
 ""filetype must be turned off before vundle commands
@@ -27,12 +27,8 @@ call vundle#begin()
 """ vundle modules to load
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-markdown'
 Plugin 'yuratomo/w3m.vim'
-"Plugin 'tpope/vim-fugitive'
-"Plugin 'ervandew/supertab'
-"Plugin 'godlygeek/tabular'
 call vundle#end()
 """ helpful vundle hints (to be run inside vim)
 ":PluginList - list plugins
@@ -40,14 +36,49 @@ call vundle#end()
 ":PluginInstall! - update plugins
 ":PluginSearch foo - search for plugin foo
 ":PluginClean - remove unused plugins
-
 "" turn filetype recognition back on
 filetype plugin indent on
 
 
-" Editing environment
+" Display
+" =======
 
-"" tab behavior (all smart/auto, tab = 4 spaces)
+" display trailing spaces
+" -----------------------
+set list listchars=tab:\ \ ,trail:_,extends:»,precedes:«
+map <leader>lc :set list!<cr>
+
+" Syntax highlighting/numbers in margin
+" -------------------------------------
+syntax on
+set number
+
+" Enable solarized colorscheme
+" ----------------------------
+set t_Co=8
+set background=dark
+colorscheme solarized
+
+
+" Behavior
+" ========
+
+" Wild!
+" -----
+set wildmode=list:longest
+set wildmenu
+
+" Search
+" ------
+set incsearch
+set hlsearch
+
+" Autoread external changes
+" -------------------------
+set autoread
+
+" tabs
+" ----
 set autoindent
 set smartindent
 set smarttab
@@ -57,111 +88,93 @@ set tabstop=4
 set expandtab
 ":retab applys these rules to the current buffer
 
-"" show trailing spaces as '_', tabs as '>   '
-set list listchars=tab:\ \ ,trail:_,extends:»,precedes:«
-map <leader>lc :set list!<cr>
-
-"" syntax highlighting (but md is weird in 8-colors)
-syntax on
-syn match markdownIgnore "_"
-syn match markdownIgnore "\*"
-
-"" markdown fenced syntax highlighting
-let g:markdown_fenced_languages = ['c', 'sh', 'bash=sh', 'python', 'ruby',
-    \ 'haskell', 'hs=haskell', 'javascript', 'tex', 'ada', 'java', 'jack=java',
-    \ 'vim', 'asm', 'ld', 'maude']
-
-"" numbers in margin
-set number
-
-"" keep 12 lines above and below the current line when scrolling
+" Keep 12 lines above/below, don't go over 80 columns
+" ---------------------------------------------------
 set scrolloff=12
-
-"" dark solarized colorscheme (Vundle installs it)
-set t_Co=8
-set background=dark
-colorscheme solarized
-
-"" Only have 8 colors, so ctermbg=8 has no effect
-"" Need to somehow free up a color to make this work
-"" highlight over 80 characters, break on space over 80 chars
+set textwidth=80
 "highlight overlength ctermbg=8
 "match overlength /\%81v.\+/
-set textwidth=80
 
-"" highlight the current line lightly
-highlight cursorline cterm=NONE ctermbg=8
-noremap <leader>cl :set cursorline!<cr>
-set cursorline
+" Highlight current line lightly
+" ------------------------------
+"highlight cursorline cterm=NONE ctermbg=8
+"noremap <leader>cl :set cursorline!<cr>
+"set cursorline
 
-"" highlight cursor column lightly (starts turned off)
-highlight cursorcolumn cterm=NONE ctermbg=8
-noremap <leader>cc :set cursorcolumn!<cr>
+" Highlight cursor column lightly
+" -------------------------------
+"highlight cursorcolumn cterm=NONE ctermbg=8
+"noremap <leader>cc :set cursorcolumn!<cr>
 
-"" highlight folds lightly, fold on syntax, only nest 2 folds deep
-highlight folded ctermbg=8
+" Folding
+" -------
+"highlight folded ctermbg=8
 set foldmethod=manual
 set foldnestmax=2
 
 
-" Command behavior
-
-"" display completions as a list (instead of tabbing through them)
-set wildmode=list:longest
-set wildmenu
-
-"" incrementally search, and highlight searched terms
-set incsearch
-set hlsearch
-
-"Set to autoread outside changes to files
-set autoread
-
-
 " Keybindings
+" ===========
 
-"" move between windows with less keystrokes
+" Window movement
+" ---------------
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-"" '>' and '<' in normal mode to change tabs
+" Tab movement
+" ------------
 nnoremap > gt
 nnoremap < gT
 
-"" toggle paste on and off
+" Toggle paste/spellcheck
+" -----------------------
 map <leader>pp :setlocal paste!<cr>
-
-"" toggle spellcheck on and off
 map <leader>ss :setlocal spell!<cr>
 
-"" reformat to end of para
+" Reformat paragraph
+" ------------------
 map <leader>g gq}kA
 
-"" make various markdown boilerplate
+" Call md_website browser
+" -----------------------
+"command -nargs=* MDW read !md_website <args> 2> /dev/null
+
+
+" Markdown
+" ========
+
+" Syntax highlighting
+" -------------------
+let g:markdown_fenced_languages = ['c', 'sh', 'bash=sh', 'python', 'ruby',
+    \ 'haskell', 'hs=haskell', 'javascript', 'tex', 'ada', 'java', 'jack=java',
+    \ 'vim', 'asm', 'ld', 'maude']
+syn match markdownIgnore "_"
+syn match markdownIgnore "\*"
+
+" Boilerplate entry
+" -----------------
 map <leader>h1 Vyp^v$r=
 map <leader>h2 Vyp^v$r-
 map <leader>h3 I### 
 map <leader>cb I```VypkA
 map <leader>j :read !date +\%F<cr>kdd<leader>h2
 
-
-" Filetype specific commands
-
-"" makefiles need tabs, not spaces, disable expanding the tabs
-autocmd filetype make setlocal noexpandtab
-
-"" \w compiles, \o opens viewer, \e extracts executable portions
+" Defined actions
+" ---------------
 map <leader>w :wa<cr>:!md make doc %<cr><cr>
 map <leader>o :!md view %:r.pdf<cr><cr>
 map <leader>e :w<cr>:!md make exec %<cr><cr>
 
-"" c/c++ files, @w calls make all, @o calls make run
-autocmd BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp let @w=':wa:!make all 2>&1 | less'
 
-"" maude files
+" Other Filetypes
+" ===============
+
+" Makefile don't expand tabs
+" --------------------------
+autocmd filetype make setlocal noexpandtab
+
+" Recognize maude files
+" ---------------------
 autocmd BufRead,BufNewFile *.maude set filetype=maude
-
-" Call md_website browser
-command -nargs=* MDW read !md_website <args> 2> /dev/null
