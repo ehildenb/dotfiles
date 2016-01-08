@@ -1,6 +1,9 @@
 # General Settings
 # ================
 
+# Certificates file
+set certificate_file = ~/dotfiles/mail/mutt/certificates
+
 # Charsets
 set send_charset = "utf-8"
 set assumed_charset = "iso-8859-1"
