@@ -3,7 +3,6 @@
 
 ### Directories
 export DOTFILES="$HOME/dotfiles"
-export ENV="$DOTFILES/env"
 export DOWNLOADS="$HOME/dl"
 export SRC="$HOME/src"
 export PERSONAL="$HOME/personal"
