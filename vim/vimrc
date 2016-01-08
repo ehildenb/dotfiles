@@ -144,6 +144,7 @@ map <leader>h1 Vyp^v$r=
 map <leader>h2 Vyp^v$r-
 map <leader>h3 I### 
 map <leader>cb I```VypkA
+map <leader>j :read !date +\%F<cr>kdd<leader>h2
 
 
 " Filetype specific commands
