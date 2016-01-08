@@ -1,19 +1,30 @@
-# Lines configured by zsh-newuser-install
+# ZSH options
+# ===========
+
+# History
+# -------
 HISTFILE=~/dotfiles/zsh/histfile
 HISTSIZE=500
 SAVEHIST=10000
+
+# Behavior
+# --------
 setopt appendhistory autocd extendedglob nomatch hist_ignore_all_dups
 unsetopt beep notify
 bindkey -v
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/ehildenb/.zshrc'
 
+# compinstall
+# -----------
+zstyle :compinstall filename '/home/ehildenb/.zshrc'
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
 
-# Get special keys going
+
+# Make special keys work in console
+# =================================
+
+# Try 1
+# -----
 typeset -A key
 key[Home]=${terminfo[khome]}
 key[End]=${terminfo[kend]}
@@ -26,7 +37,8 @@ key[Right]=${terminfo[kcuf1]}
 key[PageUp]=${terminfo[kpp]}
 key[PageDown]=${terminfo[knp]}
 
-# In case the above special keys solution didn't work
+# Try 2
+# -----
 [[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
 [[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
 [[ -n "${key[Insert]}"  ]]  && bindkey  "${key[Insert]}"  overwrite-mode
@@ -36,9 +48,22 @@ key[PageDown]=${terminfo[knp]}
 [[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
 [[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
 
-# Set the prompt - user@host directory, % = normal, # = privileged
+
+# Personal
+# ========
+
+# Set the prompt
+# --------------
+# [user@host directory]pv_sym
+# pv_sym = % -> normal
+# pv_sym = # -> privileged
 PROMPT='%(?..%F{red}[%?] )%F{green}[%n@%M %c]%#%f%F{magenta} '
 preexec () { echo -ne "\e[0m" }
 
-# Source alias file
-[[ -f ~/.aliases ]] && source ~/.aliases
+# Source environment stuff
+# ------------------------
+env_dir="$HOME/dotfiles/env"
+env_files=("profile" "aliases")
+for env_file in $env_files; do
+    [[ -f "$env_dir/$env_file" ]] && source "$env_dir/$env_file"
+done

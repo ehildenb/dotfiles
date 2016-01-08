@@ -1,6 +1,3 @@
-#!/usr/bin/zsh
-
-
 # Default Options
 # ===============
 
@@ -36,15 +33,19 @@ alias unrar='unrar e'
 # app specifiers
 # --------------
 alias e='vim'                       # editor
-alias o='elinks'                    # browser
+alias o='w3m'                       # browser
 gg() { sr "duckduckgo" $@ }         # search engine
 alias pdf='md view'
 
-# portage
-# -------
-alias emerge='sudo emerge --ask --verbose'
-alias esync='sudo emerge --sync'
-alias update='sudo emerge --ask --update --deep --newuse --backtrack=30 @world'
+# kernel building
+# ---------------
+rebuild_kernel() {
+    sudo mount /dev/sda2 /boot
+    sudo make -j5 -l15 \
+        && sudo make modules_install \
+        && sudo make install \
+        && sudo grub2-mkconfig -o /boot/grub/grub.cfg
+}
 
 # save/go (for directories)
 # -------------------------
@@ -62,15 +63,16 @@ g() {
     cd "$next_dir"
 }
 
-# git shortcuts
-# -------------
-gn_push() {
-    curr_dir=$(pwd)
-    remote_dir=${curr_dir#$HOME/}
+# git push to non-bare
+# --------------------
+gp() {
     git push
-    ssh gitnet "cd $remote_dir; git reset --hard ehildenb"
+    remote="$(git config --get remote.origin.url)"
+    server="${${remote#ssh://}%/\~/*}"
+    remote_dir="${remote#*\~/}"
+    branch="$(git branch | cut --delimiter=' ' --field=2)"
+    ssh "$server" "cd $remote_dir; git reset --hard $branch"
 }
-alias gcb='git commit -a --allow-empty-message -m ""'
 
 # easy-launch X sessions
 # ----------------------
@@ -83,8 +85,10 @@ alias enterprise='startx /usr/bin/firefox "https://eas.admin.uillinois.edu/eas/s
 # backup
 # ------
 backup() {
-    rsync --progress --partial --archive --verbose --ignore-existing \
-        bin docs dotfiles .mail media .passwd src todo.md work $@
+    dest="$1"
+    [[ ! -d "$dest" ]] && return 1
+    rsync --progress --partial --archive --verbose --ignore-existing --delete \
+        bin docs dotfiles .mail media .passwd src .ssh todo.md work "$dest"
 }
 
 # checker framework
@@ -154,7 +158,7 @@ alias hib='sudo pm-hibernate'
 # wireless
 # --------
 wifi_connect() {
-    wifi_file="/etc/wpa_supplicant/wifi_networks.conf"
+    wifi_file="$DOTFILES/wifi"
     net_card="wlp4s0"
     sudo pkill wpa_supplicant
     sudo dhcpcd -k
@@ -214,12 +218,13 @@ events() { sed -n '/events/,/schedule/p' ~/todo.md | head -n-1 }
 # --------------
 today() {
     day_offset="$1"
-    schedule_file="$HOME/todo.md"
+    schedule_file="$PERSONAL/schedule.md"
     [[ -z "$day_offset" ]] && day_offset='0'
     day="$(date --date="$day_offset days" +%A | awk '{print tolower($0)}')"
-    sed -n '/^'"$day"'$/,/^$/p' $schedule_file
+    sed -n '/^'"$day"'$/,/^\w/p' $schedule_file
+    echo
     date="$(date --date="$day_offset days" +'%b %-d')"
-    sed -n '/^'"$date"'$/,/^$/p' $schedule_file
+    sed -n '/^'"$date"'$/,/^\w/p' $schedule_file
 }
 
 # schedule for week
