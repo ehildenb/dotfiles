@@ -1,0 +1,7 @@
+# Run `rc-update add keymaps boot` as root to activate.
+# Look in `/usr/share/keymaps` for more
+keymap="dvorak"
+extended_keymaps="ctrl" # Switch caps-lock and control
+windowkeys="no"
+dumpkeys_charset=""
+fix_euro="no"
