@@ -32,10 +32,10 @@ alias unrar='unrar e'
 
 # app specifiers
 # --------------
-alias e='vim'                       # editor
-alias o='w3m'                       # browser
+alias e="$EDITOR"                   # editor
+alias o="$BROWSER"                  # browser
+alias v="$VIEWER"                   # viewer
 alias gg='sr duckduckgo'            # search
-alias pdf='md view'
 
 # kernel building
 # ---------------
