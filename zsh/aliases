@@ -63,17 +63,6 @@ g() {
     cd "$next_dir"
 }
 
-# git push to non-bare
-# --------------------
-gp() {
-    git push
-    remote="$(git config --get remote.origin.url)"
-    server="${${remote#ssh://}%/\~/*}"
-    remote_dir="${remote#*\~/}"
-    branch="$(git branch | cut --delimiter=' ' --field=2)"
-    ssh "$server" "cd $remote_dir; git reset --hard $branch"
-}
-
 # easy-launch X sessions
 # ----------------------
 alias emul='startx /usr/bin/qemu-system-x86_64 -kernel'

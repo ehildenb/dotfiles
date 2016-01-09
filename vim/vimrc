@@ -164,8 +164,9 @@ map <leader>j :read !date +\%F<cr>kdd<leader>h2
 " Defined actions
 " ---------------
 map <leader>w :wa<cr>:!md make doc %<cr><cr>
-map <leader>o :!md view %:r.pdf<cr><cr>
 map <leader>e :w<cr>:!md make exec %<cr><cr>
+map <leader>o :!md view %<cr><cr>
+map <leader>p :!md publish %<cr><cr>
 
 
 " Other Filetypes

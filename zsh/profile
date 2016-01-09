@@ -13,6 +13,8 @@ export MUSIC="$MEDIA/music"
 export VISUAL="/usr/bin/vim"
 export EDITOR="/usr/bin/vim"
 export VIEWER="jfbview"
+export BROWSER="w3m"
+export PUBLISHER="git"
 export PLAYER="mpv"
 
 ### Printing
