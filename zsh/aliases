@@ -34,7 +34,7 @@ alias unrar='unrar e'
 # --------------
 alias e='vim'                       # editor
 alias o='w3m'                       # browser
-gg() { sr "duckduckgo" $@ }         # search engine
+alias gg='sr duckduckgo'            # search
 alias pdf='md view'
 
 # kernel building

@@ -62,8 +62,8 @@ preexec () { echo -ne "\e[0m" }
 
 # Source environment stuff
 # ------------------------
-env_dir="$HOME/dotfiles/env"
+zsh_dir="$DOTFILES/zsh/"
 env_files=("profile" "aliases")
 for env_file in $env_files; do
-    [[ -f "$env_dir/$env_file" ]] && source "$env_dir/$env_file"
+    [[ -f "$zsh_dir/$env_file" ]] && source "$zsh_dir/$env_file"
 done
