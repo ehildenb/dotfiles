@@ -30,10 +30,6 @@ export PATH="$PATH:$HOME/bin"
 export LANG="en_US.UTF-8"
 export GPG_TTY=`tty`
 
-### Colors
-echo -en "\e]P4264bc2" # S_blue
-echo -en "\e]PC4374a6" # ls blue (default vim blue)
-
 # Program-Specific Environments
 # -----------------------------
 
@@ -59,6 +55,8 @@ export XDG_DESKTOP_DIR="/dev/null"
 
 case "$HOST" in
     gentoo-ehildenb)
+        echo -en "\e]P4264bc2"  # S_blue
+        echo -en "\e]PC4374a6"  # ls blue (default vim blue)
         OS_DISTRO="gentoo"
         ;;
     websites)
