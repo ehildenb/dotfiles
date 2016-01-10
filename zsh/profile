@@ -67,6 +67,9 @@ case "$HOST" in
     websites)
         OS_DISTRO="freebsd"
         ;;
+    brooksmedia)
+        OS_DISTRO="debian"
+        ;;
     *)
         OS_DISTRO=""
         ;;
