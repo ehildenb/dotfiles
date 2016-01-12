@@ -37,6 +37,16 @@ alias o="$BROWSER"                  # browser
 alias v="$VIEWER"                   # viewer
 alias gg='sr duckduckgo'            # search
 
+# copy etc
+# --------
+cp_etc() {
+    dir="$1"
+    [[ ! -d "$DOTFILES/etc/$dir" ]] && return 1
+    for file in $(find "$DOTFILES/etc/$dir" -type f); do
+        sudo cp "$file" "${file#$DOTFILES}"
+    done
+}
+
 # kernel building
 # ---------------
 rebuild_kernel() {
@@ -66,7 +76,7 @@ g() {
 # easy-launch X sessions
 # ----------------------
 alias emul='startx /usr/bin/qemu-system-x86_64 -kernel'
-alias mpv='startx /usr/bin/mpv'
+# alias mpv='startx /usr/bin/mpv'
 alias firefox='startx /usr/bin/firefox'
 alias compass='startx /usr/bin/firefox "compass2g.illinois.edu"'
 alias enterprise='startx /usr/bin/firefox "https://eas.admin.uillinois.edu/eas/servlet/EasLogin?redirect=https://webprod.admin.uillinois.edu/ssa/servlet/SelfServiceLogin?appName=edu.uillinois.aits.SelfServiceLogin&dad=BANPROD1"'
