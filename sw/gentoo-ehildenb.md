@@ -9,5 +9,5 @@ pandoc-web-filter: http-conduit regex-tdfa
 jfbview: openjpeg mupdf imlib2
 media: ffmpeg mpv weston
 maude: libsigsegv libtecla buddy
-yosys: tcl mercurial
+icestick: tcl mercurial ngspice
 ...
