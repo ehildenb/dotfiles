@@ -1,13 +1,66 @@
 ---
-install: gentoo-sources utils
-utils: pciutils usbutils grub os-prober
-admin: sudo dcron pm-utils alsa-utils wpa_supplicant dhcpcd nginx
-programs: zsh tmux vim w3m surfraw cmus htop git zip nmap
-email: offlineimap mutt msmtp
-md: pandoc pandoc-citeproc texlive jfbview
-pandoc-web-filter: http-conduit regex-tdfa
-jfbview: openjpeg mupdf imlib2
-media: ffmpeg mpv weston
-maude: libsigsegv libtecla buddy
-icestick: tcl mercurial ngspice
+system:
+-   base:
+    -   gentoo-sources
+-   hardware-probe:
+    -   pciutils
+    -   usbutils
+-   bootloader:
+    -   grub
+    -   os-prober
+-   net:
+    -   iw
+    -   wpa_supplicant
+    -   dhcpcd
+-   daemons:
+    -   dcron
+    -   nginx
+-   admin:
+    -   sudo
+    -   pm-utils
+-   utils:
+    -   htop
+    -   zip
+    -   nmap
+    -   git
+    -   mercurial
+user:
+-   base:
+    -   zsh
+    -   tmux
+    -   vim
+-   email:
+    -   mutt
+    -   msmtp
+    -   offlineimap
+-   markdown:
+    -   pandoc
+    -   pandoc-citeproc
+    -   texlive
+    -   webfilter:
+        -   http-conduit
+        -   regex-tdfa
+-   viewers:
+    -   surfraw
+    -   w3m
+    -   jfbview:
+        -   openjpeg
+        -   mupdf
+        -   imlib2
+    -   firefox:
+        -   firefox
+        -   xinit
+        -   xorg-server
+-   media:
+    -   alsa-utils
+    -   ffmpeg
+    -   cmus
+    -   mpv
+-   maude:
+    -   libsigsegv
+    -   libtecla
+    -   buddy
+-   icestick:
+    -   tcl
+    -   ngspice
 ...
