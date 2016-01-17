@@ -157,7 +157,7 @@ alias hib='sudo pm-hibernate'
 # wireless
 # --------
 wifi_connect() {
-    wifi_file="$DOTFILES/wifi"
+    wifi_file="/etc/wpa_supplicant/wifi_networks"
     net_card="wlp4s0"
     sudo pkill wpa_supplicant
     sudo dhcpcd -k
