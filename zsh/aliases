@@ -37,6 +37,42 @@ alias o="$BROWSER"                  # browser
 alias v="$VIEWER"                   # viewer
 alias gg='sr duckduckgo'            # search
 
+# crop pdf
+# --------
+crop_pdf() {
+    start_page="$1"
+    stop_page="$2"
+    input_file="$3"
+    output_file="$4"
+    [[ -z "$start_page" ]] || [[ -z "$stop_page" ]] \
+        || [[ ! -f "$input_file" ]] || [[ -z "$output_file" ]] \
+        && return 1
+    gs -dFirstPage="$start_page" -dLastPage="$stop_page" \
+        -sOutputFile="$output_file" -dSAFER -dNOPAUSE -dBATCH \
+        -dPDFSETTING=/default -sDEVICE=pdfwrite -dCompressFonts=true \
+        -c ".setpdfwrite << /EncodeColorImages true /DownsampleMonoImages false \
+        /SubsetFonts true /ASCII85EncodePages false \
+        /DefaultRenderingIntent /Default /ColorConversionStrategy \
+        /LeaveColorUnchanged /MonoImageDownsampleThreshold 1.5 \
+        /ColorACSImageDict << /VSamples [ 1 1 1 1 ] /HSamples [ 1 1 1 1 ] \
+        /QFactor 0.4 /Blend 1 >> /GrayACSImageDict << /VSamples [ 1 1 1 1 ] \
+        /HSamples [ 1 1 1 1 ] /QFactor 0.4 /Blend 1 >> \
+        /PreserveOverprintSettings false /MonoImageResolution 300 \
+        /MonoImageFilter /FlateEncode /GrayImageResolution 300 \
+        /LockDistillerParams false /EncodeGrayImages true /MaxSubsetPCT 100 \
+        /GrayImageDict << /VSamples [ 1 1 1 1 ] /HSamples [ 1 1 1 1 ] \
+        /QFactor 0.4 /Blend 1 >> /ColorImageFilter /FlateEncode \
+        /EmbedAllFonts true /UCRandBGInfo /Remove /AutoRotatePages /PageByPage \
+        /ColorImageResolution 300 /ColorImageDict << /VSamples [ 1 1 1 1 ] \
+        /HSamples [ 1 1 1 1 ] /QFactor 0.4 /Blend 1 >> /CompatibilityLevel 1.7 \
+        /EncodeMonoImages true /GrayImageDownsampleThreshold 1.5 \
+        /AutoFilterGrayImages false /GrayImageFilter /FlateEncode \
+        /DownsampleGrayImages false /AutoFilterColorImages false \
+        /DownsampleColorImages false /CompressPages true \
+        /ColorImageDownsampleThreshold 1.5 /PreserveHalftoneInfo false >> \
+        setdistillerparams" -f "$input_file"
+}
+
 # copy etc
 # --------
 cp_etc() {
@@ -55,6 +91,25 @@ rebuild_kernel() {
         && sudo make modules_install \
         && sudo make install \
         && sudo grub2-mkconfig -o /boot/grub/grub.cfg
+}
+
+# download cs421 video
+# --------------------
+cs421_vid() {
+    vid="$1"
+    [[ -z "$vid" ]] && return 1
+    wget 'https://courses.engr.illinois.edu/cs421/static/videos/'"$vid"'.mp4'
+}
+
+# git pretty-log
+# --------------
+git_lg1() {
+    git log --graph --abbrev-commit --decorate --date=relative --all \
+        --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
+}
+git_lg2() {
+    git log --graph --abbrev-commit --decorate --all \
+        --format=format:'%C(bold blue)%h%C(reset)  - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
 }
 
 # save/go (for directories)
@@ -76,10 +131,13 @@ g() {
 # easy-launch X sessions
 # ----------------------
 alias emul='startx /usr/bin/qemu-system-x86_64 -kernel'
-# alias mpv='startx /usr/bin/mpv'
+alias mpv='startx /usr/bin/mpv'
 alias firefox='startx /usr/bin/firefox'
+alias private='startx /usr/bin/firefox -private'
 alias compass='startx /usr/bin/firefox "compass2g.illinois.edu"'
 alias enterprise='startx /usr/bin/firefox "https://eas.admin.uillinois.edu/eas/servlet/EasLogin?redirect=https://webprod.admin.uillinois.edu/ssa/servlet/SelfServiceLogin?appName=edu.uillinois.aits.SelfServiceLogin&dad=BANPROD1"'
+alias piazza='startx /usr/bin/firefox "https://www.piazza.com"'
+alias gitlab='w3m "https://gitlab-beta.engr.illinois.edu"'
 
 # backup
 # ------
@@ -220,10 +278,10 @@ today() {
     schedule_file="$PERSONAL/schedule.md"
     [[ -z "$day_offset" ]] && day_offset='0'
     day="$(date --date="$day_offset days" +%A | awk '{print tolower($0)}')"
-    sed -n '/^'"$day"'$/,/^\w/p' $schedule_file
+    sed -n '/^'"$day"'$/,/^\w/p' $schedule_file | head --lines=-2
     echo
     date="$(date --date="$day_offset days" +'%b %-d')"
-    sed -n '/^'"$date"'$/,/^\w/p' $schedule_file
+    sed -n '/^'"$date"'$/,/^\w/p' $schedule_file | head --lines=-2
 }
 
 # schedule for week
