@@ -31,8 +31,8 @@ keymap C-f NEXT_PAGE
 keymap C-b PREV_PAGE
 keymap l MOVE_RIGHT
 keymap h MOVE_LEFT
-keymap j MOVE_DOWN
-keymap k MOVE_UP
+keymap j MOVE_DOWN1
+keymap k MOVE_UP1
 keymap 0 LINE_BEGIN
 keymap $ LINE_END
 keymap g BEGIN
@@ -41,8 +41,6 @@ keymap e NEXT_WORD
 keymap b PREV_WORD
 keymap u UNDO
 keymap C-r REDO
-# keymap < SHIFT_LEFT
-# keymap > SHIFT_RIGHT
 # keymap Z CENTER_H
 # keymap z CENTER_V
 # keymap TAB NEXT_LINK
@@ -56,7 +54,7 @@ keymap b BACK
 keymap m NEXT
 keymap , PREV
 keymap S SELECT_MENU
-keymap ESC-s SAVE
+keymap ESC-s SAVE_SCREEN
 keymap v VIEW
 keymap P PRINT
 keymap E EDIT
