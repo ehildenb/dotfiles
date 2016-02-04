@@ -56,10 +56,16 @@ user:
     -   ffmpeg
     -   cmus
     -   mpv
--   maude:
-    -   libsigsegv
-    -   libtecla
-    -   buddy
+-   plfm:
+    -   haskell:
+        -   haskell-src
+        -   lens
+        -   quickcheck
+        -   derive
+    -   maude:
+        -   libsigsegv
+        -   libtecla
+        -   buddy
 -   icestick:
     -   tcl
     -   ngspice
