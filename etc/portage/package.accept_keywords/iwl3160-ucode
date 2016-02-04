@@ -1,0 +1,4 @@
+# required by sys-firmware/iwl3160-ucode (argument)
+=sys-firmware/iwl3160-ucode-0.15.227938 ~amd64
+# required by =iwl3160-ucode-0.12.16.25 (argument)
+=sys-firmware/iwl3160-ucode-0.12.16.25 ~amd64

@@ -1,0 +1,71 @@
+# required by dev-haskell/kan-extensions-4.2.3::gentoo
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/comonad-4.2.7.2 ~amd64
+# required by dev-haskell/profunctors-5.1.2::gentoo
+# required by dev-haskell/adjunctions-4.2.2::gentoo
+# required by dev-haskell/kan-extensions-4.2.3::gentoo
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/distributive-0.4.4 ~amd64
+# required by dev-haskell/free-4.12.4::gentoo
+# required by dev-haskell/kan-extensions-4.2.3::gentoo
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/prelude-extras-0.4.0.3 ~amd64
+# required by dev-haskell/contravariant-1.3.3::gentoo[semigroups]
+# required by dev-haskell/profunctors-5.1.2::gentoo
+# required by dev-haskell/adjunctions-4.2.2::gentoo
+# required by dev-haskell/kan-extensions-4.2.3::gentoo
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/semigroups-0.16.2.2 ~amd64
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/profunctors-5.1.2 ~amd64
+# required by dev-haskell/semigroupoids-5.0.0.4::gentoo
+# required by dev-haskell/kan-extensions-4.2.3::gentoo
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/base-orphans-0.3.2 ~amd64
+# required by lens (argument)
+=dev-haskell/lens-4.11 ~amd64
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/semigroupoids-5.0.0.4 ~amd64
+# required by dev-haskell/contravariant-1.3.3::gentoo[statevar]
+# required by dev-haskell/profunctors-5.1.2::gentoo
+# required by dev-haskell/adjunctions-4.2.2::gentoo
+# required by dev-haskell/kan-extensions-4.2.3::gentoo
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/statevar-1.1.0.3 ~amd64
+# required by dev-haskell/kan-extensions-4.2.3::gentoo
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/adjunctions-4.2.2 ~amd64
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/bifunctors-5 ~amd64
+# required by dev-haskell/semigroupoids-5.0.0.4::gentoo[contravariant]
+# required by dev-haskell/kan-extensions-4.2.3::gentoo
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/contravariant-1.3.3 ~amd64
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/reflection-1.5.2.1 ~amd64
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/free-4.12.4 ~amd64
+# required by dev-haskell/lens-4.11::gentoo
+# required by lens (argument)
+=dev-haskell/kan-extensions-4.2.3 ~amd64
+# required by dev-haskell/derive-2.5.23::haskell
+# required by derive (argument)
+=dev-haskell/uniplate-1.6.12 ~amd64
+# required by derive (argument)
+=dev-haskell/derive-2.5.23 ~amd64
+# required by dev-haskell/derive-2.5.23::haskell
+# required by derive (argument)
+=dev-haskell/haskell-src-exts-1.17.1 ~amd64

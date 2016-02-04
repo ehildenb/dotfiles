@@ -1,0 +1,6 @@
+# required by buddy (argument)
+=sci-libs/buddy-2.4 ~amd64
+# required by ngspice (argument)
+=sci-electronics/ngspice-26 ~amd64
+# required by pecl-ncurses (argument)
+=dev-php/pecl-ncurses-1.0.2-r2 ~amd64
