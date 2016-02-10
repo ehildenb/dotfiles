@@ -168,6 +168,16 @@ map <leader>e :w<cr>:!md make exec %<cr><cr>
 map <leader>o :!md view %<cr><cr>
 map <leader>p :!md publish %<cr><cr>
 
+" dumb vim+markdown
+" -----------------
+autocmd FileType markdown |
+    \hi def link markdownItalic              NONE |
+    \hi def link markdownItalicDelimiter     NONE |
+    \hi def link markdownBold                NONE |
+    \hi def link markdownBoldDelimiter       NONE |
+    \hi def link markdownBoldItalic          NONE |
+    \hi def link markdownBoldItalicDelimiter NONE
+
 
 " Other Filetypes
 " ===============
