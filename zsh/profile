@@ -43,6 +43,9 @@ full_maude="$maude_home/full-maude"
 maude_formal_environment="$maude_home/MFE/src"
 export MAUDE_LIB="$maude_main:$full_maude:$maude_formal_environment"
 
+### LLVM Dev
+export LLVM_ROOT="$HOME/work/uiuc-cs526/llvm"
+
 # XDG dirs
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$DOTFILES"
