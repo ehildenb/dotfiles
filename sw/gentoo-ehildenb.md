@@ -62,6 +62,8 @@ user:
         -   lens
         -   quickcheck
         -   derive
+        -   unification-fd
+        -   hashtables
     -   maude:
         -   libsigsegv
         -   libtecla
