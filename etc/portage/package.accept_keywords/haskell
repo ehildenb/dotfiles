@@ -1,3 +1,5 @@
 # required by @__auto_slot_operator_replace_installed__ (argument)
-=dev-lang/ghc-7.10.3 ~amd64
 dev-haskell/*::haskell ~amd64
+dev-lang/ghc ~amd64
+app-text/pandoc ~amd64
+app-editors/yi ~amd64
