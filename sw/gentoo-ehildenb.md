@@ -15,6 +15,7 @@ system:
 -   daemons:
     -   dcron
     -   nginx
+    -   cups
 -   admin:
     -   sudo
     -   pm-utils
@@ -24,6 +25,8 @@ system:
     -   nmap
     -   git
     -   mercurial
+    -   dosfstools
+    -   dos2unix
 user:
 -   base:
     -   zsh
@@ -33,13 +36,16 @@ user:
     -   mutt
     -   msmtp
     -   offlineimap
--   markdown:
-    -   pandoc
-    -   pandoc-citeproc
-    -   texlive
-    -   webfilter:
+-   doc:
+    -   markdown:
+        -   pandoc
+        -   pandoc-citeproc
         -   http-conduit
         -   regex-tdfa
+    -   latex:
+        -   texlive
+        -   texlive-latexextra
+        -   texmfind
 -   viewers:
     -   surfraw
     -   w3m
@@ -63,7 +69,10 @@ user:
         -   quickcheck
         -   derive
         -   unification-fd
+        -   monad-unify
         -   hashtables
+        -   stack
+        -   yi
     -   maude:
         -   libsigsegv
         -   libtecla
