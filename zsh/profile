@@ -38,7 +38,8 @@ maude_home="$SRC/maude"
 maude_main="$maude_home/src/Main"
 full_maude="$maude_home/full-maude"
 maude_formal_environment="$maude_home/MFE/src"
-export MAUDE_LIB="$maude_main:$full_maude:$maude_formal_environment"
+MAUDE_LIB="/usr/share/maude"
+export MAUDE_LIB="$MAUDE_LIB:$maude_main:$full_maude:$maude_formal_environment"
 
 ### LLVM Dev
 export LLVM_ROOT="$HOME/work/uiuc-cs526/llvm"
