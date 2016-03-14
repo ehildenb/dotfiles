@@ -9,16 +9,13 @@ export PERSONAL="$HOME/personal"
 export MEDIA="$HOME/media"
 export MUSIC="$MEDIA/music"
 
-### Applications
+### Defaults
 export VISUAL="/usr/bin/vim"
 export EDITOR="/usr/bin/vim"
 export VIEWER="jfbview"
 export BROWSER="w3m"
 export PUBLISHER="git"
 export PLAYER="mpv"
-
-### Printing
-export PRINT_SERVER="ews"
 export PRINTER="siebl-2203-printer"
 
 ### Path
