@@ -32,9 +32,19 @@ alias unrar='unrar e'
 # app specifiers
 # --------------
 alias e="$EDITOR"                   # editor
-alias o="$BROWSER"                  # browser
 alias v="$VIEWER"                   # viewer
 alias gg='sr duckduckgo'            # search
+o() {
+    site="$1"
+    [[ -z "$site" ]] && site = 'https://google.com' # homepage
+    case "$site" in                                 # bookmarks
+        421)    site='http://courses.engr.illinois.edu/cs421' ;;
+        522)    site='http://courses.engr.illinois.edu/cs522' ;;
+        526)    site='http://courses.engr.illinois.edu/cs526' ;;
+        gitlab) site='https://gitlab-beta.engr.illinois.edu'  ;;
+    esac
+    $BROWSER $site
+}
 
 # crop pdf
 # --------
@@ -136,7 +146,6 @@ alias private='startx /usr/bin/firefox -private'
 alias compass='startx /usr/bin/firefox "compass2g.illinois.edu"'
 alias enterprise='startx /usr/bin/firefox "https://eas.admin.uillinois.edu/eas/servlet/EasLogin?redirect=https://webprod.admin.uillinois.edu/ssa/servlet/SelfServiceLogin?appName=edu.uillinois.aits.SelfServiceLogin&dad=BANPROD1"'
 alias piazza='startx /usr/bin/firefox "https://www.piazza.com"'
-alias gitlab='w3m "https://gitlab-beta.engr.illinois.edu"'
 
 # backup
 # ------
