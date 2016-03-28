@@ -41,6 +41,15 @@ maude_formal_environment="$maude_home/MFE/src"
 MAUDE_LIB="/usr/share/maude"
 export MAUDE_LIB="$MAUDE_LIB:$maude_main:$full_maude:$maude_formal_environment"
 
+### K Framework
+k_release="$SRC/k/k-distribution/target/release/k"
+k_path="$k_release/lib/native/linux"
+k_path="$k_path:$k_release/lib/native/linux64"
+k_path="$k_path:$k_release/bin"
+k_ld_library_path="$k_release/lib/native/linux64"
+export PATH="$PATH:$k_path"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$k_ld_library_path"
+
 ### LLVM Dev
 export LLVM_ROOT="$HOME/work/uiuc-cs526/llvm"
 
