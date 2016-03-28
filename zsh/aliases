@@ -189,18 +189,6 @@ mem() {
 }
 alias hib='sudo pm-hibernate'
 
-# wireless
-# --------
-wifi_connect() {
-    wifi_file="/etc/wpa_supplicant/wifi_networks"
-    net_card="wlp4s0"
-    sudo pkill wpa_supplicant
-    sudo dhcpcd -k
-    sudo wpa_supplicant -B -Dnl80211 -i"$net_card" -c"$wifi_file"
-    sudo dhcpcd "$net_card"
-}
-alias wifi_scan='sudo iw dev wlp4s0 scan | grep "SSID:"'
-
 # brightness
 # ----------
 brightness() {
