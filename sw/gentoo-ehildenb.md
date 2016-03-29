@@ -27,6 +27,7 @@ system:
     -   mercurial
     -   dosfstools
     -   dos2unix
+    -   pass
 user:
 -   base:
     -   zsh
@@ -45,6 +46,8 @@ user:
     -   latex:
         -   texlive
         -   texlive-latexextra
+        -   texlive-fontsextra
+        -   texlive-mathextra
         -   texmfind
 -   viewers:
     -   surfraw
@@ -62,6 +65,7 @@ user:
     -   ffmpeg
     -   cmus
     -   mpv
+    -   youtube-dl
 -   plfm:
     -   haskell:
         -   haskell-src
@@ -74,9 +78,16 @@ user:
         -   stack
         -   yi
     -   maude:
+        -   maude
         -   libsigsegv
         -   libtecla
         -   buddy
+    -   k:
+        -   virtual/jdk
+        -   jre
+        -   maven-bin
+        -   dev-java/icedtea
+        -   =dev-java/icedtea-3.0.0_pre09
 -   icestick:
     -   tcl
     -   ngspice
