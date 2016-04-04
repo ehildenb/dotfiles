@@ -110,17 +110,6 @@ cs421_vid() {
     wget 'https://courses.engr.illinois.edu/cs421/static/videos/'"$vid"'.mp4'
 }
 
-# git pretty-log
-# --------------
-git_lg1() {
-    git log --graph --abbrev-commit --decorate --date=relative --all \
-        --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
-}
-git_lg2() {
-    git log --graph --abbrev-commit --decorate --all \
-        --format=format:'%C(bold blue)%h%C(reset)  - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
-}
-
 # save/go (for directories)
 # -------------------------
 s() {
