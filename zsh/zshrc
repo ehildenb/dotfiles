@@ -9,7 +9,7 @@ SAVEHIST=10000
 
 # Behavior
 # --------
-setopt appendhistory autocd extendedglob nomatch hist_ignore_all_dups
+setopt appendhistory autocd extendedglob nomatch hist_ignore_all_dups hist_ignore_space
 unsetopt beep notify
 bindkey -v
 
