@@ -10,8 +10,8 @@ export MEDIA="$HOME/media"
 export MUSIC="$MEDIA/music"
 
 ### Defaults
-export VISUAL="/usr/bin/vim"
-export EDITOR="/usr/bin/vim"
+export EDITOR="vim -p"
+export VISUAL="$EDITOR"
 export VIEWER="jfbview"
 export BROWSER="w3m"
 export PUBLISHER="git"
