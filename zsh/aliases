@@ -6,6 +6,9 @@
 alias ls='ls --color=auto'
 [[ "$OS_DISTRO" == "freebsd" ]] && alias ls='ls -G'
 alias grep='grep --color=auto'
+becho() { echo '\033[0;34m'$@ }
+gecho() { echo '\033[0;32m'$@ }
+recho() { echo '\033[0;31m'$@ }
 
 # convenient cd
 # -------------

@@ -10,7 +10,7 @@ export MEDIA="$HOME/media"
 export MUSIC="$MEDIA/music"
 
 ### Defaults
-export EDITOR="vim -p"
+export EDITOR="vim"
 export VISUAL="$EDITOR"
 export VIEWER="jfbview"
 export BROWSER="w3m"
