@@ -8,6 +8,7 @@ export SRC="$HOME/src"
 export PERSONAL="$HOME/personal"
 export MEDIA="$HOME/media"
 export MUSIC="$MEDIA/music"
+export SCRATCH="$HOME/scratch"
 
 ### Defaults
 export EDITOR="vim"
