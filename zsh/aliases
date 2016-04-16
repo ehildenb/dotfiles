@@ -37,7 +37,9 @@ alias unrar='unrar e'
 alias e="$EDITOR"                   # editor
 alias v="$VIEWER"                   # viewer
 alias gg='sr duckduckgo'            # search
-o() {
+alias p='lpr'                       # printer
+alias po='lpr -o sides=one-sided'   # one-sided printing
+o() {                               # browser
     site="$1"
     [[ -z "$site" ]] && site = 'https://google.com' # homepage
     case "$site" in                                 # bookmarks
@@ -134,6 +136,7 @@ g() {
 alias emul='startx /usr/bin/qemu-system-x86_64 -kernel'
 alias mpv='startx /usr/bin/mpv'
 alias firefox='startx /usr/bin/firefox'
+alias mupdf='startx /usr/bin/mupdf'
 alias private='startx /usr/bin/firefox -private'
 alias compass='startx /usr/bin/firefox "compass2g.illinois.edu"'
 alias enterprise='startx /usr/bin/firefox "https://eas.admin.uillinois.edu/eas/servlet/EasLogin?redirect=https://webprod.admin.uillinois.edu/ssa/servlet/SelfServiceLogin?appName=edu.uillinois.aits.SelfServiceLogin&dad=BANPROD1"'
