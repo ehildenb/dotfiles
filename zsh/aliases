@@ -12,12 +12,21 @@ recho() { echo '\033[0;31m'$@'\033[0m' }
 
 # convenient cd
 # -------------
-chpwd() { ls }              # cd and ls
-mc() { mv $@ && ${(P)#} }   # mv and cd
-cc() { cp $@ && ${(P)#} }   # cp and cd
+chpwd() { ls }              # ls when cd
+c() {                       # cd with bookmarks
+    dirname="$1"
+    [[ -z "$dirname" ]] && dirname="$HOME"          # homedir
+    case "$dirname" in                              # bookmarks
+        421)    dirname="$HOME/work/cs421" ;;
+        522)    dirname="$HOME/work/uiuc-cs522" ;;
+        526)    dirname="$HOME/work/uiuc-cs526" ;;
+        ctl)    dirname="$HOME/work/llvm-semantics/semantics" ;;
+    esac
+    cd "$dirname"
+}
 
-# tail/head
-# ---------
+# longer tail/head
+# ----------------
 alias tail='tail -n30'
 alias head='head -n30'
 
@@ -36,7 +45,7 @@ alias unrar='unrar e'
 # --------------
 alias e="$EDITOR"                   # editor
 alias v="$VIEWER"                   # viewer
-alias gg='sr duckduckgo'            # search
+alias gg='sr google'                # search
 alias p='lpr'                       # printer
 alias po='lpr -o sides=one-sided'   # one-sided printing
 o() {                               # browser
@@ -115,22 +124,6 @@ cs421_vid() {
     wget 'https://courses.engr.illinois.edu/cs421/static/videos/'"$vid"'.mp4'
 }
 
-# save/go (for directories)
-# -------------------------
-s() {
-    dir_alias="$1"
-    [[ -z "$dir_alias" ]] && dir_alias="default"
-    echo "$dir_alias=$(pwd)" >> "$HOME/dotfiles/zsh/old_dirs"
-}
-g() {
-    dir_alias="$1"
-    [[ -z "$dir_alias" ]] && dir_alias="default"
-    source "$HOME/dotfiles/zsh/old_dirs"
-    eval next_dir="\$$dir_alias"
-    [[ -z "$next_dir" ]] && return 1
-    cd "$next_dir"
-}
-
 # easy-launch X sessions
 # ----------------------
 alias emul='startx /usr/bin/qemu-system-x86_64 -kernel'
@@ -138,9 +131,6 @@ alias mpv='startx /usr/bin/mpv'
 alias firefox='startx /usr/bin/firefox'
 alias mupdf='startx /usr/bin/mupdf'
 alias private='startx /usr/bin/firefox -private'
-alias compass='startx /usr/bin/firefox "compass2g.illinois.edu"'
-alias enterprise='startx /usr/bin/firefox "https://eas.admin.uillinois.edu/eas/servlet/EasLogin?redirect=https://webprod.admin.uillinois.edu/ssa/servlet/SelfServiceLogin?appName=edu.uillinois.aits.SelfServiceLogin&dad=BANPROD1"'
-alias piazza='startx /usr/bin/firefox "https://www.piazza.com"'
 
 # backup
 # ------
@@ -212,23 +202,9 @@ remote_mpv() {
     ssh $1 'export DISPLAY=:0; mpv '"$url"
 }
 
-# explode gif
-# -----------
-ungif() {
-    GIF_FILE="$1"
-    GIF_DIR="$(echo "$GIF_FILE" | cut -d'.' -f1 -)"'.ungif'
-    mkdir "$GIF_DIR"
-    gm convert "$GIF_FILE" +adjoin "$GIF_DIR"'/%04d.png'
-}
-
 
 # Scheduling
 # ==========
-
-# schedule/events
-# ---------------
-schedule() { sed -n '/schedule/,$p' ~/todo.md && echo && echo }
-events() { sed -n '/events/,/schedule/p' ~/todo.md | head -n-1 }
 
 # schedule today
 # --------------
@@ -253,17 +229,4 @@ week() {
         let day="$day+$i"
         today $day
     done
-}
-
-# next event
-# ----------
-next() {
-    day_offset="$1"
-    [[ -z "$day_offset" ]] && day_offset="0"
-    next_event="$(today "$day_offset" | grep '^-   ' | cut --characters=5-)"
-    [[ -z "$next_event" ]] && return 1
-    curr_time="$(date +'%H:%M') {NOW}"
-    [[ "$day_offset" != "0" ]] && curr_time="-$curr_time"
-    next_event="$(echo "$next_event\n$curr_time" | sort)"
-    echo "$next_event" | grep -A1 "{NOW}" | tail -n1
 }
