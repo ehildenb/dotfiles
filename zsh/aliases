@@ -56,6 +56,14 @@ o() {                               # browser
         522)    site='http://courses.engr.illinois.edu/cs522' ;;
         526)    site='http://courses.engr.illinois.edu/cs526' ;;
         gitlab) site='https://gitlab-beta.engr.illinois.edu'  ;;
+        ws)
+            site='http://thewatchseries.be/tvshow'
+            series="$2"
+            case "$series" in
+                kimmy*) series="unbreakable-kimmy-schmidt" ;;
+            esac
+            site="$site/$series"
+            ;;
     esac
     $BROWSER $site
 }
