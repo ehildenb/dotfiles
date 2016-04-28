@@ -18,6 +18,7 @@ set markers = no
 
 # Sort by threads
 set sort = threads
+set sort_aux = from
 set strict_threads = yes
 
 # do not show all headers, just a few

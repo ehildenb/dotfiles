@@ -129,7 +129,7 @@ rebuild_kernel() {
 cs421_vid() {
     vid="$1"
     [[ -z "$vid" ]] && return 1
-    wget 'https://courses.engr.illinois.edu/cs421/static/videos/'"$vid"'.mp4'
+    wget 'https://courses.engr.illinois.edu/cs421/static/videos/'"$vid/$vid"'.mp4'
 }
 
 # easy-launch X sessions
