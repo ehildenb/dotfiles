@@ -1,3 +1,5 @@
+[core]
+    excludesFile = ~/dotfiles/git/gitignore
 [user]
     name = Everett Hildenbrandt
     email = hildenb2@illinois.edu
