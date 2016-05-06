@@ -14,7 +14,7 @@ endif
 
 command! -nargs=+ MaudeHiLink hi def link <args>
 
-syn keyword maudeModule     mod fmod omod endm endfm endm is
+syn keyword maudeModule     mod fmod omod endm endfm endm is view endv
 syn keyword maudeImports    protecting including extending
 syn keyword maudeSorts      sorts subsorts
 syn keyword maudeStatements op ops var vars eq ceq
