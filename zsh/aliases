@@ -21,6 +21,7 @@ c() {                       # cd with bookmarks
         522)    dirname="$HOME/work/uiuc-cs522" ;;
         526)    dirname="$HOME/work/uiuc-cs526" ;;
         ctl)    dirname="$HOME/work/llvm-semantics/semantics" ;;
+        homod)  dirname="$HOME/work/homod" ;;
     esac
     cd "$dirname"
 }
@@ -46,9 +47,10 @@ alias unrar='unrar e'
 alias e="$EDITOR"                   # editor
 alias v="$VIEWER"                   # viewer
 alias gg='sr google'                # search
-alias p='lpr'                       # printer
-alias po='lpr -o sides=one-sided'   # one-sided printing
-o() {                               # browser
+
+# broswer
+# -------
+o() {
     site="$1"
     [[ -z "$site" ]] && site = 'https://google.com' # homepage
     case "$site" in                                 # bookmarks
@@ -66,6 +68,16 @@ o() {                               # browser
             ;;
     esac
     $BROWSER $site
+}
+
+# printing
+# --------
+p() {
+    copies='1'
+    sides=''
+    echo "$1" | grep '^[0-9]*$' &>/dev/null && copies="$1" && shift
+    [[ "$1" == 'onesided' ]] && sides='-o sides=one-sided' && shift
+    lpr '-#'$copies $sides $@
 }
 
 # crop pdf
