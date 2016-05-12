@@ -178,7 +178,8 @@ autocmd FileType markdown |
     \hi def link markdownBold                none |
     \hi def link markdownBoldDelimiter       none |
     \hi def link markdownBoldItalic          none |
-    \hi def link markdownBoldItalicDelimiter none
+    \hi def link markdownBoldItalicDelimiter none |
+    \set spell
 
 
 " Other Filetypes
