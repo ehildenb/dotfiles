@@ -1,128 +1,93 @@
-" General
-" =======
+" set environment
+set shell=zsh
 
-" Settings
-" --------
-set nocompatible
-set viminfo+=n$HOME/dotfiles/vim/viminfo
-set shell=/bin/zsh
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-" undos
-" -----
-set undodir=$HOME/dotfiles/vim/undo
-set undofile
-set undolevels=1000
-set undoreload=10000
-
-
-" Plugins
-" =======
-
-" vundle
-""filetype must be turned off before vundle commands
-filetype off
-""" where vundle will be stored, call a command
-set rtp+=$HOME/dotfiles/vim/bundle/Vundle.vim/
-call vundle#begin()
-""" vundle modules to load
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin("~/.vim/bundle/Vundle.vim")
+"" alternatively, pass a path where Vundle should install plugins
+""call vundle#begin('~/some/path/here')
+"
+"" Plugins
+""Plugin 'FredKSchott/CoVim'
+"
+"" let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'altercation/vim-colors-solarized'
+
 Plugin 'tpope/vim-markdown'
-Plugin 'yuratomo/w3m.vim'
-call vundle#end()
-""" helpful vundle hints (to be run inside vim)
-":PluginList - list plugins
-":PluginInstall - install plugins
-":PluginInstall! - update plugins
-":PluginSearch foo - search for plugin foo
-":PluginClean - remove unused plugins
-"" turn filetype recognition back on
-filetype plugin indent on
 
+"
+"
+"" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+"" To ignore plugin indent changes, instead use:
+"filetype plugin on
+""
+"" Brief help
+"" :PluginList       - lists configured plugins
+"" :PluginInstall    - installs plugins; append `!` to update or just
+":PluginUpdate
+"" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+"" :PluginClean      - confirms removal of unused plugins; append `!` to
+"auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
 
-" Display
-" =======
-
-" display trailing spaces
-" -----------------------
-set list listchars=tab:\ \ ,trail:_,extends:»,precedes:«
-map <leader>lc :set list!<cr>
-
-" Syntax highlighting/numbers in margin
-" -------------------------------------
 syntax on
-set number
+colorscheme koehler
 
-" Enable solarized colorscheme
-" ----------------------------
-set t_Co=8
-set background=dark
-colorscheme solarized
+"Latex files, @w compiles, @o opens
+autocmd BufRead,BufNewFile *.tex,*.md,*.lhs let @p=':w:!build_pdf %'
+autocmd BufRead,BufNewFile *.tex let @o=':w:!pdf %:r.pdf & '
 
+"markdown spellcheck on
+"autocmd BufNewFile,BufRead *.md,*.mkd,*.markdown set spell spelllang=en_us
+"
+let @v='F lvf h'
 
-" Behavior
-" ========
+let mapleader = ","
+"compiling documents
+map <leader>w :wa<cr>:!md make doc %<cr><cr>
+map <leader>e :w<cr>:!md make exec %<cr><cr>
+map <leader>o :!pdf %:r.pdf<cr><cr>
 
-" Wild!
-" -----
-set wildmode=list:longest
-set wildmenu
+map <leader>d :r!date "+\%Y-\%m-\%d \%T"<cr>,h2<cr>
 
-" Search
-" ------
-set incsearch
-set hlsearch
+"markdown headers
+map <leader>h1 VypVr=o
+map <leader>h2 VypVr-o
+map <leader>h3 I### o
+map <leader>cb I```VypkA
 
-" Autoread external changes
-" -------------------------
-set autoread
-
-" tabs
-" ----
+"Tab Behavior
+set shiftwidth=4
+set tabstop=4
+set expandtab
+set softtabstop=4
 set autoindent
 set smartindent
 set smarttab
-set shiftwidth=4
-set softtabstop=0
-set tabstop=4
-set expandtab
-":retab applys these rules to the current buffer
-
-" Keep 12 lines above/below, don't go over 80 columns
-" ---------------------------------------------------
-set scrolloff=12
-set textwidth=80
-"highlight overlength ctermbg=8
-"match overlength /\%81v.\+/
-
-" Highlight current line lightly
-" ------------------------------
-"highlight cursorline cterm=NONE ctermbg=8
-"noremap <leader>cl :set cursorline!<cr>
-"set cursorline
-
-" Highlight cursor column lightly
-" -------------------------------
-"highlight cursorcolumn cterm=NONE ctermbg=8
-"noremap <leader>cc :set cursorcolumn!<cr>
-
-" Folding
-" -------
-"highlight folded ctermbg=8
-set foldmethod=manual
-set foldnestmax=2
 
 
-" Keybindings
-" ===========
+"" markdown syntax higlighting
+let g:markdown_fenced_languages = ['c', 'sh', 'bash=sh', 'python', 'ruby',
+    \ 'haskell', 'tex']
 
-" Window movement
-" ---------------
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+"" highlight the current line lightly
+highlight cursorline cterm=bold ctermbg=235
+noremap <leader>cl :set cursorline!<cr>
+set cursorline
 
+"" highlight EOL spaces
+set list listchars=tab:\ \ ,trail:_,extends:»,precedes:«
+map <leader>lc :set list!<cr>
+
+"Scroll Behavior - set so line being edited is always in middle of screen
+set scrolloff=10
 " Buffer movement
 " ---------------
 nnoremap > :bn<cr>
@@ -130,46 +95,40 @@ nnoremap < :bp<cr>
 set hidden
 set nostartofline
 
-" Toggle paste/spellcheck
-" -----------------------
-map <leader>pp :setlocal paste!<cr>
+"set line width
+set textwidth=80
+set formatoptions+=t
+
+"Fold Behavior
+"" highlight folds lightly, fold on syntax, only nest 2 folds deep
+highlight folded ctermbg=233
+"set foldmethod=manual
+set foldmethod=syntax
+set foldnestmax=2
+
+"Command Completion
+set wildmode=list:longest
+set wildmenu
+
+"Persistant undos
+set undodir=/home/alli/.vim/undo
+set undofile
+set undolevels=1000
+set undoreload=10000
+
+
+"Turn on numbers
+"set number
+
+"Make it so that I can see when I'm over 80 characters in a line
+highlight overlength ctermbg=234
+match overlength /\%81v.\+/
+
+"Incremental search - search as you type
+set incsearch
+
+"Toggle spellcheck on and off
 map <leader>ss :setlocal spell!<cr>
-
-" Reformat paragraph
-" ------------------
-map <leader>g gq}kA
-
-" Call md_website browser
-" -----------------------
-"command -nargs=* MDW read !md_website <args> 2> /dev/null
-
-
-" Markdown
-" ========
-
-" Syntax highlighting
-" -------------------
-let g:markdown_fenced_languages = ['c', 'sh', 'bash=sh', 'python', 'ruby',
-    \ 'haskell', 'hs=haskell', 'javascript', 'tex', 'ada', 'java', 'jack=java',
-    \ 'vim', 'asm', 'ld', 'maude', 'verilog']
-syn match markdownIgnore "_"
-syn match markdownIgnore "\*"
-
-" Boilerplate entry
-" -----------------
-map <leader>h1 Vyp^v$r=
-map <leader>h2 Vyp^v$r-
-map <leader>h3 I### 
-map <leader>cb I```VypkA
-map <leader>j :read !date +\%F<cr>kdd<leader>h1
-
-" Defined actions
-" ---------------
-map <leader>w :wa<cr>:!md make doc %<cr><cr>
-map <leader>e :w<cr>:!md make exec %<cr><cr>
-map <leader>o :!md view %<cr><cr>
-map <leader>p :!md publish %<cr><cr>
-
 " dumb vim+markdown
 " -----------------
 autocmd FileType markdown |
@@ -181,14 +140,11 @@ autocmd FileType markdown |
     \hi def link markdownBoldItalicDelimiter none |
     \set spell
 
+"Set to autoread outside changes to files
+set autoread
 
-" Other Filetypes
-" ===============
-
-" Makefile don't expand tabs
-" --------------------------
+"Makefiles need tabs, not spaces!
 autocmd filetype make setlocal noexpandtab
 
-" Recognize maude files
-" ---------------------
-autocmd BufRead,BufNewFile *.maude set filetype=maude
+"c/cpp/h/hpp files, @w makes, @o runs (not implemented yet)
+autocmd BufRead,BufNewFile *.c,*.cpp,*.h,*.hpp,*.hs,*.ino let @w=':w:!make; read \?'
