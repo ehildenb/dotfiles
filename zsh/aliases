@@ -17,11 +17,13 @@ c() {                       # cd with bookmarks
     dirname="$1"
     [[ -z "$dirname" ]] && dirname="$HOME"          # homedir
     case "$dirname" in                              # bookmarks
-        421)    dirname="$HOME/work/cs421" ;;
-        522)    dirname="$HOME/work/uiuc-cs522" ;;
-        526)    dirname="$HOME/work/uiuc-cs526" ;;
-        ctl)    dirname="$HOME/work/llvm-semantics/semantics" ;;
-        homod)  dirname="$HOME/work/homod" ;;
+        421)        dirname="$HOME/work/cs421"                      ;;
+        522)        dirname="$HOME/work/uiuc-cs522"                 ;;
+        526)        dirname="$HOME/work/uiuc-cs526"                 ;;
+        ctl)        dirname="$HOME/work/llvm-semantics/semantics"   ;;
+        homod)      dirname="$HOME/work/homod"                      ;;
+        menlo)      dirname="$HOME/work/menlo"                      ;;
+        scratch)    dirname="$SCRATCH"                              ;;
     esac
     cd "$dirname"
 }
@@ -61,15 +63,17 @@ o() {
     site="$1"
     [[ -z "$site" ]] && site = 'https://google.com' # homepage
     case "$site" in                                 # bookmarks
-        421)    site='http://courses.engr.illinois.edu/cs421' ;;
-        522)    site='http://courses.engr.illinois.edu/cs522' ;;
-        526)    site='http://courses.engr.illinois.edu/cs526' ;;
-        gitlab) site='https://gitlab-beta.engr.illinois.edu'  ;;
+        421)    site='http://courses.engr.illinois.edu/cs421'   ;;
+        522)    site='http://courses.engr.illinois.edu/cs522'   ;;
+        526)    site='http://courses.engr.illinois.edu/cs526'   ;;
+        gitlab) site='https://gitlab-beta.engr.illinois.edu'    ;;
+        menlo)  site='http://fm.csl.sri.com/SSFT16/'            ;;
         ws)
             site='http://thewatchseries.be/tvshow'
             series="$2"
             case "$series" in
-                kimmy*) series="unbreakable-kimmy-schmidt" ;;
+                kimmy)  series="unbreakable-kimmy-schmidt"      ;;
+                got)    series="game-of-thrones"                ;;
             esac
             site="$site/$series"
             ;;
