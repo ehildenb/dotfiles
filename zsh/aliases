@@ -47,13 +47,6 @@ alias unrar='unrar e'
 # app specifiers
 # --------------
 alias e="$EDITOR"                   # editor
-alias o="$BROWSER"                  # browser
-alias gg='sr duckduckgo'            # search
-v="$VIEWER"                   # viewer
-function pdf() {
-    mupdf "$1" &
-}
-
 alias v="$VIEWER"                   # viewer
 alias gg='sr google'                # search
 
@@ -137,68 +130,14 @@ cp_etc() {
     done
 }
 
-# ogv format to mp3 (audio only)
-# ------------------------------
-ogv2mp3() {
-    ogvfile="$1"
-    fname="${ogvfile%\.*}"
-    ffmpeg -i "$ogvfile" "$fname".mp3
-}
-
-# sd card utils
-# -------------
-
-sd_clear() {
-    sudo mount '/dev/sdb1' '/mnt/sd'
-    sudo rm '/mnt/sd/data.txt'
-    sudo umount '/mnt/sd'
-}
-
-sd_copy() {
-    destination="$1"
-    sudo mount '/dev/sdb1' '/mnt/sd'
-    cp '/mnt/sd/data.txt' "$destination"
-    sudo umount '/mnt/sd'
-}
-
-# ROS utils
-# ---------
-
-indigo() {
-  source /opt/ros/indigo/setup.zsh
-  export PYTHONPATH=/opt/ros/indigo/lib/python2.7/site-packages:$PYTHONPATH
-  export PKG_CONFIG_PATH="/opt/ros/indigo/lib/pkgconfig:$PKG_CONFIG_PATH"
-
-  # Useful aliases
-  alias catkin_make="catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python2 -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so"
-
-  # If you use Gazebo:
-  #source /usr/share/gazebo/setup.sh
-}
-
-# replace "localhost" in URI so ghc can resolve it?
-fix_ros_ip() {
-    if [[ "${ROS_MASTER_URI#*localhost}" != "$ROS_MASTER_URI" ]]; then
-        uri="${ROS_MASTER_URI##*localhost:}"
-        export ROS_MASTER_URI="http://127.0.0.1:"$uri
-    fi
-}
-
-
-# save/go (for directories)
-# -------------------------
-s() {
-    dir_alias="$1"
-    [[ -z "$dir_alias" ]] && dir_alias="default"
-    echo "$dir_alias=$(pwd)" >> "$HOME/dotfiles/zsh/old_dirs"
-}
-g() {
-    dir_alias="$1"
-    [[ -z "$dir_alias" ]] && dir_alias="default"
-    source "$HOME/dotfiles/zsh/old_dirs"
-    eval next_dir="\$$dir_alias"
-    [[ -z "$next_dir" ]] && return 1
-    cd "$next_dir"
+# kernel building
+# ---------------
+rebuild_kernel() {
+    sudo mount /dev/sda2 /boot
+    sudo make -j5 -l15 \
+        && sudo make modules_install \
+        && sudo make install \
+        && sudo grub2-mkconfig -o /boot/grub/grub.cfg
 }
 
 # download cs421 video
@@ -214,6 +153,7 @@ cs421_vid() {
 alias emul='startx /usr/bin/qemu-system-x86_64 -kernel'
 alias mpv='startx /usr/bin/mpv'
 alias firefox='startx /usr/bin/firefox'
+alias mupdf='startx /usr/bin/mupdf'
 alias private='startx /usr/bin/firefox -private'
 
 # backup
@@ -238,39 +178,14 @@ xdo_remote() {
         xdotool key $key_line; done'
 }
 
-# remote printing
-# ---------------
-remote_print() {
-    file="$1"
-    ssh_server="$2"
-    printer="$3"
-    [[ ! -f "$file" ]]     && return 1
-    [[ -z "$ssh_server" ]] && ssh_server="ews"
-    [[ -z "$printer" ]]    && printer="siebl-0403-bwd1"
-    #[[ -z "$printer" ]]    && printer="siebl-2203-printer"
-    cat "$file" | ssh "$ssh_server" "lpr -C $file -P $printer"
-}
 
 # Hardware
 # ========
 
 # system-stats
 # ------------
-alias bat='cat /sys/class/power_supply/BAT0/power_now'
+alias bat='cat /sys/class/power_supply/BAT1/energy_*'
 alias temp='ls -d /sys/class/thermal/thermal_zone* | xargs -I f cat f/temp'
-
-# wireless
-# --------
-wifi_connect() {
-    wifi_file="$DOTFILES/wifi"
-    net_card="wlp4s0"
-    sudo pkill wpa_supplicant
-    sudo dhcpcd -k
-    sudo wpa_supplicant -B -Dnl80211 -i"$net_card" -c"$wifi_file"
-    sudo dhcpcd "$net_card"
-}
-alias wifi_scan='sudo iw dev wlp4s0 scan | grep "SSID:"'
-alias wifi_del='sudo ip addr del 169.254.137.85/16 dev wlp4s0'
 
 # suspend/hibernate
 # -----------------
@@ -297,6 +212,7 @@ brightness() {
     fi
 }
 
+
 # Media
 # =====
 
@@ -310,19 +226,6 @@ remote_mpv() {
     ssh $1 'export DISPLAY=:0; mpv '"$url"
 }
 
-# reset wireless card
-# -------------------
-rip() {
-    sudo ip link set wlp2s0 down
-    echo "wlp2s0 down"
-    sleep 10
-    sudo ip link set wlp2s0 up
-    echo "wlp2s0 up"
-}
-
-# dual monitor display
-# --------------------
-alias xmonitor="xrandr --output VGA1 --auto --left-of eDP1"
 
 # Scheduling
 # ==========
