@@ -17,7 +17,7 @@ c() {                       # cd with bookmarks
     dirname="$1"
     [[ -z "$dirname" ]] && dirname="$HOME"          # homedir
     case "$dirname" in                              # bookmarks
-        421)        dirname="$HOME/work/cs421/16summer"             ;;
+        421)        dirname="$HOME/work/cs421/su16"                 ;;
         522)        dirname="$HOME/work/uiuc-cs522"                 ;;
         526)        dirname="$HOME/work/uiuc-cs526"                 ;;
         ctl)        dirname="$HOME/work/llvm-semantics/semantics"   ;;
