@@ -20,23 +20,33 @@ system:
     -   sudo
     -   pm-utils
 -   utils:
+    -   git
     -   htop
     -   zip
     -   nmap
-    -   git
+    -   netcat
     -   mercurial
+    -   subversion
     -   dosfstools
     -   dos2unix
     -   pass
+    -   ncurses
+    -   clang
+    -   gmp
 user:
 -   base:
     -   zsh
     -   tmux
     -   vim
+    -   emacs
+    -   fbterm
 -   email:
     -   mutt
     -   msmtp
     -   offlineimap
+-   irc:
+    -   irssi
+    -   ngircd
 -   doc:
     -   markdown:
         -   pandoc
@@ -45,21 +55,27 @@ user:
         -   regex-tdfa
     -   latex:
         -   texlive
+        -   texmfind
         -   texlive-latexextra
         -   texlive-fontsextra
         -   texlive-mathextra
-        -   texmfind
--   viewers:
-    -   surfraw
-    -   w3m
+        -   texlive-xetex
     -   jfbview:
         -   openjpeg
         -   mupdf
         -   imlib2
+        -   mujs
+    -   mupdf
+-   web:
+    -   surfraw
+    -   w3m
     -   firefox:
         -   firefox
         -   xinit
         -   xorg-server
+    -   rtorrent
+    -   bitcoin-cli
+    -   bitcoind
 -   media:
     -   alsa-utils
     -   ffmpeg
