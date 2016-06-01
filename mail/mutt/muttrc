@@ -28,6 +28,13 @@ unignore        From To Cc Bcc Date Subject
 unhdr_order     *
 hdr_order       From To Cc Bcc Date Subject
 
+# Keybindings
+# ===========
+
+# scrolling when viewing a message
+bind pager k previous-line
+bind pager j next-line
+
 
 # Colors
 # ======
