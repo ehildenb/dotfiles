@@ -130,7 +130,7 @@ cp_etc() {
     dir="$1"
     [[ ! -d "$DOTFILES/etc/$dir" ]] && return 1
     for file in $(find "$DOTFILES/etc/$dir" -type f); do
-        echo "sudo cp "$file" "$ETC/${file#$DOTFILES/etc/}""
+        sudo cp "$file" "$ETC/${file#$DOTFILES/etc/}"
     done
 }
 
