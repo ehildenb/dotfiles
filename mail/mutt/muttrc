@@ -28,6 +28,9 @@ unignore        From To Cc Bcc Date Subject
 unhdr_order     *
 hdr_order       From To Cc Bcc Date Subject
 
+# send a blind carbon copy to self (for pretty convo view)
+my_hdr Bcc: hildenb2@illinois.edu
+
 # Keybindings
 # ===========
 
