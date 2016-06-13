@@ -47,8 +47,16 @@ alias unrar='unrar e'
 # app specifiers
 # --------------
 alias e="$EDITOR"                   # editor
-alias v="$VIEWER"                   # viewer
-alias gg='sr google'                # search
+
+# viewer
+# ------
+v() {
+    pdf="$1" && shift
+    case "$pdf" in
+        maude)  pdf="$SRC/maude/Maude-manual.pdf"       ;;
+    esac
+    $VIEWER $pdf $@
+}
 
 # broswer
 # -------
@@ -57,17 +65,20 @@ o() {
     [[ "$1" == 'spoof' ]] \
         && header=('-header' 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0') \
         && shift
-    site="$1"
+    site="$1" && shift
     [[ -z "$site" ]] && site = 'https://google.com' # homepage
     case "$site" in                                 # bookmarks
         421)    site='https://courses.engr.illinois.edu/cs421/su2016/'  ;;
-        522)    site='http://courses.engr.illinois.edu/cs522'           ;;
-        526)    site='http://courses.engr.illinois.edu/cs526'           ;;
+        522)    site='https://courses.engr.illinois.edu/cs522'          ;;
         gitlab) site='https://gitlab-beta.engr.illinois.edu'            ;;
-        menlo)  site='http://fm.csl.sri.com/SSFT16/'                    ;;
+        g|google)
+            site="https://www.google.com/search?q="
+            search_string="$(echo $@ | tr ' ' '+')"
+            site="$site$search_string"
+            ;;
         ws)
             site='http://thewatchseries.be/tvshow'
-            series="$2"
+            series="$1"
             case "$series" in
                 kimmy)  series="unbreakable-kimmy-schmidt"              ;;
                 got)    series="game-of-thrones"                        ;;
@@ -129,8 +140,14 @@ crop_pdf() {
 cp_etc() {
     dir="$1"
     [[ ! -d "$DOTFILES/etc/$dir" ]] && return 1
+    files=($(find "$DOTFILES/etc/$dir" -type f))
+    for file in $files; do
+        dest="$ETC/${file#$DOTFILES/etc/}"
+        echo "copying '$file' to '$dest'..."
+    done
     for file in $(find "$DOTFILES/etc/$dir" -type f); do
-        sudo cp "$file" "$ETC/${file#$DOTFILES/etc/}"
+        dest="$ETC/${file#$DOTFILES/etc/}"
+        sudo cp "$file" "$dest"
     done
 }
 
@@ -156,7 +173,8 @@ cs421_vid() {
 # ----------------------
 alias emul='startx /usr/bin/qemu-system-x86_64 -kernel'
 alias mpv='startx /usr/bin/mpv'
-alias firefox='startx /usr/bin/firefox'
+alias firefox='startx /usr/bin/firefox -width 1920 -height 1080'
+alias firefoxsmall='startx /usr/bin/firefox -width 1680 -height 1050'
 alias mupdf='startx /usr/bin/mupdf'
 alias private='startx /usr/bin/firefox -private'
 
