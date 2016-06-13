@@ -5,6 +5,7 @@ system:
 -   hardware-probe:
     -   pciutils
     -   usbutils
+    -   acpi
 -   bootloader:
     -   grub
     -   os-prober
@@ -12,10 +13,13 @@ system:
     -   iw
     -   wpa_supplicant
     -   dhcpcd
+    -   iwl3160-ucode
 -   daemons:
     -   dcron
     -   nginx
     -   cups
+    -   sysklogd
+    -   logrotate
 -   admin:
     -   sudo
     -   pm-utils
@@ -65,14 +69,15 @@ user:
         -   mupdf
         -   imlib2
         -   mujs
-    -   mupdf
+        -   harfbuzz
+    -   ghostscript-gpl
 -   web:
-    -   surfraw
     -   w3m
     -   firefox:
         -   firefox
         -   xinit
         -   xorg-server
+    -   surfraw
     -   rtorrent
     -   bitcoin-cli
     -   bitcoind
