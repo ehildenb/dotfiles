@@ -1,5 +1,4 @@
-# required by @__auto_slot_operator_replace_installed__ (argument)
-dev-haskell/*::haskell ~amd64
-dev-lang/ghc ~amd64
-app-text/pandoc ~amd64
-app-editors/yi ~amd64
+*/*::haskell ~amd64
+
+# seems a bit excessive
+=dev-haskell/stack-9.9.9 **

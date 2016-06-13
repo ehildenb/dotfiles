@@ -1,2 +1,3 @@
 # maude can be installed through gentoo!
+sci-libs/buddy ~amd64
 dev-lang/maude ~amd64

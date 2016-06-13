@@ -1,2 +1,2 @@
 # required by mujs (argument)
-=dev-lang/mujs-0_p20150202 ~amd64
+dev-lang/mujs ~amd64
