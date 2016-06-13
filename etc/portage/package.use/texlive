@@ -1,7 +1,0 @@
-# required by app-text/texlive-core-2014-r4::gentoo[xetex]
-# required by dev-texlive/texlive-xetex-2014::gentoo
-# required by texlive-xetex (argument)
->=media-libs/harfbuzz-1.1.3 icu
-# required by dev-texlive/texlive-xetex-2014::gentoo
-# required by texlive-xetex (argument)
->=app-text/texlive-core-2014-r4 xetex

@@ -1,3 +1,0 @@
-# required by dev-libs/weston-1.9.0::gentoo[gles2]
-# required by weston (argument)
->=media-libs/mesa-11.0.6 gles2

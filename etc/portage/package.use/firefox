@@ -1,0 +1,4 @@
+# required by firefox
+x11-libs/gdk-pixbuf X
+dev-lang/python sqlite
+x11-libs/cairo X
