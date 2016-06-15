@@ -2,3 +2,4 @@
 dev-haskell/semigroups -binary
 dev-haskell/* doc
 app-text/pandoc doc
+app-editors/yi doc
