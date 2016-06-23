@@ -1,0 +1,10 @@
+# required by dev-texlive/texlive-xetex-2014::gentoo
+# required by texlive-xetex (argument)
+app-text/texlive-core xetex
+# required by app-text/texlive-core-2014-r4::gentoo[xetex]
+# required by dev-texlive/texlive-plainextra-2014::gentoo
+# required by virtual/texi2dvi-0::gentoo
+# required by app-text/dvipng-1.15::gentoo
+# required by app-text/texlive-2014::gentoo[png]
+# required by texlive (argument)
+media-libs/harfbuzz icu
