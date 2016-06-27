@@ -41,11 +41,11 @@ zipd() { zip -rv $1.zip $1 }
 alias unrar='unrar e'
 
 
-# Shortcuts
-# =========
+# Shortcuts/Bookmarks
+# ===================
 
-# app specifiers
-# --------------
+# editor
+# ------
 alias e="$EDITOR"                   # editor
 
 # viewer
@@ -135,6 +135,10 @@ crop_pdf() {
         setdistillerparams" -f "$input_file"
 }
 
+
+# System
+# ======
+
 # copy etc
 # --------
 cp_etc() {
@@ -159,93 +163,6 @@ rebuild_kernel() {
         && sudo make modules_install \
         && sudo make install \
         && sudo grub2-mkconfig -o /boot/grub/grub.cfg
-}
-
-# download cs421 video
-# --------------------
-cs421_vid() {
-    vid="$1"
-    [[ -z "$vid" ]] && return 1
-    wget 'https://courses.engr.illinois.edu/cs421/static/videos/'"$vid/$vid"'.mp4'
-}
-
-# easy-launch X sessions
-# ----------------------
-alias emul='startx /usr/bin/qemu-system-x86_64 -kernel'
-alias mpv='startx /usr/bin/mpv'
-alias firefox='startx /usr/bin/firefox -width 1920 -height 1080'
-alias firefoxsmall='startx /usr/bin/firefox -width 1680 -height 1050'
-alias mupdf='startx /usr/bin/mupdf'
-alias private='startx /usr/bin/firefox -private'
-
-# backup
-# ------
-backup() {
-    dest="$1"
-    [[ ! -d "$dest" ]] && return 1
-    rsync --progress --partial --archive --verbose --ignore-existing --delete \
-        bin docs dotfiles .mail media .passwd src .ssh todo.md work "$dest"
-}
-
-
-# Remote Control
-# ==============
-
-# remote x control
-# ----------------
-xdo_remote() {
-    ssh_serv="$1"
-    [[ -z "$ssh_serv" ]] && return 1
-    xdotoolize | ssh "$ssh_serv" 'export DISPLAY=:0; while read key_line; do \
-        xdotool key $key_line; done'
-}
-
-
-# Hardware
-# ========
-
-# system-stats
-# ------------
-alias bat='cat /sys/class/power_supply/BAT1/energy_*'
-alias temp='ls -d /sys/class/thermal/thermal_zone* | xargs -I f cat f/temp'
-
-# suspend/hibernate
-# -----------------
-mem() {
-    lid_file='/proc/acpi/button/lid/LID0/state'
-    while grep 'open' "$lid_file" &> /dev/null; do sleep 2; done
-    sudo pm-suspend
-    grep 'closed' "$lid_file" && mem
-    return 0
-}
-alias hib='sudo pm-hibernate'
-
-# brightness
-# ----------
-brightness() {
-    BL_FILE='/sys/class/backlight/intel_backlight/brightness'
-    BL_MAX="$(cat '/sys/class/backlight/intel_backlight/max_brightness')"
-    BL_CURR="$(cat "$BL_FILE")"
-    if [[ -n "$1" ]]
-    then
-        sudo zsh -c "echo $(($1 * $BL_MAX / 100)) > $BL_FILE"
-    else
-        echo "$((100 * $BL_CURR / $BL_MAX))%"
-    fi
-}
-
-
-# Media
-# =====
-
-# mpv on remote server
-# --------------------
-remote_mpv() {
-    server="$1"
-    [[ -z "$server" ]] && return 1
-    url="$2"
-    [[ -z "$url" ]] && return 1
-    ssh $1 'export DISPLAY=:0; mpv '"$url"
 }
 
 
@@ -275,4 +192,45 @@ week() {
         let day="$day+$i"
         today $day
     done
+}
+
+
+# X-11
+# ====
+
+# startx aliases
+# --------------
+alias emul='startx /usr/bin/qemu-system-x86_64 -kernel'
+alias mpv='startx /usr/bin/mpv'
+alias firefox='startx /usr/bin/firefox -width 1920 -height 1080'
+alias firefoxsmall='startx /usr/bin/firefox -width 1680 -height 1050'
+alias mupdf='startx /usr/bin/mupdf'
+alias private='startx /usr/bin/firefox -private'
+
+# mpv on remote server
+# --------------------
+remote_mpv() {
+    server="$1"
+    [[ -z "$server" ]] && return 1
+    url="$2"
+    [[ -z "$url" ]] && return 1
+    ssh $1 'export DISPLAY=:0; mpv '"$url"
+}
+
+# remote x control
+# ----------------
+xdo_remote() {
+    ssh_serv="$1"
+    [[ -z "$ssh_serv" ]] && return 1
+    xdotoolize | ssh "$ssh_serv" 'export DISPLAY=:0; while read key_line; do \
+        xdotool key $key_line; done'
+}
+
+# backup
+# ------
+backup() {
+    dest="$1"
+    [[ ! -d "$dest" ]] && return 1
+    rsync --progress --partial --archive --verbose --ignore-existing --delete \
+        bin docs dotfiles .mail media .passwd src .ssh todo.md work "$dest"
 }
