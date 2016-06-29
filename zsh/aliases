@@ -139,6 +139,10 @@ crop_pdf() {
 # System
 # ======
 
+# hardware aliases
+# ----------------
+alias mem='hw mem'
+
 # copy etc
 # --------
 cp_etc() {
