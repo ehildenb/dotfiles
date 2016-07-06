@@ -94,9 +94,11 @@ o() {
 p() {
     copies='1'
     sides=''
-    echo "$1" | grep '^[0-9]*$' &>/dev/null && copies="$1" && shift
-    [[ "$1" == 'onesided' ]] && sides='-o sides=one-sided' && shift
-    lpr '-#'$copies $sides $@
+    pages=''
+    echo "$1" | grep '^[0-9]*$' &>/dev/null && copies="$1"  && shift
+    [[ "$1" == 'onesided' ]] && sides='-o sides=one-sided'  && shift
+    [[ "$1" == 'pages' ]]    && pages='-o page-ranges='"$2" && shift && shift
+    lpr '-#'$copies $pages $sides $@
 }
 
 # crop pdf
