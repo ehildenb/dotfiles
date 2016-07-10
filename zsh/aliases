@@ -19,10 +19,6 @@ c() {                       # cd with bookmarks
     case "$dirname" in                              # bookmarks
         421)        dirname="$HOME/work/cs421/su16"                 ;;
         522)        dirname="$HOME/work/uiuc-cs522"                 ;;
-        526)        dirname="$HOME/work/uiuc-cs526"                 ;;
-        ctl)        dirname="$HOME/work/llvm-semantics/semantics"   ;;
-        homod)      dirname="$HOME/work/homod"                      ;;
-        menlo)      dirname="$HOME/work/menlo"                      ;;
         scratch)    dirname="$SCRATCH"                              ;;
     esac
     cd "$dirname"
@@ -39,6 +35,19 @@ alias tarx='tar -xvf'
 tarc() { tar -cvf $1.tar $1 }
 zipd() { zip -rv $1.zip $1 }
 alias unrar='unrar e'
+
+# backup
+# ------
+backup() {
+    dest="$1"
+    [[ ! -d "$dest" ]] && return 1
+    rsync --progress --partial --archive --verbose --ignore-existing --delete \
+        bin docs dotfiles .mail media .passwd src .ssh todo.md work "$dest"
+}
+
+# simple web server
+# -----------------
+alias http='python -m http.server'
 
 
 # Shortcuts/Bookmarks
@@ -206,11 +215,9 @@ week() {
 
 # startx aliases
 # --------------
-alias emul='startx /usr/bin/qemu-system-x86_64 -kernel'
 alias mpv='startx /usr/bin/mpv'
 alias firefox='startx /usr/bin/firefox -width 1920 -height 1080'
 alias firefoxsmall='startx /usr/bin/firefox -width 1680 -height 1050'
-alias mupdf='startx /usr/bin/mupdf'
 alias private='startx /usr/bin/firefox -private'
 
 # mpv on remote server
@@ -228,15 +235,7 @@ remote_mpv() {
 xdo_remote() {
     ssh_serv="$1"
     [[ -z "$ssh_serv" ]] && return 1
-    xdotoolize | ssh "$ssh_serv" 'export DISPLAY=:0; while read key_line; do \
-        xdotool key $key_line; done'
-}
-
-# backup
-# ------
-backup() {
-    dest="$1"
-    [[ ! -d "$dest" ]] && return 1
-    rsync --progress --partial --archive --verbose --ignore-existing --delete \
-        bin docs dotfiles .mail media .passwd src .ssh todo.md work "$dest"
+    remote_command='export DISPLAY=:0; while read key_line; do'
+    remote_command="$remote_command"' xdotool key $keyline; done'
+    xdotoolize | ssh "$ssh_serv" "$remote_command"
 }
