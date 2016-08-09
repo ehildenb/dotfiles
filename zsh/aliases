@@ -17,9 +17,9 @@ c() {                       # cd with bookmarks
     dirname="$1"
     [[ -z "$dirname" ]] && dirname="$HOME"          # homedir
     case "$dirname" in                              # bookmarks
-        421)        dirname="$HOME/work/cs421/su16"                 ;;
-        522)        dirname="$HOME/work/uiuc-cs522"                 ;;
-        scratch)    dirname="$SCRATCH"                              ;;
+        421*)       dirname="$HOME/work/cs421/su16${dirname#421}"   ;;
+        522*)       dirname="$HOME/work/uiuc-cs522${dirname#522}"   ;;
+        scratch*)   dirname="$SCRATCH${dirname#scratch}"            ;;
     esac
     cd "$dirname"
 }
@@ -91,6 +91,7 @@ o() {
             case "$series" in
                 kimmy)  series="unbreakable-kimmy-schmidt"              ;;
                 got)    series="game-of-thrones"                        ;;
+                sil)    series="silicon-valley"                         ;;
             esac
             site="$site/$series"
             ;;
