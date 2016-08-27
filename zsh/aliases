@@ -17,9 +17,11 @@ c() {                       # cd with bookmarks
     dirname="$1"
     [[ -z "$dirname" ]] && dirname="$HOME"          # homedir
     case "$dirname" in                              # bookmarks
-        421*)       dirname="$HOME/work/cs421/su16${dirname#421}"   ;;
-        522*)       dirname="$HOME/work/uiuc-cs522${dirname#522}"   ;;
-        scratch*)   dirname="$SCRATCH${dirname#scratch}"            ;;
+        500*)       dirname="$HOME/work/uiuc-math500${dirname#500}"     ;;
+        570*)       dirname="$HOME/work/uiuc-math570${dirname#570}"     ;;
+        421*)       dirname="$HOME/work/cs421/su16${dirname#421}"       ;;
+        522*)       dirname="$HOME/work/class/uiuc-cs522${dirname#522}" ;;
+        scratch*)   dirname="$SCRATCH${dirname#scratch}"                ;;
     esac
     cd "$dirname"
 }
@@ -77,6 +79,7 @@ o() {
     site="$1" && shift
     [[ -z "$site" ]] && site = 'https://google.com' # homepage
     case "$site" in                                 # bookmarks
+        500)    site='http://www.math.illinois.edu/~ruiloja/Math500/'   ;;
         421)    site='https://courses.engr.illinois.edu/cs421/su2016/'  ;;
         522)    site='https://courses.engr.illinois.edu/cs522'          ;;
         gitlab) site='https://gitlab-beta.engr.illinois.edu'            ;;
