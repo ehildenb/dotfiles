@@ -21,7 +21,9 @@ c() {                       # cd with bookmarks
         570*)       dirname="$HOME/work/uiuc-math570${dirname#570}"     ;;
         421*)       dirname="$HOME/work/cs421/su16${dirname#421}"       ;;
         522*)       dirname="$HOME/work/class/uiuc-cs522${dirname#522}" ;;
+        fm*)        dirname="$HOME/work/fm_seminar${dirname#fm}"        ;;
         scratch*)   dirname="$SCRATCH${dirname#scratch}"                ;;
+        dotfiles*)  dirname="$DOTFILES${dirname#dotfiles}"              ;;
     esac
     cd "$dirname"
 }
@@ -69,7 +71,7 @@ v() {
     $VIEWER $pdf $@
 }
 
-# broswer
+# browser
 # -------
 o() {
     header=()
@@ -148,6 +150,23 @@ crop_pdf() {
         /DownsampleColorImages false /CompressPages true \
         /ColorImageDownsampleThreshold 1.5 /PreserveHalftoneInfo false >> \
         setdistillerparams" -f "$input_file"
+}
+
+# markdown publishing
+md() {
+    format="$1"
+    md_doc="$2"
+
+    case "$format" in
+        markdown) ext='md'      ;;
+        latex)    ext='pdf'     ;;
+        beamer)   ext='pdf'     ;;
+        *)        ext="$format" ;;
+    esac
+
+    pandoc --standalone --filter=pandoc-citeproc \
+           --from=markdown --to="$format" \
+           --output="${md_doc%.*}.$ext" "$md_doc"
 }
 
 
