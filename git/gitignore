@@ -1,4 +1,5 @@
-*.pdf
+stack.yaml
+.stack-work
 *.tex
 *.o
 *.so
