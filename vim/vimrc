@@ -29,6 +29,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'tpope/vim-markdown'
 Plugin 'yuratomo/w3m.vim'
+Plugin 'derekwyatt/vim-scala'
 call vundle#end()
 """ helpful vundle hints (to be run inside vim)
 ":PluginList - list plugins
@@ -165,9 +166,9 @@ map <leader>j :read !date +\%F<cr>kdd<leader>h1
 
 " Defined actions
 " ---------------
-map <leader>w :wa<cr>:!md make doc %<cr><cr>
+map <leader>w :wa<cr>:!pandoc -f markdown -t latex -o %:r.pdf %<cr><cr>
 map <leader>e :wa<cr>:!md make exec %<cr><cr>
-map <leader>o :!md view %<cr><cr>
+map <leader>o :!jfbview %:r.pdf<cr><cr>
 map <leader>p :!md publish %<cr><cr>
 
 " dumb vim+markdown
