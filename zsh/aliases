@@ -213,11 +213,10 @@ today() {
     day_offset="$1"
     schedule_file="$PERSONAL/schedule.md"
     [[ -z "$day_offset" ]] && day_offset='0'
-    day="$(date --date="$day_offset days" +%A | awk '{print tolower($0)}')"
-    sed -n '/^'"$day"'$/,/^\w/p' $schedule_file | head --lines=-2
-    echo
-    date="$(date --date="$day_offset days" +'%b %-d')"
-    sed -n '/^'"$date"'$/,/^\w/p' $schedule_file | head --lines=-2
+    dDay="$(date --date="$day_offset days" +%A | awk '{print tolower($0)}')"
+    dDate="$(date --date="$day_offset days" +'%b %-d')"
+    pandoc-tangle --from=markdown --to=markdown \
+                  --section="$dDay|$dDate" "$schedule_file"
 }
 
 # schedule for week
