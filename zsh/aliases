@@ -19,11 +19,11 @@ c() {                       # cd with bookmarks
     case "$dirname" in                              # bookmarks
         500*)       dirname="$HOME/work/uiuc-math500${dirname#500}"     ;;
         570*)       dirname="$HOME/work/uiuc-math570${dirname#570}"     ;;
-        421*)       dirname="$HOME/work/cs421/su16${dirname#421}"       ;;
         522*)       dirname="$HOME/work/class/uiuc-cs522${dirname#522}" ;;
-        fm*)        dirname="$HOME/work/fm_seminar${dirname#fm}"        ;;
-        scratch*)   dirname="$SCRATCH${dirname#scratch}"                ;;
         dotfiles*)  dirname="$DOTFILES${dirname#dotfiles}"              ;;
+        fm*)        dirname="$HOME/work/fm_seminar${dirname#fm}"        ;;
+        k*)         dirname="$HOME/work/k${dirname#k}"                  ;;
+        scratch*)   dirname="$SCRATCH${dirname#scratch}"                ;;
     esac
     cd "$dirname"
 }
@@ -84,6 +84,7 @@ o() {
         500)    site='http://www.math.illinois.edu/~ruiloja/Math500/'   ;;
         421)    site='https://courses.engr.illinois.edu/cs421/su2016/'  ;;
         522)    site='https://courses.engr.illinois.edu/cs522'          ;;
+        github) site='https://github.com'                               ;;
         gitlab) site='https://gitlab-beta.engr.illinois.edu'            ;;
         g|google)
             site="https://www.google.com/search?q="
