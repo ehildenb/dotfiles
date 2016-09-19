@@ -111,13 +111,20 @@ o() {
 # printing
 # --------
 p() {
-    copies='1'
-    sides=''
-    pages=''
-    echo "$1" | grep '^[0-9]*$' &>/dev/null && copies="$1"  && shift
-    [[ "$1" == 'onesided' ]] && sides='-o sides=one-sided'  && shift
-    [[ "$1" == 'pages' ]]    && pages='-o page-ranges='"$2" && shift && shift
-    lpr '-#'$copies $pages $sides $@
+    server=''  && [[ "$1" == 'remote'   ]]                && server="$2"                 && shift && shift
+    copies='1' && echo "$1" | grep '^[0-9]*$' &>/dev/null && copies="$1"                 && shift
+    sides=''   && [[ "$1" == 'onesided' ]]                && sides='-o sides=one-sided'  && shift
+    pages=''   && [[ "$1" == 'pages'    ]]                && pages='-o page-ranges='"$2" && shift && shift
+
+    file="$1" && [[ ! -f "$file" ]] && echo "No file '$file'" && return 1
+    shift
+
+    if [[ ! -z "$server" ]]; then
+        echo "Printing on remote: $server"
+        cat "$file" | ssh "$server" "lpr '-#'$copies $pages $sides $@"
+    else
+        lpr '-#'$copies $pages $sides $@ "$file"
+    fi
 }
 
 # crop pdf
