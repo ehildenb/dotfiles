@@ -16,15 +16,18 @@ chpwd() { ls }              # ls when cd
 c() {                       # cd with bookmarks
     dirname="$1"
     [[ -z "$dirname" ]] && dirname="$HOME"          # homedir
-    case "$dirname" in                              # bookmarks
-        500*)       dirname="$HOME/work/uiuc-math500${dirname#500}"     ;;
-        570*)       dirname="$HOME/work/uiuc-math570${dirname#570}"     ;;
-        522*)       dirname="$HOME/work/class/uiuc-cs522${dirname#522}" ;;
-        dotfiles*)  dirname="$DOTFILES${dirname#dotfiles}"              ;;
-        fm*)        dirname="$HOME/work/fm_seminar${dirname#fm}"        ;;
-        k*)         dirname="$HOME/work/k${dirname#k}"                  ;;
-        scratch*)   dirname="$SCRATCH${dirname#scratch}"                ;;
-    esac
+    if [[ ! -d "$dirname" ]]; then
+        case "$dirname" in                          # bookmarks
+            500*)       dirname="$HOME/work/uiuc-math500${dirname#500}"     ;;
+            570*)       dirname="$HOME/work/uiuc-math570${dirname#570}"     ;;
+            522*)       dirname="$HOME/work/class/uiuc-cs522${dirname#522}" ;;
+            dotfiles*)  dirname="$DOTFILES${dirname#dotfiles}"              ;;
+            fm*)        dirname="$HOME/work/fm_seminar${dirname#fm}"        ;;
+            k*)         dirname="$HOME/work/k${dirname#k}"                  ;;
+            mauke*)     dirname="$HOME/work/mauke${dirname#mauke}"          ;;
+            scratch*)   dirname="$SCRATCH${dirname#scratch}"                ;;
+        esac
+    fi
     cd "$dirname"
 }
 
