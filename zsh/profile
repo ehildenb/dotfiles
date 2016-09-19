@@ -44,7 +44,7 @@ MAUDE_LIB="/usr/share/maude"
 export MAUDE_LIB="$MAUDE_LIB:$maude_main:$full_maude:$maude_formal_environment"
 
 ### K Framework
-k_release="$SRC/k/k-distribution/target/release/k"
+k_release="$HOME/work/k/k-distribution/target/release/k"
 k_path="$k_release/lib/native/linux"
 k_path="$k_path:$k_release/lib/native/linux64"
 k_path="$k_path:$k_release/bin"
