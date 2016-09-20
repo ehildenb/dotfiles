@@ -101,6 +101,7 @@ o() {
                 kimmy)  series="unbreakable-kimmy-schmidt"              ;;
                 got)    series="game-of-thrones"                        ;;
                 sil)    series="silicon-valley"                         ;;
+                robot)  series="mr-robot"                               ;;
             esac
             site="$site/$series"
             ;;
