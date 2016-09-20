@@ -6,6 +6,7 @@ system:
     -   pciutils
     -   usbutils
     -   acpi
+    -   parted
 -   bootloader:
     -   grub
     -   os-prober
@@ -49,7 +50,7 @@ user:
     -   msmtp
     -   offlineimap
 -   irc:
-    -   irssi
+    -   weechat
     -   ngircd
 -   doc:
     -   markdown:
@@ -90,14 +91,19 @@ user:
 -   plfm:
     -   haskell:
         -   haskell-src
+        -   cabal-install
+        -   hoogle
+        -   stack
+        -   yi
         -   lens
         -   quickcheck
+        -   aeson-pretty
         -   derive
         -   unification-fd
         -   monad-unify
         -   hashtables
-        -   stack
-        -   yi
+        -   typecompose
+        -   regex-applicative
     -   maude:
         -   maude
         -   libsigsegv
@@ -105,10 +111,9 @@ user:
         -   buddy
     -   k:
         -   virtual/jdk
-        -   jre
-        -   maven-bin
         -   dev-java/icedtea
-        -   =dev-java/icedtea-3.0.0_pre09
+        -   maven-bin
+        -   jre
 -   icestick:
     -   tcl
     -   ngspice
