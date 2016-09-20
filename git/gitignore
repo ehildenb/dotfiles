@@ -1,5 +1,6 @@
 stack.yaml
 .stack-work
+*.sw*
 *.tex
 *.o
 *.so
