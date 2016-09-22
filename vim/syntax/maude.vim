@@ -17,7 +17,7 @@ command! -nargs=+ MaudeHiLink hi def link <args>
 syn keyword maudeModule     mod fmod omod endm endfm endm fth endfth th endth view endv is
 syn keyword maudeImports    protecting including extending
 syn keyword maudeSorts      sorts sort subsorts subsort
-syn keyword maudeStatements op ops var vars eq ceq rl crl
+syn keyword maudeStatements op ops var vars eq ceq rl crl mb cmb
 syn match   maudeFlags      "\[.*\]"
 syn keyword maudeCommands   reduce
 syn match   maudeComment    "\*\*\*.*"
