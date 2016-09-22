@@ -1,8 +1,8 @@
 # Default Options
 # ===============
 
-# colors
-# ------
+# colorized output
+# ----------------
 alias ls='ls --color=auto'
 [[ "$OS_DISTRO" == "freebsd" ]] && alias ls='ls -G'
 alias grep='grep --color=auto'
@@ -23,6 +23,7 @@ c() {                       # cd with bookmarks
             522*)       dirname="$HOME/work/class/uiuc-cs522${dirname#522}" ;;
             dotfiles*)  dirname="$DOTFILES${dirname#dotfiles}"              ;;
             fm*)        dirname="$HOME/work/fm_seminar${dirname#fm}"        ;;
+            kbmc*)      dirname="$HOME/work/k/kbmc-testing${dirname#kbmc}"  ;;
             k*)         dirname="$HOME/work/k${dirname#k}"                  ;;
             mauke*)     dirname="$HOME/work/mauke${dirname#mauke}"          ;;
             scratch*)   dirname="$SCRATCH${dirname#scratch}"                ;;
@@ -55,6 +56,62 @@ backup() {
 # simple web server
 # -----------------
 alias http='python -m http.server'
+
+# color schemes
+# -------------
+color() {
+    scheme="$1"
+
+    #echo -en "\e]P4264bc2"  # S_blue
+    #echo -en "\e]PC4374a6"  # ls blue (default vim blue)
+
+    case "$scheme" in
+
+        dark)
+            echo -en "\e]P0080303"  # S_base02  (background)
+            echo -en "\e]P12c22af"  # S_red
+            echo -en "\e]P2128010"  # S_green   (terminal prompt before $)
+            # echo -en "\e]P3b58900"  # S_yellow
+            echo -en "\e]P4264bc2"  # S_blue
+            echo -en "\e]P5d33682"  # S_magenta (terminal prompt after $)
+            # echo -en "\e]P62aa198"  # S_cyan    (quoted text in sh script)
+            echo -en "\e]P7c0c0e5"  # S_base2   (ls color for files)
+            # echo -en "\e]P8002b36"  # S_base03
+            # echo -en "\e]P9cb4b16"  # S_orange
+            echo -en "\e]PA11ff50"  # S_base01  (comments)
+            # echo -en "\e]PB657b83"  # S_base00
+            echo -en "\e]PC033486"  # S_base0   (echo in script, ls color for directories)
+            # echo -en "\e]PD6c71c4"  # S_violet
+            # echo -en "\e]PE93a1a1"  # S_base1
+            # echo -en "\e]PFfdf6e3"  # S_base3
+            ;;
+
+        light)
+            echo -en "\e]P0ded8d5"  # S_base02  (background)
+            echo -en "\e]P1dc322f"  # S_red
+            echo -en "\e]P2006b00"  # S_green   (terminal prompt)
+            # echo -en "\e]P3b58900"  # S_yellow
+            # echo -en "\e]P4268bd2"  # S_blue
+            echo -en "\e]P5b31662"  # S_magenta (terminal prompt)
+            echo -en "\e]P60a9178"  # S_cyan    (quoted text in sh script)
+            echo -en "\e]P7070602"  # S_base2   (ls color for files)
+            # echo -en "\e]P8fdf6e3"  # S_base03
+            # echo -en "\e]P9cb4b16"  # S_orange
+            echo -en "\e]PA436161"  # S_base01  (comments)
+            # echo -en "\e]PB839496"  # S_base00
+            echo -en "\e]PC053bd3"  # S_base0   (echo in script, ls color for directories)
+            # echo -en "\e]PD6c71c4"  # S_violet
+            # echo -en "\e]PE586e75"  # S_base1
+            # echo -en "\e]PF002b36"  # S_base3
+            ;;
+
+        *)
+            echo "Unrecognized color scheme '$scheme'" >&2
+            ;;
+    esac
+
+    clear
+}
 
 
 # Shortcuts/Bookmarks
@@ -230,18 +287,6 @@ today() {
     dDate="$(date --date="$day_offset days" +'%b %-d')"
     pandoc-tangle --from=markdown --to=markdown \
                   --section="$dDay|$dDate" "$schedule_file"
-}
-
-# schedule for week
-# -----------------
-week() {
-    week_offset="$1"
-    [[ -z "$week_offset" ]] && week_offset='0'
-    let day="$week_offset*7"
-    for i in 0 1 2 3 4 5 6; do
-        let day="$day+$i"
-        today $day
-    done
 }
 
 
