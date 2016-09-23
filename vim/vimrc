@@ -5,7 +5,7 @@
 " --------
 set nocompatible
 set viminfo+=n$HOME/dotfiles/vim/viminfo
-set shell=zsh\ -i
+set shell=zsh
 
 " undos
 " -----
@@ -166,8 +166,8 @@ map <leader>j :read !date +\%F<cr>kdd<leader>h1
 
 " Defined actions
 " ---------------
-map <leader>w :wa<cr>:!md latex %<cr>
-map <leader>o :!jfbview %:r.pdf \|\| return 0<cr>
+map <leader>w :wa<cr>:!alias_call md latex %<cr>
+map <leader>o :!jfbview %:r.pdf<cr><cr>
 
 " dumb vim+markdown
 " -----------------
