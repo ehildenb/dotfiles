@@ -167,6 +167,7 @@ map <leader>j :read !date +\%F<cr>kdd<leader>h1
 " Defined actions
 " ---------------
 map <leader>w :wa<cr>:!alias_call md latex %<cr>
+map <leader>b :wa<cr>:!alias_call md beamer %<cr>
 map <leader>o :!jfbview %:r.pdf<cr><cr>
 map <leader>p :wa<cr>:!alias_call p %:r.pdf<cr>
 
