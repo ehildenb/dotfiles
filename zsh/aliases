@@ -18,15 +18,15 @@ c() {                       # cd with bookmarks
     [[ -z "$dirname" ]] && dirname="$HOME"          # homedir
     if [[ ! -d "$dirname" ]]; then
         case "$dirname" in                          # bookmarks
-            500*)       dirname="$HOME/work/uiuc-math500${dirname#500}"     ;;
-            570*)       dirname="$HOME/work/uiuc-math570${dirname#570}"     ;;
-            522*)       dirname="$HOME/work/class/uiuc-cs522${dirname#522}" ;;
-            dotfiles*)  dirname="$DOTFILES${dirname#dotfiles}"              ;;
-            fm*)        dirname="$HOME/work/fm_seminar${dirname#fm}"        ;;
-            kbmc*)      dirname="$HOME/work/k/kbmc-testing${dirname#kbmc}"  ;;
-            k*)         dirname="$HOME/work/k${dirname#k}"                  ;;
-            mauke*)     dirname="$HOME/work/mauke${dirname#mauke}"          ;;
-            scratch*)   dirname="$SCRATCH${dirname#scratch}"                ;;
+            500*)       dirname="$HOME/work/uiuc-math500${dirname#500}"                                      ;;
+            570*)       dirname="$HOME/work/uiuc-math570${dirname#570}"                                      ;;
+            522*)       dirname="$HOME/work/class/uiuc-cs522${dirname#522}"                                  ;;
+            dotfiles*)  dirname="$DOTFILES${dirname#dotfiles}"                                               ;;
+            fm*)        dirname="$HOME/work/fm_seminar${dirname#fm}"                                         ;;
+            kbmc*)      dirname="$HOME/work/k/k-distribution/samples-kore/kernelc/tests/kbmc${dirname#kbmc}" ;;
+            k*)         dirname="$HOME/work/k${dirname#k}"                                                   ;;
+            mauke*)     dirname="$HOME/work/mauke${dirname#mauke}"                                           ;;
+            scratch*)   dirname="$SCRATCH${dirname#scratch}"                                                 ;;
         esac
     fi
     cd "$dirname"
