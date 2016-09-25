@@ -168,6 +168,7 @@ map <leader>j :read !date +\%F<cr>kdd<leader>h1
 " ---------------
 map <leader>w :wa<cr>:!alias_call md latex %<cr>
 map <leader>o :!jfbview %:r.pdf<cr><cr>
+map <leader>p :wa<cr>:!alias_call p %:r.pdf<cr>
 
 " dumb vim+markdown
 " -----------------
