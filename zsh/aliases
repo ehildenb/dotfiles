@@ -72,16 +72,16 @@ color() {
             color_ps2="d33682"
             color_tmux_highlight_background="b15400"
             color_comments="11ff50"
-            color_bash_var_use="db5b56"
-            color_bash_var_decl="4264bc2"       # cmus song status
             color_bash_string="2aa198"
+            color_bash_var_use="db5b56"
+            color_bash_var_decl="4264bc2"       # cmus song status background
             color_cmus_time_bar="c0c0e5"
+            color_cmus_song_status_fg="fdf6e3"
             color_htop_percentage_use="002b36"
-            echo -en "\e]PB657b83"  # S_base00
-            echo -en "\e]PC5384c6"  # S_base0   (echo in script, ls color for directories)
+            color_git_hist_ref_pointer="657b83"
+            color_vim_plaintext="5384c6"        # commit ref in git hist
             echo -en "\e]PD6c71c4"  # S_violet
-            echo -en "\e]PE93a1a1"  # S_base1
-            echo -en "\e]PFfdf6e3"  # S_base3
+            echo -en "\e]PE93a1a1"  # S_base1   # mispelled headers in vim markdown
             ;;
 
         light)
@@ -91,16 +91,16 @@ color() {
             color_ps2="b31662"
             color_tmux_highlight_background="b58900"
             color_comments="436161"
-            color_bash_var_use="cb4b16"
-            color_bash_var_decl="b67bb2"        # cmus song status
             color_bash_string="0a9178"
+            color_bash_var_use="cb4b16"
+            color_bash_var_decl="b67bb2"        # cmus song status background
             color_cmus_time_bar="070602"
+            color_cmus_song_status_fg="002b36"
             color_htop_percentage_use="0d0613"
-            echo -en "\e]PBd34446"  # S_base00  (git hist reference pointer)
-            echo -en "\e]PC053bd3"  # S_base0   (echo in script, ls color for directories)
+            color_git_hist_ref_pointer="d34446"
+            color_vim_plaintext="053bd3"        # commit ref in git hist
             echo -en "\e]PD6c71c4"  # S_violet
-            echo -en "\e]PE586e75"  # S_base1
-            echo -en "\e]PF002b36"  # S_base3
+            echo -en "\e]PE586e75"  # S_base1   # mispelled headers in vim markdown
             ;;
 
         *)
@@ -139,22 +139,31 @@ color() {
         echo "$invd_color"
     }
 
-    modif="$1"
-    case "$modif" in
-        invert)
-            color_background="$(color_inv_color "$color_background")"
-            color_error_code="$(color_inv_color "$color_error_code")"
-            color_ps1="$(color_inv_color "$color_ps1")"
-            color_ps2="$(color_inv_color "$color_ps2")"
-            color_tmux_highlight_background="$(color_inv_color "$color_tmux_highlight_background")"
-            color_comments="$(color_inv_color "$color_comments")"
-            color_bash_var_use="$(color_inv_color "$color_bash_var_use")"
-            color_bash_var_decl="$(color_inv_color "$color_bash_var_decl")"
-            color_bash_string="$(color_inv_color "$color_bash_string")"
-            color_cmus_time_bar="$(color_inv_color "$color_cmus_time_bar")"
-            color_htop_percentage_use="$(color_inv_color "$color_htop_percentage_use")"
-            ;;
-    esac
+    if [[ "$1" == 'invert' ]]; then
+        shift
+        color_background="$(color_inv_color "$color_background")"
+        color_error_code="$(color_inv_color "$color_error_code")"
+        color_ps1="$(color_inv_color "$color_ps1")"
+        color_ps2="$(color_inv_color "$color_ps2")"
+        color_tmux_highlight_background="$(color_inv_color "$color_tmux_highlight_background")"
+        color_comments="$(color_inv_color "$color_comments")"
+        color_bash_var_use="$(color_inv_color "$color_bash_var_use")"
+        color_bash_var_decl="$(color_inv_color "$color_bash_var_decl")"
+        color_bash_string="$(color_inv_color "$color_bash_string")"
+        color_cmus_time_bar="$(color_inv_color "$color_cmus_time_bar")"
+        color_cmus_song_status_fg="$(color_inv_color "$color_cmus_song_status_fg")"
+        color_htop_percentage_use="$(color_inv_color "$color_htop_percentage_use")"
+        color_git_hist_ref_pointer="$(color_inv_color "$color_git_hist_ref_pointer")"
+        color_vim_plaintext="$(color_inv_color "$color_vim_plaintext")"
+    fi
+
+    if [[ "$1" == 'narrow' ]]; then
+        shift
+    fi
+
+    if [[ "$1" == 'widen' ]]; then
+        shift
+    fi
 
     echo -en "\e]P0$color_background"
     echo -en "\e]P1$color_error_code"
@@ -167,6 +176,9 @@ color() {
     echo -en "\e]P8$color_htop_percentage_use"
     echo -en "\e]P9$color_bash_var_use"
     echo -en "\e]PA$color_comments"
+    echo -en "\e]PB$color_git_hist_ref_pointer"
+    echo -en "\e]PC$color_vim_plaintext"
+    echo -en "\e]PF$color_cmus_song_status_fg"
 
     clear
 }
