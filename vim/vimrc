@@ -190,6 +190,7 @@ autocmd FileType markdown |
 " --------------------------
 autocmd filetype make setlocal noexpandtab
 
-" Recognize maude files
-" ---------------------
+" Recognize maude/K files
+" -----------------------
 autocmd BufRead,BufNewFile *.maude set filetype=maude
+autocmd BufRead,BufNewFile *.k     set filetype=kframework
