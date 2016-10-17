@@ -74,6 +74,9 @@ case "$HOST" in
         OS_DISTRO="gentoo"
         ETC="/etc"
         ;;
+    ehildenb-ubuntu)
+        OS_DISTRO="debian"
+        ;;
     websites)
         OS_DISTRO="freebsd"
         ETC="/usr/local/etc"
