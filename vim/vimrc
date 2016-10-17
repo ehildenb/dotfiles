@@ -152,7 +152,7 @@ map <leader>g gq}kA
 " -------------------
 let g:markdown_fenced_languages = ['c', 'sh', 'bash=sh', 'python', 'ruby',
     \ 'haskell', 'hs=haskell', 'javascript', 'tex', 'ada', 'java', 'jack=java',
-    \ 'vim', 'asm', 'ld', 'maude', 'verilog']
+    \ 'vim', 'asm', 'ld', 'maude', 'k', 'verilog']
 syn match markdownIgnore "_"
 syn match markdownIgnore "\*"
 
@@ -193,4 +193,4 @@ autocmd filetype make setlocal noexpandtab
 " Recognize maude/K files
 " -----------------------
 autocmd BufRead,BufNewFile *.maude set filetype=maude
-autocmd BufRead,BufNewFile *.k     set filetype=kframework
+autocmd BufRead,BufNewFile *.k     set filetype=k

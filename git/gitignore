@@ -11,3 +11,4 @@ stack.yaml
 *.iso
 *.7z
 *.tmp
+*kompiled
