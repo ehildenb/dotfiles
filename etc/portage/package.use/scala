@@ -1,0 +1,4 @@
+# required by media-gfx/graphviz-2.38.0-r1::gentoo
+# required by dev-lang/scala-2.11.4-r1::gentoo[-binary]
+# required by scala (argument)
+>=media-libs/gd-2.2.3 fontconfig truetype
