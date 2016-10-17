@@ -36,6 +36,8 @@ c() {                       # cd with bookmarks
                         prefix='mauke' ;;
             scratch*)   newname="$SCRATCH"
                         prefix='scratch' ;;
+            evm*)       newname="$HOME/work/evm-modeling"
+                        prefix='evm' ;;
         esac
         dirname="$newname${dirname#$prefix}"
     fi
@@ -60,7 +62,7 @@ backup() {
     dest="$1"
     [[ ! -d "$dest" ]] && return 1
     rsync --progress --partial --archive --verbose --ignore-existing --delete \
-        bin docs dotfiles .mail media .passwd src .ssh todo.md work "$dest"
+        bin dotfiles .mail media .passwd src .ssh work "$dest"
 }
 
 # simple web server
@@ -81,6 +83,7 @@ e() {
             contacts)   file="$DOTFILES/mail/mutt/contacts" ;;
             schedule)   file="$HOME/personal/schedule.md"   ;;
             aliases)    file="$DOTFILES/zsh/aliases"        ;;
+            dotfiles*)  file="$DOTFILES${file#dotfiles}"    ;;
         esac
     fi
     $EDITOR $file $@
@@ -135,9 +138,15 @@ o() {
 # printing
 # --------
 p() {
-    copies='1' && echo "$1" | grep '^[0-9]*$' &>/dev/null && copies="$1"                 && shift
-    sides=''   && [[ "$1" == 'onesided' ]]                && sides='-o sides=one-sided'  && shift
-    pages=''   && [[ "$1" == 'pages'    ]]                && pages='-o page-ranges='"$2" && shift && shift
+    copies='1' \
+        && echo "$1" | grep '^[0-9]*$' &>/dev/null && copies="$1" \
+        && shift
+    sides='-o sides=two-sided-long-edge' \
+        && [[ "$1" == 'onesided' ]] && sides='-o sides=one-sided' \
+        && shift
+    pages='' \
+        && [[ "$1" == 'pages'    ]] && pages='-o page-ranges='"$2" \
+        && shift && shift
 
     file="$1" && [[ ! -f "$file" ]] && echo "No file '$file'" && return 1
     shift
@@ -232,7 +241,7 @@ rebuild_kernel() {
     sudo make -j5 -l15 \
         && sudo make modules_install \
         && sudo make install \
-        && sudo grub2-mkconfig -o /boot/grub/grub.cfg
+        && sudo grub-mkconfig -o /boot/grub/grub.cfg
 }
 
 
