@@ -1,2 +1,5 @@
 # required by sys-firmware/iwl3160-ucode (argument)
 sys-firmware/iwl3160-ucode ~amd64
+
+# required by iucode_tool (argument)
+sys-apps/iucode_tool ~amd64
