@@ -154,6 +154,28 @@ p() {
     lpr '-#'$copies $pages $sides $@ "$file"
 }
 
+# mail
+# ----
+m() {
+    if [[ "$#" -lt '1' ]]; then
+        mutt
+        return
+    fi
+    case "$1" in
+        c|check)
+            if [[ "$(ps aux | grep -c offlineimap)" -gt '1' ]]; then
+                pkill -9 offlineimap
+                rm ~/.offlineimap/pid
+            fi
+            offlineimap
+            ;;
+        *)
+            echo "Unrecognized option: '$1'"
+            return 1
+            ;;
+    esac
+}
+
 # crop pdf
 # --------
 crop_pdf() {
