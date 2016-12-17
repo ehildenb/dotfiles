@@ -11,7 +11,7 @@ export MUSIC="$MEDIA/music"
 export SCRATCH="$HOME/scratch"
 
 ### Defaults
-export EDITOR="vim"
+export EDITOR="kak"
 export VISUAL="$EDITOR"
 export VIEWER="jfbview"
 export BROWSER="w3m"

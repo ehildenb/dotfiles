@@ -1,0 +1,10 @@
+## Hooks
+
+# add line numbers
+hook global WinCreate .* %{addhl number_lines}
+
+# add brackets highlighting
+hook global WinCreate .* %{addhl show_matching}
+
+# soft tabs
+hook -group TabExpander global InsertChar \t %{ exec -draft h@}

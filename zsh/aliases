@@ -30,6 +30,8 @@ c() {                       # cd with bookmarks
                         prefix='fm' ;;
             kbmc*)      newname="$HOME/work/k/k-backend/k-distribution/samples-kore/kernelc/tests/kbmc"
                         prefix='kbmc' ;;
+            kore*)      newname="$HOME/work/kore"
+                        prefix="kore" ;;
             k*)         newname="$HOME/work/k"
                         prefix='k' ;;
             mauke*)     newname="$HOME/work/mauke"
