@@ -18,9 +18,9 @@ c() {                       # cd with bookmarks
     [[ -z "$dirname" ]] && dirname="$HOME"          # homedir
     if [[ ! -d "$dirname" ]]; then
         case "$dirname" in                          # bookmarks
-            500*)       newname="$HOME/work/uiuc-math500"
+            500*)       newname="$HOME/work/class/uiuc-math500"
                         prefix='500' ;;
-            570*)       newname="$HOME/work/uiuc-math570"
+            570*)       newname="$HOME/work/class/uiuc-math570"
                         prefix='570' ;;
             522*)       newname="$HOME/work/class/uiuc-cs522"
                         prefix='522' ;;
