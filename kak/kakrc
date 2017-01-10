@@ -8,3 +8,20 @@ hook global WinCreate .* %{addhl show_matching}
 
 # soft tabs
 hook -group TabExpander global InsertChar \t %{ exec -draft h@}
+
+# auto wrap at 80 chars
+# set global autowrap_column 80
+# hook global WinCreate .* %{ autowrap-enable }
+
+# colors
+colorscheme default
+
+%sh{
+
+localconfdir="$XDG_CONFIG_HOME/kak"
+
+for highlighter in "$localconfdir"/hl/*; do
+    cat "$highlighter"
+done
+
+}
