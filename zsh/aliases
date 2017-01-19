@@ -24,6 +24,8 @@ c() {                       # cd with bookmarks
                         prefix='570' ;;
             522*)       newname="$HOME/work/class/uiuc-cs522"
                         prefix='522' ;;
+            576*)       newname="$HOME/work/uiuc-cs576"
+                        prefix='576' ;;
             dotfiles*)  newname="$DOTFILES"
                         prefix='dotfiles' ;;
             fm*)        newname="$HOME/work/fm_seminar"
