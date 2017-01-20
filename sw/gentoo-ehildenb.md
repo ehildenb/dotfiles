@@ -17,7 +17,6 @@ system:
     -   iwl3160-ucode
 -   daemons:
     -   dcron
-    -   nginx
     -   cups
     -   sysklogd
     -   logrotate
@@ -33,15 +32,18 @@ system:
     -   mercurial
     -   subversion
     -   dosfstools
+    -   squashfs-tools
     -   dos2unix
     -   pass
     -   ncurses
     -   clang
     -   gmp
+    -   app-text/tree
 user:
 -   base:
     -   zsh
     -   tmux
+    -   kakoune
     -   vim
     -   emacs
     -   fbterm
@@ -51,6 +53,7 @@ user:
     -   offlineimap
 -   irc:
     -   weechat
+    -   bitlbee
     -   ngircd
 -   doc:
     -   markdown:
@@ -71,7 +74,9 @@ user:
         -   imlib2
         -   mujs
         -   harfbuzz
-    -   ghostscript-gpl
+    -   pdf:
+        -   graphicsmagick
+        -   ghostscript-gpl
 -   web:
     -   w3m
     -   firefox:
@@ -104,6 +109,8 @@ user:
         -   hashtables
         -   typecompose
         -   regex-applicative
+        -   algebra
+        -   lhs2tex
     -   maude:
         -   maude
         -   libsigsegv
@@ -114,7 +121,13 @@ user:
         -   dev-java/icedtea
         -   maven-bin
         -   jre
+        -   scala
+        -   sbt
 -   icestick:
     -   tcl
     -   ngspice
+-   wayland:
+    -   sway
+-   X:
+    -   rxvt-unicode
 ...
