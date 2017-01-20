@@ -1,0 +1,165 @@
+#!/usr/bin/env zsh
+
+color_invert() {
+    color_char="$1"
+    case "$color_char" in
+        '0') echo 'f' ;;
+        '1') echo 'e' ;;
+        '2') echo 'd' ;;
+        '3') echo 'c' ;;
+        '4') echo 'b' ;;
+        '5') echo 'a' ;;
+        '6') echo '9' ;;
+        '7') echo '8' ;;
+        '8') echo '7' ;;
+        '9') echo '6' ;;
+        'a') echo '5' ;;
+        'b') echo '4' ;;
+        'c') echo '3' ;;
+        'd') echo '2' ;;
+        'e') echo '1' ;;
+        'f') echo '0' ;;
+    esac
+}
+
+color_soften() {
+    color_char="$1"
+    case "$color_char" in
+        '0') echo '1' ;;
+        '1') echo '2' ;;
+        '2') echo '3' ;;
+        '3') echo '4' ;;
+        '4') echo '5' ;;
+        '5') echo '6' ;;
+        '6') echo '6' ;;
+        '7') echo '7' ;;
+        '8') echo '8' ;;
+        '9') echo '9' ;;
+        'a') echo '9' ;;
+        'b') echo 'a' ;;
+        'c') echo 'b' ;;
+        'd') echo 'c' ;;
+        'e') echo 'd' ;;
+        'f') echo 'e' ;;
+    esac
+}
+
+color_sharpen() {
+    color_char="$1"
+    case "$color_char" in
+        '0') echo '0' ;;
+        '1') echo '0' ;;
+        '2') echo '1' ;;
+        '3') echo '2' ;;
+        '4') echo '3' ;;
+        '5') echo '3' ;;
+        '6') echo '5' ;;
+        '7') echo '7' ;;
+        '8') echo '8' ;;
+        '9') echo 'a' ;;
+        'a') echo 'c' ;;
+        'b') echo 'c' ;;
+        'c') echo 'd' ;;
+        'd') echo 'e' ;;
+        'e') echo 'f' ;;
+        'f') echo 'f' ;;
+    esac
+}
+
+color_map() {
+    map_fnc="$1"
+    orig_color="$2"
+    new_color=""
+    for color_char in $(echo "$orig_color" | grep -o .); do
+        new_color="$new_color""$($map_fnc "$color_char")"
+    done
+    echo "$new_color"
+}
+
+scheme="$1" && shift
+
+case "$scheme" in
+
+    dark)
+        color_background="080303"
+        color_error_code="ec120f"           # vim search error
+        color_ps1="128010"
+        color_ps2="d33682"
+        color_tmux_highlight_background="b15400"
+        color_comments="11ff50"
+        color_bash_string="2aa198"
+        color_bash_var_use="db5b56"
+        color_bash_var_decl="4264bc2"       # cmus song status background
+        color_cmus_time_bar="c0c0e5"
+        color_cmus_song_status_fg="fdf6e3"
+        color_htop_percentage_use="002b36"
+        color_git_hist_ref_pointer="657b83"
+        color_vim_plaintext="5384c6"        # commit ref in git hist
+        echo -en "\e]PD6c71c4"  # S_violet
+        echo -en "\e]PE93a1a1"  # S_base1   # mispelled headers in vim markdown
+        ;;
+
+    light)
+        color_background="fee8d5"
+        color_error_code="dc322f"           # vim search error
+        color_ps1="005b00"
+        color_ps2="b31662"
+        color_tmux_highlight_background="856022"
+        color_comments="436161"
+        color_bash_string="0a9178"
+        color_bash_var_use="cb4b16"
+        color_bash_var_decl="b67bb2"        # cmus song status background
+        color_cmus_time_bar="070602"
+        color_cmus_song_status_fg="002b36"
+        color_htop_percentage_use="0d0613"
+        color_git_hist_ref_pointer="d34446"
+        color_vim_plaintext="053bd3"        # commit ref in git hist
+        echo -en "\e]PD6c71c4"  # S_violet
+        echo -en "\e]PE586e75"  # S_base1   # mispelled headers in vim markdown
+        ;;
+
+    *)
+        echo "Unrecognized color scheme '$scheme'" >&2
+        ;;
+esac
+
+while [[ ! -z "$1" ]]; do
+    filter="$1" && shift
+    case "$filter" in
+        invert)     filter_func="color_invert"  ;;
+        soften)     filter_func="color_soften"  ;;
+        sharpen)    filter_func="color_sharpen" ;;
+    esac
+
+    color_background="$(color_map $filter_func "$color_background")"
+    color_error_code="$(color_map $filter_func "$color_error_code")"
+    color_ps1="$(color_map $filter_func "$color_ps1")"
+    color_ps2="$(color_map $filter_func "$color_ps2")"
+    color_tmux_highlight_background="$(color_map $filter_func "$color_tmux_highlight_background")"
+    color_comments="$(color_map $filter_func "$color_comments")"
+    color_bash_var_use="$(color_map $filter_func "$color_bash_var_use")"
+    color_bash_var_decl="$(color_map $filter_func "$color_bash_var_decl")"
+    color_bash_string="$(color_map $filter_func "$color_bash_string")"
+    color_cmus_time_bar="$(color_map $filter_func "$color_cmus_time_bar")"
+    color_cmus_song_status_fg="$(color_map $filter_func "$color_cmus_song_status_fg")"
+    color_htop_percentage_use="$(color_map $filter_func "$color_htop_percentage_use")"
+    color_git_hist_ref_pointer="$(color_map $filter_func "$color_git_hist_ref_pointer")"
+    color_vim_plaintext="$(color_map $filter_func "$color_vim_plaintext")"
+done
+
+echo -en "\e]P0$color_background"
+echo -en "\e]P1$color_error_code"
+echo -en "\e]P2$color_ps1"
+echo -en "\e]P3$color_tmux_highlight_background"
+echo -en "\e]P4$color_bash_var_decl"
+echo -en "\e]P5$color_ps2"
+echo -en "\e]P6$color_bash_string"
+echo -en "\e]P7$color_cmus_time_bar"
+echo -en "\e]P8$color_htop_percentage_use"
+echo -en "\e]P9$color_bash_var_use"
+echo -en "\e]PA$color_comments"
+echo -en "\e]PB$color_git_hist_ref_pointer"
+echo -en "\e]PC$color_vim_plaintext"
+echo -en "\e]PF$color_cmus_song_status_fg"
+
+clear

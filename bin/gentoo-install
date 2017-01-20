@@ -1,0 +1,111 @@
+#!/usr/bin/env zsh
+
+warn() {
+    while read -t 0; do :; done
+    echo '================================================================================'
+    echo $@
+    echo '================================================================================'
+    echo 'Press enter to continue...'
+    read
+}
+
+command="$1"
+shift
+
+case "$command" in
+    'stage3')
+        dest="$1"    && shift
+        tarball="$1" && shift
+        warn "MAKE SURE THAT THE ROOT PARTITION IS FORMATTED AND MOUNTED AT '$dest'"
+        warn "MAKE SURE THAT '$dest/boot' EXISTS, AND THAT THE BOOT PARTITION IS MOUNTED THERE"
+        sudo tar --extract --verbose --bzip2 --preserve-permissions --xattrs \
+                 --file="$tarball" --directory="$dest"
+        ;;
+    'mount')
+        dest="$1" && shift
+        sudo mount -t proc /proc $dest/proc
+        sudo mount --rbind /sys $dest/sys
+        sudo mount --make-rslave $dest/sys
+        sudo mount --rbind /dev $dest/dev
+        sudo mount --make-rslave $dest/dev
+        sudo chmod 1777 /dev/shm
+        ;;
+    'chroot')
+        dest="$1" && shift
+        sudo cp -r $DOTFILES/etc/portage/{make.conf,repos.conf} $dest/etc/portage
+        sudo cp $DOTFILES/etc/portage/package.accept_keywords/intel $dest/tmp
+        sudo cp /etc/fstab $dest/tmp
+        sudo cp $DOTFILES/etc/conf.d/linux $dest/tmp/config
+        sudo cp $DOTFILES/etc/conf.d/firmware/iwlwifi-3160-ucode-16.242414.0/iwlwifi-3160-16.ucode $dest/tmp/
+        sudo cp $(which git) $0:A $dest/tmp
+        sudo sed --in-place 's*#!/usr/bin/env zsh*#!/usr/bin/env bash*' $dest/tmp/gentoo_install
+        sudo cp /etc/resolv.conf $dest/etc/resolv.conf
+        warn 'MAKE SURE TO ADD /tmp TO YOUR $PATH'
+        sudo chroot $dest /bin/bash
+        ;;
+    'init-emerge')
+        source /etc/profile
+        export PS1="(chroot) $PS1"
+        emerge --sync
+        [[ -f "/usr/bin/git" ]] && rm /usr/bin/git
+        eselect news read all
+        linux_profile="default/linux/amd64/13.0"
+        eselect profile list
+        warn "SELECTING PROFILE '$linux_profile'"
+        eselect profile set "$linux_profile"
+        emerge --update --deep --newuse @world
+        ;;
+    'init-config')
+        echo "America/Chicago" > /etc/timezone
+        emerge --config sys-libs/timezone-data
+        sed --in-place 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+        locale-gen
+        echo 'LANG="en_US.UTF-8"' > /etc/env.d/02locale
+        echo 'LC_COLLATE="C"'    >> /etc/env.d/02locale
+        echo 'hostname="gentoo-ehildenb"' > /etc/conf.d/hostname
+        env-update && source /etc/profile && export PS1="(chroot) $PS1"
+        ;;
+    'install-kernel')
+        emerge sys-kernel/gentoo-sources
+        mkdir -p /lib/firmware
+        cp /tmp/iwlwifi-3160-16.ucode /lib/firmware/
+        cp /tmp/config /usr/src/linux/.config
+        cd /usr/src/linux
+        warn "BUILDING KERNEL"
+        make && make modules_install && make install
+        warn "FIX THE FSTAB ROOT ENTRY"
+        cp /tmp/fstab /etc/fstab
+        nano /etc/fstab
+        warn "SETTING PASSWORD FOR 'root'"
+        passwd
+        ;;
+    'install-base')
+        mkdir -p /etc/portage/package.accept_keywords
+        cp /tmp/intel /etc/portage/package.accept_keywords/intel
+        emerge --newuse pciutils usbutils acpi parted \
+                        iw wpa_supplicant dhcpcd iwl3160-ucode \
+                        dcron cups sysklogd logrotate \
+                        sudo pm-utils git htop zip dosfstools dos2unix ncurses \
+                        zsh tmux kakoune vim
+        ;;
+    'add-user')
+        useradd --home-dir /home/ehildenb -M --shell $(which zsh) \
+                --user-group --groups wheel,audio,video,users,cron ehildenb
+        warn "SETTING PASSWORD FOR 'ehildenb'"
+        passwd ehildenb
+        warn 'MODIFYING SUDOERS
+              %wheel ALL=(ALL) ALL
+              ehildenb ALL=(ALL) NOPASSWD: /usr/bin/pm-suspend'
+        visudo
+        ;;
+    'install-grub')
+        emerge --newuse grub os-prober
+        grub-install /dev/sda
+        grub-mkconfig -o /boot/grub/grub.cfg
+        ;;
+    'cleanup')
+        dest="$1" && shift
+        sudo umount -l "$dest/dev{/shm,/pts,}"
+        sudo umount -R "$dest"
+        ;;
+esac

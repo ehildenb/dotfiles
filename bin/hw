@@ -1,0 +1,77 @@
+#!/usr/bin/env zsh
+
+# system-stats
+# ------------
+
+bat() {
+    bat=($(acpi -b))
+    bat_state="${bat[3]:0:1}"
+    bat_percent="${bat[4]%,}"
+    bat_time="${bat[5]}"
+    case "$bat_state" in
+        F) echo "$bat_state"'-'"$bat_percent"           ;;
+        *) echo "$bat_state"'-'"$bat_percent $bat_time" ;;
+    esac
+}
+
+temp() {
+    temps_dir='/sys/class/thermal'
+    for temp_file in $(ls -d $temps_dir/thermal_zone*); do
+        temp="$(cat "$temp_file/temp")"
+        echo $(($temp/1000))
+    done
+}
+
+# suspend/hibernate
+# -----------------
+
+mem() {
+    lid_file='/proc/acpi/button/lid/LID0/state'
+    while grep 'open' "$lid_file" &> /dev/null; do sleep 2; done                        # lid closed
+    for i in $(seq 1 30); do [[ "$(lpstat | wc -l)" == '0' ]] && break; sleep 2; done   # print pending
+    sudo pm-suspend
+    grep 'closed' "$lid_file" && mem
+    return 0
+}
+
+hib() {
+    sudo pm-hibernate
+}
+
+# screen brightness
+# -----------------
+
+brightness() {
+    screen_dir='/sys/class/backlight/intel_backlight'
+    brightness_file="$screen_dir"'/brightness'
+    max_bright="$(cat "$screen_dir"'/max_brightness')"
+    curr_bright="$(cat "$brightness_file")"
+    if [[ -n "$1" ]]
+    then
+        sudo zsh -c "echo $(($1 * $max_bright / 100)) > $brightness_file"
+    else
+        echo "$((100 * $curr_bright / $max_bright))%"
+    fi
+}
+
+
+# Main functionality
+hw_command="$1"
+shift
+case "$hw_command" in
+    bat)
+        bat $@
+        ;;
+
+    temp)
+        temp $@
+        ;;
+
+    mem)
+        mem $@
+        ;;
+
+    brightness)
+        brightness $@
+        ;;
+esac

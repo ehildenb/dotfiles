@@ -1,0 +1,85 @@
+#!/usr/bin/env zsh
+
+# pull in aliases
+source "$DOTFILES/zsh/aliases"
+
+# status commands
+# ===============
+
+# date/time
+get_date() {
+    echo "$(date +'%a, %d %b %Y - %H:%M')"
+}
+
+# uptime
+get_uptime() {
+    uptime=($(uptime -p | tr ' ' '\n' | tail -n+2))
+    uptime_out=""
+    counter='1'
+    while [[ "${#uptime}" -gt "$counter" ]]; do
+        uptime_out="$uptime_out${uptime[$counter]}"
+        counter=$(($counter + 1))
+        uptime_out="$uptime_out${uptime[$counter]:0:1} "
+        counter=$(($counter + 1))
+    done
+    echo "${uptime_out:0:(-1)}"
+}
+
+# screen brightness
+get_bright() {
+    bright="$(hw brightness)"
+    bat_state="${$(hw bat):0:1}"
+    case "$bat_state" in
+        F|C)
+            return 0
+            ;;
+        *)
+            [[ "${bright:0:(-1)}" -gt "80" ]] \
+                && echo "$bright"
+            ;;
+    esac
+}
+
+# new emails
+get_email() {
+    email_dir="$HOME/.mail/uiuc/INBOX/new/"
+    from_me='^From: Everett Hildenbrandt <hildenb2@illinois.edu>$'
+    num_email='0'
+    for email in $(ls "$email_dir"); do
+        grep "$from_me" "$email_dir/$email" &>/dev/null \
+            && continue
+        num_email=$(($num_email + 1))
+    done
+    [[ "$num_email" != "0" ]] && echo "$num_email"
+    return 0
+}
+
+
+# TS_STAT_TYPE is 'status' or 'notifications'
+stat_command="$1"
+case "$stat_command" in
+    s|status)
+        output=""
+        output="$output $(get_date)    |"
+        output="$output Bat: $(hw bat)    |"
+        output="$output Temps: $(hw temp | tr '\n' ' ')   |"
+        output="$output Net: $(wifi list first)    |"
+        output="$output Uptime: $(get_uptime)"
+        ;;
+
+    n|notifs)
+        bright="$(get_bright)"
+        email="$(get_email)"
+        output=""
+        [[ -n "$bright" ]] && output="Brightness: $bright    |"
+        [[ -n "$email" ]]  && output="$output Email: $email    |"
+        [[ -n "$output" ]] && output="$output "
+        ;;
+
+    *)
+        echo "Unkown 'tmux_status' command: $stat_command"
+        exit 1
+        ;;
+esac
+
+echo "$output"

@@ -1,0 +1,72 @@
+#!/usr/bin/env python
+
+import sys
+import tty
+
+
+# Key Codes
+key_code = {}
+key_code[9]   = "Tab"
+key_code[10]  = "Return"
+key_code[27]  = "Escape"
+key_code[32]  = "space"
+key_code[33]  = "exclam"
+key_code[34]  = "quotedbl"
+key_code[35]  = "numbersign"
+key_code[36]  = "dollar"
+key_code[37]  = "percent"
+key_code[38]  = "ampersand"
+key_code[39]  = "apostrophe"
+key_code[40]  = "parenleft"
+key_code[41]  = "parenright"
+key_code[42]  = "asterisk"
+key_code[43]  = "plus"
+key_code[44]  = "comma"
+key_code[45]  = "minus"
+key_code[46]  = "period"
+key_code[47]  = "slash"
+key_code[58]  = "colon"
+key_code[59]  = "semicolon"
+key_code[60]  = "less"
+key_code[61]  = "equal"
+key_code[62]  = "greater"
+key_code[63]  = "question"
+key_code[64]  = "at"
+key_code[65]  = "Up"
+key_code[66]  = "Down"
+key_code[67]  = "Right"
+key_code[68]  = "Left"
+key_code[91]  = "bracketleft"
+key_code[92]  = "backslash"
+key_code[93]  = "bracketright"
+key_code[94]  = "asciicircum"
+key_code[95]  = "underscore"
+key_code[96]  = "grave"
+key_code[123] = "braceleft"
+key_code[124] = "bar"
+key_code[125] = "braceright"
+key_code[126] = "asciitilde"
+key_code[127] = "BackSpace"
+
+# Get a key
+def get_key():
+    key = sys.stdin.read(1)
+    key_ord = ord(key)
+    return key if key_ord not in key_code else key_code[key_ord]
+
+# Read Keys Forever
+tty.setcbreak(sys.stdin)
+while True:
+#    key_name_1 = get_key()
+#    if key_name_1 is "Escape":
+#        key_name_2 = get_key()
+#        if key_name_2 is "bracketleft":
+#            key_name = get_key()
+#        elif key_name_2 is "Escape":
+#            key_name = "ctrl+" + get_key()
+#        else:
+#            key_name = key_name_1 + "\n" + key_name_2
+#    else:
+#        key_name = key_name_1
+    print(get_key())
+    sys.stdout.flush()
