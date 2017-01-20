@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+short_path="$1"
+long_path="$short_path"
+
+if [[ ! -f "$short_path" && ! -d "$short_path" ]]; then
+    case "$short_path" in
+        '')         long_path="$HOME"                                          ;;
+        '-')        long_path="-"                                              ;;
+        contacts)   long_path="$DOTFILES/mail/mutt/contacts"                   ;;
+        aliases)    long_path="$DOTFILES/zsh/aliases"                          ;;
+        schedule)   long_path="$HOME/personal/schedule.md"                     ;;
+        dotfiles*)  long_path="$DOTFILES${short_path#dotfiles}"                ;;
+        bin*)       long_path="$DOTFILES/bin${short_path#bin}"                 ;;
+        500*)       long_path="$HOME/work/class/uiuc-math500${short_path#500}" ;;
+        570*)       long_path="$HOME/work/class/uiuc-math570${short_path#570}" ;;
+        576*)       long_path="$HOME/work/uiuc-math576${short_path#576}"       ;;
+        fm*)        long_path="$HOME/work/fm_seminar${short_path#fm}"          ;;
+        k*)         long_path="$HOME/work/k${short_path#k}"                    ;;
+        scratch*)   long_path="$SCRATCH${short_path#scratch}"                  ;;
+        evm*)       long_path="$HOME/work/evm-modeling${short_path#evm}"       ;;
+    esac
+fi
+
+printf "%s\n" "$long_path"

@@ -13,39 +13,9 @@ recho() { echo '\033[0;31m'$@'\033[0m' }
 # convenient cd
 # -------------
 chpwd() { ls }              # ls when cd
-c() {                       # cd with bookmarks
-    dirname="$1"
-    [[ -z "$dirname" ]] && dirname="$HOME"          # homedir
-    if [[ ! -d "$dirname" ]]; then
-        case "$dirname" in                          # bookmarks
-            500*)       newname="$HOME/work/class/uiuc-math500"
-                        prefix='500' ;;
-            570*)       newname="$HOME/work/class/uiuc-math570"
-                        prefix='570' ;;
-            522*)       newname="$HOME/work/class/uiuc-cs522"
-                        prefix='522' ;;
-            576*)       newname="$HOME/work/uiuc-cs576"
-                        prefix='576' ;;
-            dotfiles*)  newname="$DOTFILES"
-                        prefix='dotfiles' ;;
-            fm*)        newname="$HOME/work/fm_seminar"
-                        prefix='fm' ;;
-            kbmc*)      newname="$HOME/work/k/k-backend/k-distribution/samples-kore/kernelc/tests/kbmc"
-                        prefix='kbmc' ;;
-            kore*)      newname="$HOME/work/kore"
-                        prefix="kore" ;;
-            k*)         newname="$HOME/work/k"
-                        prefix='k' ;;
-            mauke*)     newname="$HOME/work/mauke"
-                        prefix='mauke' ;;
-            scratch*)   newname="$SCRATCH"
-                        prefix='scratch' ;;
-            evm*)       newname="$HOME/work/evm-modeling"
-                        prefix='evm' ;;
-        esac
-        dirname="$newname${dirname#$prefix}"
-    fi
-    cd "$dirname"
+c() {
+    dirname="$1" && shift
+    cd "$(shortcut "$dirname")"
 }
 
 # longer tail/head
@@ -82,15 +52,7 @@ http() {
 # ------
 e() {
     file="$1" && shift
-    if [[ ! -f "$file" ]]; then
-        case "$file" in
-            contacts)   file="$DOTFILES/mail/mutt/contacts" ;;
-            schedule)   file="$HOME/personal/schedule.md"   ;;
-            aliases)    file="$DOTFILES/zsh/aliases"        ;;
-            dotfiles*)  file="$DOTFILES${file#dotfiles}"    ;;
-        esac
-    fi
-    $EDITOR $file $@
+    $EDITOR "$(shortcut "$file")" $@
 }
 
 # viewer
@@ -124,17 +86,6 @@ o() {
             search_string="$(echo $@ | tr ' ' '+')"
             site="$site$search_string"
             ;;
-        ws)
-            site='http://watchseries.la/serie'
-            series="$1"
-            case "$series" in
-                kimmy)  series="unbreakable-kimmy-schmidt"              ;;
-                got)    series="game-of-thrones"                        ;;
-                sil)    series="silicon-valley"                         ;;
-                robot)  series="mr_robot"                               ;;
-            esac
-            site="$site/$series"
-            ;;
     esac
     $BROWSER $header $site
 }
@@ -152,7 +103,7 @@ p() {
         && [[ "$1" == 'pages'    ]] && pages='-o page-ranges='"$2" \
         && shift && shift
 
-    file="$1" && [[ ! -f "$file" ]] && echo "No file '$file'" && return 1
+    file="$(shortcut "$1")" && [[ ! -f "$file" ]] && echo "No file '$file'" && return 1
     shift
 
     lpr '-#'$copies $pages $sides $@ "$file"
