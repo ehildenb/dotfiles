@@ -37,10 +37,9 @@ case "$command" in
         sudo cp /etc/fstab $dest/tmp
         sudo cp $DOTFILES/etc/conf.d/linux $dest/tmp/config
         sudo cp $DOTFILES/etc/conf.d/firmware/iwlwifi-3160-ucode-16.242414.0/iwlwifi-3160-16.ucode $dest/tmp/
-        sudo cp $(which git) $0:A $dest/tmp
-        sudo sed --in-place 's*#!/usr/bin/env zsh*#!/usr/bin/env bash*' $dest/tmp/gentoo_install
+        sudo cp $(which git) $0:A $dest/usr/bin/
+        sudo sed --in-place 's*#!/usr/bin/env zsh*#!/usr/bin/env bash*' $dest/usr/bin/gentoo-install
         sudo cp /etc/resolv.conf $dest/etc/resolv.conf
-        warn 'MAKE SURE TO ADD /tmp TO YOUR $PATH'
         sudo chroot $dest /bin/bash
         ;;
     'init-emerge')
@@ -105,6 +104,7 @@ case "$command" in
         ;;
     'cleanup')
         dest="$1" && shift
+        [[ -f "$dest/usr/bin/gentoo-install" ]] && sudo rm "$dest/usr/bin/gentoo-install"
         sudo umount -l "$dest/dev{/shm,/pts,}"
         sudo umount -R "$dest"
         ;;
