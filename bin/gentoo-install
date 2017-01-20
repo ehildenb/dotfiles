@@ -85,7 +85,7 @@ case "$command" in
                         iw wpa_supplicant dhcpcd iwl3160-ucode \
                         dcron cups sysklogd logrotate \
                         sudo pm-utils git htop zip dosfstools dos2unix ncurses \
-                        zsh tmux kakoune vim
+                        zsh tmux kakoune vim w3m
         ;;
     'add-user')
         useradd --home-dir /home/ehildenb -M --shell $(which zsh) \
@@ -97,15 +97,24 @@ case "$command" in
               ehildenb ALL=(ALL) NOPASSWD: /usr/bin/pm-suspend'
         visudo
         ;;
-    'install-grub')
-        emerge --newuse grub os-prober
-        grub-install /dev/sda
-        grub-mkconfig -o /boot/grub/grub.cfg
-        ;;
     'cleanup')
         dest="$1" && shift
         [[ -f "$dest/usr/bin/gentoo-install" ]] && sudo rm "$dest/usr/bin/gentoo-install"
         sudo umount -l "$dest/dev{/shm,/pts,}"
         sudo umount -R "$dest"
+        ;;
+    'install-grub')
+        emerge --newuse grub os-prober
+        grub-install /dev/sda
+        grub-mkconfig -o /boot/grub/grub.cfg
+        ;;
+    'finalize')
+        sudo cp $DOTFILES/etc/conf.d/{keymaps,consolefont} /etc/conf.d/
+        sw install mutt offlineimap msmtp \
+                   cmus ffmpeg alsa-utils youtube-dl \
+                   texlive texmfind texlive-{latexextra,fontsextra,mathextra,xetex} \
+                   pandoc pandoc-citeproc mupdf graphicsmagick ghostscript-gpl \
+                   rtorrent firefox xinit xorg-server bitcoin-cli bitcoind \
+                   weechat bitlbee
         ;;
 esac
