@@ -40,7 +40,7 @@ shortcut() {
 # -------------
 chpwd() { ls }              # ls when cd
 c() {
-    dirname="$1" && shift
+    dirname="$1"
     cd "$(shortcut "$dirname")"
 }
 
