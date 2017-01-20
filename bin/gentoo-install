@@ -115,6 +115,6 @@ case "$command" in
                    texlive texmfind texlive-{latexextra,fontsextra,mathextra,xetex} \
                    pandoc pandoc-citeproc mupdf graphicsmagick ghostscript-gpl \
                    rtorrent firefox xinit xorg-server bitcoin-cli bitcoind \
-                   weechat bitlbee
+                   weechat bitlbee app-text/tree fbterm
         ;;
 esac
