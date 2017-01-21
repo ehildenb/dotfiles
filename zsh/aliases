@@ -22,6 +22,7 @@ shortcut() {
             contacts)   long_path="$DOTFILES/mail/mutt/contacts"                   ;;
             aliases)    long_path="$DOTFILES/zsh/aliases"                          ;;
             schedule)   long_path="$HOME/personal/schedule.md"                     ;;
+            maude)      long_path="$SRC/maude/manual.pdf"                          ;;
             dotfiles*)  long_path="$DOTFILES${short_path#dotfiles}"                ;;
             bin*)       long_path="$DOTFILES/bin${short_path#bin}"                 ;;
             500*)       long_path="$HOME/work/class/uiuc-math500${short_path#500}" ;;
@@ -85,10 +86,7 @@ e() {
 # ------
 v() {
     pdf="$1" && shift
-    case "$pdf" in
-        maude)  pdf="$SRC/maude/Maude-manual.pdf"       ;;
-    esac
-    $VIEWER $pdf $@
+    $VIEWER "$(shortcut "$pdf")" $@
 }
 
 # browser
