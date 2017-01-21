@@ -61,7 +61,7 @@ alias unrar='unrar e'
 backup() {
     dest="$1"
     [[ ! -d "$dest" ]] && return 1
-    rsync --progress --partial --archive --verbose --ignore-existing --delete \
+    rsync --progress --partial --archive --verbose --update --delete \
         bin dotfiles .mail media .passwd src .ssh work "$dest"
 }
 
