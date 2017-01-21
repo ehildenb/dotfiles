@@ -116,8 +116,10 @@ case "$command" in
     'init-setup')
         source $DOTFILES/zsh/aliases
         sudo cp $DOTFILES/etc/conf.d/{keymaps,consolefont} /etc/conf.d/
+        cp_etc wpa_supplicant/
         cp_etc portage/
         cp_etc cups/
+        cp_etc X11/
         lpadmin -p siebl-2203-printer -P /etc/cups/ppd/siebl-2203-printer.ppd \
                 -o printer-is-shared=false -o printer-error-policy=abort-job \
                 -o job-sheets-default=none -o sides=two-sided-long-edge \
