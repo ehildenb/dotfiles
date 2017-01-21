@@ -33,16 +33,16 @@ case "$command" in
     'chroot')
         dest="$1" && shift
         sudo cp -r $DOTFILES/etc/portage/{make.conf,repos.conf} $dest/etc/portage
-        sudo cp $DOTFILES/etc/portage/package.accept_keywords/intel $dest/tmp
-        sudo cp /etc/fstab $dest/tmp
-        sudo cp $DOTFILES/etc/conf.d/linux $dest/tmp/config
-        sudo cp $DOTFILES/etc/conf.d/firmware/iwlwifi-3160-ucode-16.242414.0/iwlwifi-3160-16.ucode $dest/tmp/
+        sudo cp $DOTFILES/etc/portage/{make.conf,repos.conf,package.accept_keywords/intel} \
+                $DOTFILES/etc/conf.d/{linux,firmware/iwlwifi-3160-ucode-16.242414.0/iwlwifi-3160-16.ucode} \
+                $DOTFILES/etc/{fstab,resolv.conf} \
+                $dest/tmp
         sudo cp $(which git) $0:A $dest/usr/bin/
         sudo sed --in-place 's*#!/usr/bin/env zsh*#!/usr/bin/env bash*' $dest/usr/bin/gentoo-install
-        sudo cp /etc/resolv.conf $dest/etc/resolv.conf
         sudo chroot $dest /bin/bash
         ;;
     'init-emerge')
+        cp /tmp/resolv.conf /etc/resolv.conf
         source /etc/profile
         export PS1="(chroot) $PS1"
         emerge --sync
@@ -56,7 +56,7 @@ case "$command" in
         read profile
         eselect profile set "$profile"
         warn "FIX THE FSTAB ROOT ENTRY"
-        mv /tmp/fstab /etc/fstab
+        cp /tmp/fstab /etc/fstab
         nano /etc/fstab
         warn "SET PASSWORD FOR 'root'"
         passwd
