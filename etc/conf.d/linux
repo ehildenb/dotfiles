@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 4.4.6-gentoo Kernel Configuration
+# Linux/x86 4.4.39-gentoo Kernel Configuration
 #
 
 #
@@ -421,6 +421,7 @@ CONFIG_X86_16BIT=y
 CONFIG_X86_ESPFIX64=y
 CONFIG_X86_VSYSCALL_EMULATION=y
 # CONFIG_I8K is not set
+# CONFIG_MICROCODE is not set
 CONFIG_X86_MSR=y
 CONFIG_X86_CPUID=y
 CONFIG_ARCH_PHYS_ADDR_T_64BIT=y
