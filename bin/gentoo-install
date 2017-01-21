@@ -116,14 +116,20 @@ case "$command" in
     'init-setup')
         source $DOTFILES/zsh/aliases
         sudo cp $DOTFILES/etc/conf.d/{keymaps,consolefont} /etc/conf.d/
-        cp_etc cups
-        setup_printer
-        sudo zsh $DOTFILES/etc/cups/ppd/setup
+        cp_etc portage/
+        cp_etc cups/
+        lpadmin -p siebl-2203-printer -P /etc/cups/ppd/siebl-2203-printer.ppd \
+                -o printer-is-shared=false -o printer-error-policy=abort-job \
+                -o job-sheets-default=none -o sides=two-sided-long-edge \
+                -o wrap=true -o prettyprint=true \
+                -v lpd://engr-print-01.engr.illinois.edu/siebl-2203-printer
+        cupsaccept siebl-2203-printer
+        cupsenable siebl-2203-printer
         ;;
     'install-packages')
         sw install mutt offlineimap msmtp \
                    cmus ffmpeg alsa-utils youtube-dl \
-                   texlive texmfind texlive-{latexextra,fontsextra,mathextra,xetex} \
+                   texlive texmfind texlive-latexextra texlive-fontsextra texlive-mathextra texlive-xetex \
                    pandoc pandoc-citeproc mupdf graphicsmagick ghostscript-gpl \
                    rtorrent firefox xinit xorg-server bitcoin-cli bitcoind \
                    weechat bitlbee app-text/tree fbterm \

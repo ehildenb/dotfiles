@@ -1,9 +1,0 @@
-#!/usr/bin/env zsh
-
-lpadmin -p siebl-2203-printer -P /etc/cups/ppd/siebl-2203-printer.ppd \
-        -o printer-is-shared=false -o printer-error-policy=abort-job \
-        -o job-sheets-default=none -o sides=two-sided-long-edge \
-        -o wrap=true -o prettyprint=true \
-        -v lpd://engr-print-01.engr.illinois.edu/siebl-2203-printer
-cupsaccept siebl-2203-printer
-cupsenable siebl-2203-printer
