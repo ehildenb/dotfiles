@@ -109,7 +109,12 @@ case "$command" in
         grub-mkconfig -o /boot/grub/grub.cfg
         ;;
     'finalize')
+        source $DOTFILES/zsh/aliases
         sudo cp $DOTFILES/etc/conf.d/{keymaps,consolefont} /etc/conf.d/
+        cp_etc cups
+        sudo rc-update add dcron default
+        sudo rc-update add cups default
+        zsh $DOTFILES/etc/cups/ppd/setup
         sw install mutt offlineimap msmtp \
                    cmus ffmpeg alsa-utils youtube-dl \
                    texlive texmfind texlive-{latexextra,fontsextra,mathextra,xetex} \
