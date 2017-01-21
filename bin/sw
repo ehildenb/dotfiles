@@ -78,7 +78,7 @@ sw_install() {
     shift
     case "$os" in
         gentoo)
-            sudo emerge --ask --verbose $@ || return 1
+            sudo emerge --ask --keep-going --verbose $@ || return 1
             ;;
         debian)
             sudo apt-get install $@ || return 1
@@ -114,7 +114,7 @@ sw_remove() {
     shift
     case "$os" in
         gentoo)
-            sudo emerge --ask --verbose --depclean $@
+            sudo emerge --ask --keep-going --verbose --depclean $@
             ;;
         debian)
             sudo apt-get remove $@
@@ -127,6 +127,22 @@ sw_remove() {
             ;;
         *)
             echo "Unsupported OS for update: $os"
+            return 1
+            ;;
+    esac
+}
+
+# Clean up state
+# --------------
+sw_clean() {
+    os="$1"
+    shift
+    case "$os" in
+        gentoo)
+            sudo emerge --ask --keep-going @preserved-rebuild
+            ;;
+        *)
+            echo "Unsupported OS for clean: $os"
             return 1
             ;;
     esac
@@ -163,6 +179,9 @@ case "$sw_command" in
         ;;
     remove)
         sw_remove $os $@
+        ;;
+    clean)
+        sw_clean $os $@
         ;;
     *)
         echo "Unrecognized software command: $sw_command"
