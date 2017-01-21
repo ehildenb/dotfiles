@@ -19,6 +19,11 @@ set global scrolloff 12,12
 # colors
 colorscheme default
 
+# custom commands
+map global user h XypjXHr=
+map global user s XypjXHr-
+map global user b '|pandoc-citeproc --bib2yaml --format=biblatex'
+
 %sh{
 
 localconfdir="$XDG_CONFIG_HOME/kak"
