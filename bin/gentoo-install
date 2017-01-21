@@ -3,7 +3,7 @@
 warn() {
     while read -t 0; do :; done
     echo '================================================================================'
-    echo $@
+    echo -e $@
     echo '================================================================================'
     echo 'Press enter to continue...'
     read
@@ -47,14 +47,21 @@ case "$command" in
         export PS1="(chroot) $PS1"
         emerge --sync
         [[ -f "/usr/bin/git" ]] && rm /usr/bin/git
-        eselect news read all
-        linux_profile="default/linux/amd64/13.0"
-        eselect profile list
-        warn "SELECTING PROFILE '$linux_profile'"
-        eselect profile set "$linux_profile"
         emerge --update --deep --newuse @world
+        eselect news read all
         ;;
-    'init-config')
+    'interactive-config')
+        eselect profile list
+        warn "SELECT PROFILE"
+        read profile
+        eselect profile set "$profile"
+        warn "FIX THE FSTAB ROOT ENTRY"
+        mv /tmp/fstab /etc/fstab
+        nano /etc/fstab
+        warn "SET PASSWORD FOR 'root'"
+        passwd
+        ;;
+    'auto-config')
         echo "America/Chicago" > /etc/timezone
         emerge --config sys-libs/timezone-data
         sed --in-place 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
@@ -69,14 +76,9 @@ case "$command" in
         mkdir -p /lib/firmware
         cp /tmp/iwlwifi-3160-16.ucode /lib/firmware/
         cp /tmp/config /usr/src/linux/.config
-        cd /usr/src/linux
-        warn "BUILDING KERNEL"
+        pushd /usr/src/linux
         make && make modules_install && make install
-        warn "FIX THE FSTAB ROOT ENTRY"
-        cp /tmp/fstab /etc/fstab
-        nano /etc/fstab
-        warn "SETTING PASSWORD FOR 'root'"
-        passwd
+        popd
         ;;
     'install-base')
         mkdir -p /etc/portage/package.accept_keywords
@@ -86,15 +88,17 @@ case "$command" in
                         dcron cups sysklogd logrotate \
                         sudo pm-utils git htop zip dosfstools dos2unix ncurses \
                         zsh tmux kakoune vim w3m
+        rc-update add keymaps boot
+        rc-update add consolefont boot
+        rc-update add dcron boot
+        rc-update add cupsd default
         ;;
     'add-user')
         useradd --home-dir /home/ehildenb -M --shell $(which zsh) \
                 --user-group --groups wheel,audio,video,users,cron ehildenb
-        warn "SETTING PASSWORD FOR 'ehildenb'"
+        warn "SET PASSWORD FOR 'ehildenb'"
         passwd ehildenb
-        warn 'MODIFYING SUDOERS
-              %wheel ALL=(ALL) ALL
-              ehildenb ALL=(ALL) NOPASSWD: /usr/bin/pm-suspend'
+        warn 'MODIFY SUDOERS\n%wheel ALL=(ALL) ALL\nehildenb ALL=(ALL) NOPASSWD: /usr/sbin/pm-suspend'
         visudo
         ;;
     'cleanup')
@@ -104,22 +108,25 @@ case "$command" in
         sudo umount -R "$dest"
         ;;
     'install-grub')
-        emerge --newuse grub os-prober
-        grub-install /dev/sda
-        grub-mkconfig -o /boot/grub/grub.cfg
+        warn "MAKE SURE THE BOOT PARTITION IS MOUNTED AT '/boot'"
+        sw install grub os-prober
+        sudo grub-install /dev/sda
+        sudo grub-mkconfig -o /boot/grub/grub.cfg
         ;;
-    'finalize')
+    'init-setup')
         source $DOTFILES/zsh/aliases
         sudo cp $DOTFILES/etc/conf.d/{keymaps,consolefont} /etc/conf.d/
         cp_etc cups
-        sudo rc-update add dcron default
-        sudo rc-update add cups default
-        zsh $DOTFILES/etc/cups/ppd/setup
+        setup_printer
+        sudo zsh $DOTFILES/etc/cups/ppd/setup
+        ;;
+    'install-packages')
         sw install mutt offlineimap msmtp \
                    cmus ffmpeg alsa-utils youtube-dl \
                    texlive texmfind texlive-{latexextra,fontsextra,mathextra,xetex} \
                    pandoc pandoc-citeproc mupdf graphicsmagick ghostscript-gpl \
                    rtorrent firefox xinit xorg-server bitcoin-cli bitcoind \
-                   weechat bitlbee app-text/tree fbterm
+                   weechat bitlbee app-text/tree fbterm \
+                   virtual/jdk dev-java/icedtea maven-bin jre scala sbt
         ;;
 esac

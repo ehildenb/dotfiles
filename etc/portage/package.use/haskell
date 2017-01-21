@@ -1,5 +1,0 @@
-# needed because of bug in semigroups/binary haskell packages interaction
-dev-haskell/semigroups -binary
-dev-haskell/* doc
-app-text/pandoc doc
-app-editors/yi doc

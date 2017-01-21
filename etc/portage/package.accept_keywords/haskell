@@ -1,4 +1,4 @@
-*/*::haskell ~amd64
-
-# seems a bit excessive
-=dev-haskell/stack-9.9.9 **
+=dev-haskell/integer-logarithms-1 ~amd64
+=dev-haskell/memory-0.14.1 ~amd64
+=dev-haskell/cryptonite-0.21 ~amd64
+=dev-haskell/fail-4.9.0.0 ~amd64
