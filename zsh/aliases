@@ -38,6 +38,21 @@ shortcut() {
     printf "%s\n" "$long_path"
 }
 
+# eventually replace with
+#hash -d -- mutt="$DOTFILES/mail/mutt/"         ;;
+#hash -d -- zsh="$DOTFILES/zsh"                 ;;
+#hash -d -- maude="$SRC/maude"                  ;;
+#hash -d -- dotfiles="$DOTFILES"                ;;
+#hash -d -- bin="$DOTFILES/bin"                 ;;
+#hash -d -- 500="$HOME/work/class/uiuc-math500" ;;
+#hash -d -- 570="$HOME/work/class/uiuc-math570" ;;
+#hash -d -- 576="$HOME/work/uiuc-cs576"         ;;
+#hash -d -- fm="$HOME/work/fm_seminar"          ;;
+#hash -d -- k="$HOME/work/k"                    ;;
+#hash -d -- scratch="$SCRATCH"                  ;;
+#hash -d -- evm="$HOME/work/evm-modeling"       ;;
+#hash -d -- reviews="$HOME/work/reviews"        ;;
+
 # convenient cd
 # -------------
 chpwd() { ls }              # ls when cd
