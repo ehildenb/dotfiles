@@ -12,17 +12,16 @@ hook -group TabExpander global InsertChar \t %{ exec -draft h@}
 # scrolloff
 set global scrolloff 12,12
 
-# auto wrap at 80 chars
-set global autowrap_column 80
-hook global WinCreate .* %{ autowrap-enable }
+# format text with pandoc
+map global user g %{ | pandoc --from=markdown --to=markdown --columns=80 <ret> }
 
 # colors
 colorscheme default
 
 # custom commands
-map global user h XypjXHr=
-map global user s XypjXHr-
-map global user b '|pandoc-citeproc --bib2yaml --format=biblatex'
+map global user h XypjXHr=A<ret><ret><esc>
+map global user s XypjXHr-A<ret><ret><esc>
+map global user b %{ | pandoc-citeproc --bib2yaml --format=biblatex <ret> }
 
 %sh{
 
