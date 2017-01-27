@@ -1,34 +1,42 @@
-## Hooks
+# Settings
+# ========
 
-# add line numbers
-hook global WinCreate .* %{addhl number_lines}
+# line numbers
+hook global WinCreate .* %{ addhl number_lines }
 
-# add brackets highlighting
-hook global WinCreate .* %{addhl show_matching}
+# brackets highlighting
+hook global WinCreate .* %{ addhl show_matching }
 
-# soft tabs
-hook -group TabExpander global InsertChar \t %{ exec -draft h@}
+# soft tabs (not happy with this solution yet)
+set global indentwidth 4
+map global insert <tab> '<a-;><gt>'
+map global insert <backtab> '<a-;><lt>'
+#hook global WinCreate .* %{ hook window InsertChar \t %{ exec -draft -itersel h@ } }
 
 # scrolloff
 set global scrolloff 12,12
 
-# format text with pandoc
-map global user g %{ | pandoc --from=markdown --to=markdown --columns=80 <ret> }
+# Colors
+# ======
 
-# colors
 colorscheme default
 
-# custom commands
-map global user h XypjXHr=A<ret><ret><esc>
-map global user s XypjXHr-A<ret><ret><esc>
-map global user b %{ | pandoc-citeproc --bib2yaml --format=biblatex <ret> }
-
+# highlighters
 %sh{
-
 localconfdir="$XDG_CONFIG_HOME/kak"
 
 for highlighter in "$localconfdir"/hl/*; do
     cat "$highlighter"
 done
-
 }
+
+# Markdown manipulation
+# =====================
+
+# format text with pandoc
+map global user g %{ | pandoc --from=markdown --to=markdown --columns=80 <ret> }
+
+# custom commands
+map global user h XypjXHr=A<ret><esc>
+map global user s XypjXHr-A<ret><esc>
+map global user b %{ | pandoc-citeproc --bib2yaml --format=biblatex <ret> }
