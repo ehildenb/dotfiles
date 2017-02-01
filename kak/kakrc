@@ -9,12 +9,12 @@ hook global WinCreate .* %{ addhl show_matching }
 
 # soft tabs (not happy with this solution yet)
 set global indentwidth 4
-map global insert <tab> '<a-;><gt>'
-map global insert <backtab> '<a-;><lt>'
+# map global insert <tab> '<a-;><gt>'
+# map global insert <backtab> '<a-;><lt>'
 #hook global WinCreate .* %{ hook window InsertChar \t %{ exec -draft -itersel h@ } }
 
 # scrolloff
-set global scrolloff 12,12
+set global scrolloff 12,30
 
 # Colors
 # ======
@@ -34,9 +34,9 @@ done
 # =====================
 
 # format text with pandoc
-map global user g %{ | pandoc --from=markdown --to=markdown --columns=80 <ret> }
+map global user g %{ X | pandoc --from=markdown --to=markdown --columns=80 <ret> }
 
 # custom commands
 map global user h XypjXHr=A<ret><esc>
-map global user s XypjXHr-A<ret><esc>
+map global user s XypjXHr-A<ret><esc>XHd
 map global user b %{ | pandoc-citeproc --bib2yaml --format=biblatex <ret> }
