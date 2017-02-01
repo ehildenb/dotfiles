@@ -32,7 +32,7 @@ shortcut() {
             k*)         long_path="$HOME/work/k${short_path#k}"                    ;;
             scratch*)   long_path="$SCRATCH${short_path#scratch}"                  ;;
             evm*)       long_path="$HOME/work/evm-modeling${short_path#evm}"       ;;
-            reviews*)   long_path="$HOME/work/reviews${short_path#reviews}"        ;;
+            reviews*)   long_path="$HOME/reviews${short_path#reviews}"             ;;
         esac
     fi
     printf "%s\n" "$long_path"

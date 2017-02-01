@@ -1,0 +1,43 @@
+#!/bin/zsh
+
+# setup
+source ~/dotfiles/zsh/aliases
+mount /dev/sdb
+
+[[ "$1" == "all" ]] && shift && set papers schedule settings
+
+while [[ "$#" -gt '0' ]]; do
+
+    sync_what="$1"
+    shift
+    echo "Attempting to sync: '$sync_what'"
+
+    case "$sync_what" in
+
+        papers)
+            rsync --progress --partial --archive --verbose --update --delete \
+                ~/work/reviews/* /mnt/sdb/.reads/
+            ;;
+
+        schedule)
+            [[ ! -d /mnt/sdb/.data ]] && mkdir /mnt/sdb/.data
+            pandoc --from markdown --to latex --output \
+                /tmp/schedule.pdf "$(shortcut schedule)"
+            gm convert -quality 100 -rotate 270 -size 758x1024 \
+                /tmp/schedule.pdf /mnt/sdb/.data/schedule.png
+            ;;
+
+        settings)
+            [[ -f 'defaults.lua' ]] \
+                && cp 'defaults.lua' '/mnt/sdb/.adds/koreader/defaults.lua'
+            ;;
+
+        *)
+            echo "Unrecognized sync option: '$sync_what'"
+            ;;
+    esac
+done
+
+# teardown
+sync
+umount /dev/sdb
