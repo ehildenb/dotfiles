@@ -46,7 +46,7 @@ DSHOWOVERLAP = false
 
 -- show hidden files in filemanager
 -- default to false
-DSHOWHIDDENFILES = false
+DSHOWHIDDENFILES = true
 
 -- landscape clockwise rotation
 -- default to true, set to false for counterclockwise rotation
