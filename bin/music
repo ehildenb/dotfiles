@@ -251,9 +251,7 @@ case "$music_command" in
         music_cmus $@
         ;;
     vote)
-        temp_log=/home/ehildenb/scratch/music_crontab
-        echo "$(date)" >> $temp_log
-        music_vote $@ &>> $temp_log
+        music_vote $@
         ;;
     init)
         amixer set Master 94%
