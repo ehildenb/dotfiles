@@ -1,3 +1,6 @@
-# maude can be installed through gentoo!
 sci-libs/buddy ~amd64
 dev-lang/maude ~amd64
+sci-mathematics/cvc4 ~amd64
+
+# required by cvc4
+dev-libs/antlr-c ~amd64
