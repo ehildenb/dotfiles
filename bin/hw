@@ -3,7 +3,7 @@
 # system-stats
 # ------------
 
-bat() {
+hw_bat() {
     bat=($(acpi -b))
     bat_state="${bat[3]:0:1}"
     bat_percent="${bat[4]%,}"
@@ -14,7 +14,7 @@ bat() {
     esac
 }
 
-temp() {
+hw_temp() {
     temps_dir='/sys/class/thermal'
     for temp_file in $(ls -d $temps_dir/thermal_zone*); do
         temp="$(cat "$temp_file/temp")"
@@ -25,7 +25,7 @@ temp() {
 # suspend/hibernate
 # -----------------
 
-mem() {
+hw_mem() {
     lid_file='/proc/acpi/button/lid/LID0/state'
     while grep 'open' "$lid_file" &> /dev/null; do sleep 2; done                        # lid closed
     for i in $(seq 1 30); do [[ "$(lpstat | wc -l)" == '0' ]] && break; sleep 2; done   # print pending
@@ -34,14 +34,14 @@ mem() {
     return 0
 }
 
-hib() {
+hw_hib() {
     sudo pm-hibernate
 }
 
 # screen brightness
 # -----------------
 
-brightness() {
+hw_brightness() {
     screen_dir='/sys/class/backlight/intel_backlight'
     brightness_file="$screen_dir"'/brightness'
     max_bright="$(cat "$screen_dir"'/max_brightness')"
@@ -54,24 +54,30 @@ brightness() {
     fi
 }
 
+# screen redshift
+# ---------------
+
+hw_redshift() {
+    temperature='4800'
+    [[ -n "$1" ]] && temperature="$1"
+    case "$temperature" in
+        day)   temperature='4500' ;;
+        night) temperature='2200' ;;
+    esac
+    export DISPLAY=:0
+    echo "$temperature"
+    redshift -O "$temperature"
+}
+
 
 # Main functionality
 hw_command="$1"
 shift
 case "$hw_command" in
-    bat)
-        bat $@
-        ;;
-
-    temp)
-        temp $@
-        ;;
-
-    mem)
-        mem $@
-        ;;
-
-    brightness)
-        brightness $@
-        ;;
+    bat)        hw_bat $@                                  ;;
+    temp)       hw_temp $@                                 ;;
+    mem)        hw_mem $@                                  ;;
+    brightness) hw_brightness $@                           ;;
+    redshift)   hw_redshift $@                             ;;
+    *)          echo "Unrecognized command: '$hw_command'" ;;
 esac
