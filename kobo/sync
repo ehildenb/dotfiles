@@ -22,7 +22,7 @@ while [[ "$#" -gt '0' ]]; do
             ;;
 
         reads)
-            rsync --progress --partial --archive --verbose --update \
+            rsync --progress --partial --archive --verbose --ignore-existing \
                 ~/reads/* /mnt/sdb/.reads/
             ;;
 
