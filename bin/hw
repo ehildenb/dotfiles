@@ -30,7 +30,7 @@ hw_mem() {
     while grep 'open' "$lid_file" &> /dev/null; do sleep 2; done                        # lid closed
     for i in $(seq 1 30); do [[ "$(lpstat | wc -l)" == '0' ]] && break; sleep 2; done   # print pending
     sudo pm-suspend
-    grep 'closed' "$lid_file" && mem
+    grep 'closed' "$lid_file" && hw_mem
     return 0
 }
 
@@ -61,7 +61,7 @@ hw_redshift() {
     temperature='4800'
     [[ -n "$1" ]] && temperature="$1"
     case "$temperature" in
-        day)   temperature='4500' ;;
+        day)   temperature='4800' ;;
         night) temperature='2200' ;;
     esac
     export DISPLAY=:0
@@ -74,10 +74,10 @@ hw_redshift() {
 hw_command="$1"
 shift
 case "$hw_command" in
-    bat)        hw_bat $@                                  ;;
-    temp)       hw_temp $@                                 ;;
-    mem)        hw_mem $@                                  ;;
-    brightness) hw_brightness $@                           ;;
-    redshift)   hw_redshift $@                             ;;
-    *)          echo "Unrecognized command: '$hw_command'" ;;
+    bat)           hw_bat $@                                  ;;
+    temp)          hw_temp $@                                 ;;
+    mem)           hw_mem $@                                  ;;
+    br|brightness) hw_brightness $@                           ;;
+    rs|redshift)   hw_redshift $@                             ;;
+    *)             echo "Unrecognized command: '$hw_command'" ;;
 esac
