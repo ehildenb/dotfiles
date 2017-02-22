@@ -54,13 +54,13 @@ keymap C-o BACK
 # keymap C-i NEXT
 keymap , PREV
 keymap S SELECT_MENU
-keymap ESC-s SAVE_SCREEN
 keymap v VIEW
 keymap P PRINT
 keymap E EDIT
 keymap ESC-e EDIT_SCREEN
 keymap r RELOAD
 keymap ESC-r RESHAPE
+keymap s SAVE_SCREEN
 
 # Tab operation
 # -------------
