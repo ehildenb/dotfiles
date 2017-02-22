@@ -32,7 +32,7 @@ shortcut() {
             k*)         long_path="$HOME/work/k${short_path#k}"                    ;;
             scratch*)   long_path="$SCRATCH${short_path#scratch}"                  ;;
             evm*)       long_path="$HOME/work/evm-modeling${short_path#evm}"       ;;
-            reviews*)   long_path="$HOME/reads/reviews${short_path#reviews}"       ;;
+            reads*)     long_path="$HOME/reads${short_path#reads}"                 ;;
         esac
     fi
     printf "%s\n" "$long_path"
@@ -79,7 +79,7 @@ backup() {
     dest="$1"
     [[ ! -d "$dest" ]] && return 1
     rsync --progress --partial --archive --verbose --update --delete \
-        bin dotfiles .mail media .passwd src .ssh work "$dest"
+        dotfiles .mail media .passwd reads src .ssh work "$dest"
 }
 
 # simple web server
@@ -228,13 +228,15 @@ md() {
            || echo "pandoc error ..." >&2
 }
 
+# maude alpha
+maudea() {
+    export MAUDE_LIB="$SRC/maude-a/src/Main"
+    $SRC/maude-a/src/Main/maude
+}
+
 
 # System
 # ======
-
-# hardware aliases
-# ----------------
-alias mem='hw mem'
 
 # copy etc
 # --------
