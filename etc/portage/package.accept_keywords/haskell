@@ -1,2 +1,2 @@
 app-text/pandoc ~amd64
-dev-haskell/* ~amd64
+*/*::haskell ~amd64
