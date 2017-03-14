@@ -146,7 +146,7 @@ output * bg /home/ehildenb/media/pictures/wallpapers/hubble-2015-01-c-1920x1200_
 #
 bar {
     position top
-    status_command /home/ehildenb/bin/tmux_status
+    status_command /home/ehildenb/dotfiles/bin/tmux_status
     colors {
         statusline #ffffff
         background #323232
