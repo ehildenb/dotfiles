@@ -16,6 +16,10 @@ while [[ "$#" -gt '0' ]]; do
             set reads schedule settings
             ;;
 
+        init)
+            cp ksm/KoboRoot.tgz /mnt/sdb/.kobo/
+            ;;
+
         clean-reads)
             rm -rf /mnt/sdb/.reads
             mkdir /mnt/sdb/.reads
