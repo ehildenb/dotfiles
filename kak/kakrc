@@ -9,13 +9,14 @@ hook global WinCreate .* %{ addhl show_matching }
 
 # soft tabs (not happy with this solution yet)
 set global indentwidth 4
-# map global insert <tab> '<a-;><gt>'
-# map global insert <backtab> '<a-;><lt>'
-#hook global WinCreate .* %{ hook window InsertChar \t %{ exec -draft -itersel h@ } }
+set global tabstop     4
+hook global BufSetOption filetype=(?!makefile).* %{
+    hook buffer InsertChar \t %{ exec -draft h@ }
+}
 
 # auto wrap at 80 chars
 set global autowrap_column 80
-hook global WinCreate .*\.md %{ autowrap-enable }
+# hook global WinCreate .*\.md %{ autowrap-enable }
 
 # scrolloff
 set global scrolloff 12,30
@@ -33,6 +34,14 @@ for highlighter in "$localconfdir"/hl/*; do
     cat "$highlighter"
 done
 }
+
+# call the monitor program
+def monitor -params .. -docstring "Monitor output of program" %{ %sh{
+    monitor_output=$(mktemp -d -t kak-monitor.XXXXXXX)/fifo
+    mkfifo ${monitor_output}
+    /home/ehildenb/dotfiles/bin/monitor $@ &> ${monitor_output} &
+    printf %s\\n "edit! -fifo ${monitor_output} -scroll *monitor*"
+}}
 
 # Markdown manipulation
 # =====================
