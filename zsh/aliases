@@ -231,8 +231,9 @@ md() {
 
 # maude alpha
 maudea() {
-    export MAUDE_LIB="$SRC/maude-a/src/Main"
-    $SRC/maude-a/src/Main/maude
+    maudea_dir="$SRC/maude/alpha/src/Main"
+    export MAUDE_LIB="$maudea_dir"
+    $maudea_dir/maude
 }
 
 
