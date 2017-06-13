@@ -10,6 +10,10 @@ case "$monitor_type" in
     git)
         diff_command=("git" "diff")
         ;;
+    git-path)
+        git_path="$1" && shift
+        diff_command=("git" "diff" "--" "$git_path")
+        ;;
     file)
         filename="$1" && shift
         if [[ ! -f "$filename" ]]; then
@@ -17,6 +21,18 @@ case "$monitor_type" in
              exit 1
         fi
         diff_command=("cat" "$filename")
+        ;;
+    files)
+        diff_command=("cat")
+        while [[ "$1" != '--' ]]; do
+            filename="$1" && shift
+            if [[ ! -f "$filename" ]]; then
+                 recho "No file: $filename"
+                 exit 1
+            fi
+            diff_command+=("$filename")
+        done
+        shift
         ;;
     *)
         recho "Unknown 'monitor_type': $monitor_type"
