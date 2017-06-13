@@ -14,15 +14,15 @@ shift
 
 case "$command" in
     'stage3')
-        dest="$1"    && shift
-        tarball="$1" && shift
+        dest="$1"    && shift || exit 1
+        tarball="$1" && shift || exit 1
         warn "MAKE SURE THAT THE ROOT PARTITION IS FORMATTED AND MOUNTED AT '$dest'"
         warn "MAKE SURE THAT '$dest/boot' EXISTS, AND THAT THE BOOT PARTITION IS MOUNTED THERE"
         sudo tar --extract --verbose --bzip2 --preserve-permissions --xattrs \
                  --file="$tarball" --directory="$dest"
         ;;
     'mount')
-        dest="$1" && shift
+        dest="$1" && shift || exit 1
         sudo mount -t proc /proc $dest/proc
         sudo mount --rbind /sys $dest/sys
         sudo mount --make-rslave $dest/sys
@@ -31,11 +31,10 @@ case "$command" in
         sudo chmod 1777 /dev/shm
         ;;
     'chroot')
-        dest="$1" && shift
-        sudo cp -r $DOTFILES/etc/portage/{make.conf,repos.conf} $dest/etc/portage
-        sudo cp $DOTFILES/etc/portage/{make.conf,repos.conf,package.accept_keywords/intel} \
-                $DOTFILES/etc/conf.d/{linux,firmware/iwlwifi-3160-ucode-16.242414.0/iwlwifi-3160-16.ucode} \
-                $DOTFILES/etc/{fstab,resolv.conf} \
+        dest="$1" && shift || exit 1
+        sudo cp -r $DOTFILES/etc/portage/{make.conf,repos.conf,package.use} $dest/etc/portage
+        sudo cp $DOTFILES/etc/portage/{make.conf,package.accept_keywords/intel,package.use/ghostscript} \
+                $DOTFILES/etc/conf.d/linux /etc/{fstab,resolv.conf} \
                 $dest/tmp
         sudo cp $(which git) $0:A $dest/usr/bin/
         sudo sed --in-place 's*#!/usr/bin/env zsh*#!/usr/bin/env bash*' $dest/usr/bin/gentoo-install
@@ -47,14 +46,13 @@ case "$command" in
         export PS1="(chroot) $PS1"
         emerge --sync
         [[ -f "/usr/bin/git" ]] && rm /usr/bin/git
+        pushd /etc/portage
+        ln -s -f ../../usr/portage/gentoo/profiles/default/linux/amd64/13.0 make.profile
+        popd
         emerge --update --deep --newuse @world
         eselect news read all
         ;;
     'interactive-config')
-        eselect profile list
-        warn "SELECT PROFILE"
-        read profile
-        eselect profile set "$profile"
         warn "FIX THE FSTAB ROOT ENTRY"
         cp /tmp/fstab /etc/fstab
         nano /etc/fstab
@@ -71,20 +69,12 @@ case "$command" in
         echo 'hostname="gentoo-ehildenb"' > /etc/conf.d/hostname
         env-update && source /etc/profile && export PS1="(chroot) $PS1"
         ;;
-    'install-kernel')
-        emerge sys-kernel/gentoo-sources
-        mkdir -p /lib/firmware
-        cp /tmp/iwlwifi-3160-16.ucode /lib/firmware/
-        cp /tmp/config /usr/src/linux/.config
-        pushd /usr/src/linux
-        make && make modules_install && make install
-        popd
-        ;;
     'install-base')
         mkdir -p /etc/portage/package.accept_keywords
         cp /tmp/intel /etc/portage/package.accept_keywords/intel
-        emerge --newuse pciutils usbutils acpi parted \
-                        iw wpa_supplicant dhcpcd iwl3160-ucode \
+        emerge --newuse sys-kernel/gentoo-sources linux-firmware grub os-prober \
+                        pciutils usbutils acpi parted \
+                        iw wpa_supplicant dhcpcd \
                         dcron cups sysklogd logrotate \
                         sudo pm-utils git htop zip dosfstools dos2unix ncurses \
                         zsh tmux kakoune vim w3m
@@ -92,6 +82,15 @@ case "$command" in
         rc-update add consolefont boot
         rc-update add dcron boot
         rc-update add cupsd default
+        ;;
+    'build-kernel')
+        warn "MAKE SURE THAT THE KERNEL CONFIG IS AT '/usr/src/linux/.config'"
+        pushd /usr/src/linux
+        make && make modules_install && make install
+        popd
+        warn "MAKE SURE THE BOOT PARTITION IS MOUNTED AT '/boot'"
+        grub-install /dev/sda
+        grub-mkconfig -o /boot/grub/grub.cfg
         ;;
     'add-user')
         useradd --home-dir /home/ehildenb -M --shell $(which zsh) \
@@ -102,16 +101,12 @@ case "$command" in
         visudo
         ;;
     'cleanup')
-        dest="$1" && shift
+        warn "MAKE SURE YOU HAVE LEFT THE 'chroot'"
+        dest="$1" && shift || exit 1
         [[ -f "$dest/usr/bin/gentoo-install" ]] && sudo rm "$dest/usr/bin/gentoo-install"
-        sudo umount -l "$dest/dev{/shm,/pts,}"
+        sudo umount -l "$dest/dev/shm"
+        sudo umount -l "$dest/dev/pts"
         sudo umount -R "$dest"
-        ;;
-    'install-grub')
-        warn "MAKE SURE THE BOOT PARTITION IS MOUNTED AT '/boot'"
-        sw install grub os-prober
-        sudo grub-install /dev/sda
-        sudo grub-mkconfig -o /boot/grub/grub.cfg
         ;;
     'init-setup')
         source $DOTFILES/zsh/aliases
@@ -120,21 +115,27 @@ case "$command" in
         cp_etc portage/
         cp_etc cups/
         cp_etc X11/
-        lpadmin -p siebl-2203-printer -P /etc/cups/ppd/siebl-2203-printer.ppd \
-                -o printer-is-shared=false -o printer-error-policy=abort-job \
-                -o job-sheets-default=none -o sides=two-sided-long-edge \
-                -o wrap=true -o prettyprint=true \
-                -v lpd://engr-print-01.engr.illinois.edu/siebl-2203-printer
-        cupsaccept siebl-2203-printer
-        cupsenable siebl-2203-printer
+        sudo lpadmin -p siebl-2203-printer -P /etc/cups/ppd/siebl-2203-printer.ppd \
+                     -o printer-is-shared=false -o printer-error-policy=abort-job \
+                     -o job-sheets-default=none -o sides=two-sided-long-edge \
+                     -o wrap=true -o prettyprint=true \
+                     -v lpd://engr-print-01.engr.illinois.edu/siebl-2203-printer
+        sudo cupsaccept siebl-2203-printer
+        sudo cupsenable siebl-2203-printer
+        warn "ADD CRONTAB ENTRY '*/12 * * * * /usr/bin/offlineimap'"
         ;;
     'install-packages')
-        sw install mutt offlineimap msmtp \
-                   cmus ffmpeg alsa-utils youtube-dl \
-                   texlive texmfind texlive-latexextra texlive-fontsextra texlive-mathextra texlive-xetex \
-                   pandoc pandoc-citeproc mupdf graphicsmagick ghostscript-gpl \
-                   rtorrent firefox xinit xorg-server bitcoin-cli bitcoind \
-                   weechat bitlbee app-text/tree fbterm \
-                   virtual/jdk dev-java/icedtea maven-bin jre scala sbt
+        sw install --noreplace \
+           mutt offlineimap msmtp \
+           cmus ffmpeg alsa-utils youtube-dl \
+           texlive texmfind texlive-latexextra texlive-fontsextra texlive-mathextra texlive-xetex \
+           rtorrent firefox xinit xorg-server bitcoin-cli bitcoind \
+           weechat bitlbee app-text/tree fbterm \
+           virtual/jdk dev-java/icedtea maven-bin jre scala sbt \
+           redshift mupdf graphismagick ghostscript-gpl
+           # pandoc pandoc-citeproc \
+        ;;
+    *)
+        warn "UNRECOGNIZED OPTION '$command'"
         ;;
 esac

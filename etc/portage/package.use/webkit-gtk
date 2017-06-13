@@ -1,0 +1,4 @@
+media-libs/libepoxy X
+x11-libs/cairo opengl X
+x11-libs/gtk+ X
+media-libs/gst-plugins-bad egl opengl X

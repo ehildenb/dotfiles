@@ -1,0 +1,4 @@
+x11-libs/libxkbcommon X
+x11-libs/cairo xcb
+x11-libs/libxcb xkb
+x11-libs/pango X
