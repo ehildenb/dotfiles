@@ -23,12 +23,14 @@ shortcut() {
             aliases)    long_path="$DOTFILES/zsh/aliases"                          ;;
             schedule)   long_path="$HOME/personal/schedule.md"                     ;;
             maude)      long_path="$SRC/maude/manual.pdf"                          ;;
+            wifi)       long_path="$DOTFILES/etc/wpa_supplicant/wifi_networks"     ;;
             dotfiles*)  long_path="$DOTFILES${short_path#dotfiles}"                ;;
             bin*)       long_path="$DOTFILES/bin${short_path#bin}"                 ;;
             500*)       long_path="$HOME/work/class/uiuc-math500${short_path#500}" ;;
             570*)       long_path="$HOME/work/class/uiuc-math570${short_path#570}" ;;
             576*)       long_path="$HOME/reads/uiuc-cs576${short_path#576}"        ;;
             fm*)        long_path="$HOME/work/fm_seminar${short_path#fm}"          ;;
+            kat*)       long_path="$HOME/work/k/kat/${short_path#kat}"             ;;
             k*)         long_path="$HOME/work/k${short_path#k}"                    ;;
             scratch*)   long_path="$SCRATCH${short_path#scratch}"                  ;;
             evm*)       long_path="$HOME/work/evm-modeling${short_path#evm}"       ;;
@@ -229,13 +231,6 @@ md() {
            || echo "pandoc error ..." >&2
 }
 
-# maude alpha
-maudea() {
-    maudea_dir="$SRC/maude/alpha/src/Main"
-    export MAUDE_LIB="$maudea_dir"
-    $maudea_dir/maude
-}
-
 
 # System
 # ======
@@ -289,9 +284,10 @@ today() {
 # startx aliases
 # --------------
 alias mpv='startx /usr/bin/mpv'
-alias firefox='startx /usr/bin/firefox -width 1920 -height 1080'
-alias firefoxsmall='startx /usr/bin/firefox -width 1680 -height 1050'
-alias private='startx /usr/bin/firefox -private'
+alias firefox='sudo -u sandbox -- startx /usr/bin/firefox -width 1920 -height 1080'
+alias private='sudo -u sandbox -- startx /usr/bin/firefox -private -width 1920 -height 1080'
+alias midori='sudo -u sandbox -- startx /usr/bin/midori'
+alias slack='sudo -u sandbox -- startx /usr/bin/slack'
 
 # mpv on remote server
 # --------------------
