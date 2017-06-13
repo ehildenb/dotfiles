@@ -7,7 +7,7 @@ hook global WinCreate .* %{ addhl number_lines }
 # brackets highlighting
 hook global WinCreate .* %{ addhl show_matching }
 
-# soft tabs (not happy with this solution yet)
+# soft tabs, width 4
 set global indentwidth 4
 set global tabstop     4
 hook global BufSetOption filetype=(?!makefile).* %{
