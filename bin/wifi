@@ -36,7 +36,7 @@ wifi_scan() {
 wifi_list() {
     net_card="$1"
     [[ -z "$net_card" ]] && net_card="$wifi_card"
-    ip route | grep 'default' | cut --delimiter=' ' --fields='5,8' \
+    wifi_list_out="$(ip route | grep 'default' | cut --delimiter=' ' --fields='5,8' \
         |   case "$net_card" in
                 first)
                     head -n1
@@ -48,7 +48,9 @@ wifi_list() {
                     grep "$net_card"
                     ;;
             esac \
-        | cut --delimiter=' ' --field='2'
+        | cut --delimiter=' ' --field='2')"
+    [[ "$wifi_list_out" == "scope" ]] && wifi_list_out=""
+    echo "$wifi_list_out"
 }
 
 # create new network connection
