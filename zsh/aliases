@@ -261,6 +261,10 @@ rebuild_kernel() {
         && sudo grub-mkconfig -o /boot/grub/grub.cfg
 }
 
+# RV K
+# ----
+alias rvk="$SRC/k/k-distribution/target/release/k/bin/krun"
+alias rvkompile="$SRC/k/k-distribution/target/release/k/bin/kompile"
 
 # Scheduling
 # ==========
