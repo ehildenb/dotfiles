@@ -2,7 +2,6 @@ stack.yaml
 .stack-work
 *.sw*
 .*.kak.*
-*.tex
 *.o
 *.so
 *.zip
