@@ -57,7 +57,7 @@ key[PageDown]=${terminfo[knp]}
 # [user@host directory]pv_sym
 # pv_sym = % -> normal
 # pv_sym = # -> privileged
-PROMPT='%(?..%F{red}[%?] )%F{green}[%n@%M %c]%#%f%F{magenta} '
+PROMPT='%(?..%F{red}[%?] )%F{blue}[%n@%M %c]%#%f%F{magenta} '
 preexec () { echo -ne "\e[0m" }
 
 # Source environment stuff
