@@ -7,7 +7,7 @@
     attributesFile = ~/dotfiles/git/gitattributes
 
 [user]
-    name  = Everett Hildenbrandt
+    name  = Everett Hildenbrandt - FSL-CI
     email = hildenb2@illinois.edu
 
 [commit]
