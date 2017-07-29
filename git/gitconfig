@@ -8,6 +8,9 @@
 [push]
     default = simple
 
+[pull]
+    rebase = true
+
 [merge]
     tool = vimdiff2
 
