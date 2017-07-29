@@ -29,13 +29,14 @@ shortcut() {
             500*)       long_path="$HOME/work/class/uiuc-math500${short_path#500}" ;;
             570*)       long_path="$HOME/work/class/uiuc-math570${short_path#570}" ;;
             576*)       long_path="$HOME/reads/uiuc-cs576${short_path#576}"        ;;
+            ci*)        long_path="$HOME/work/fsl-ci${short_path#ci}"              ;;
+            evm*)       long_path="$HOME/work/evm-semantics${short_path#evm}"      ;;
             fm*)        long_path="$HOME/work/fm_seminar${short_path#fm}"          ;;
             kat*)       long_path="$HOME/work/k/kat/${short_path#kat}"             ;;
             k*)         long_path="$HOME/work/k${short_path#k}"                    ;;
-            scratch*)   long_path="$SCRATCH${short_path#scratch}"                  ;;
-            evm*)       long_path="$HOME/work/evm-semantics${short_path#evm}"      ;;
             oppen*)     long_path="$HOME/work/oppen-bus${short_path#oppen}"        ;;
             reads*)     long_path="$HOME/reads${short_path#reads}"                 ;;
+            scratch*)   long_path="$SCRATCH${short_path#scratch}"                  ;;
         esac
     fi
     printf "%s\n" "$long_path"
