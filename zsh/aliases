@@ -34,6 +34,7 @@ shortcut() {
             k*)         long_path="$HOME/work/k${short_path#k}"                    ;;
             scratch*)   long_path="$SCRATCH${short_path#scratch}"                  ;;
             evm*)       long_path="$HOME/work/evm-semantics${short_path#evm}"      ;;
+            oppen*)     long_path="$HOME/work/oppen-bus${short_path#oppen}"        ;;
             reads*)     long_path="$HOME/reads${short_path#reads}"                 ;;
         esac
     fi
