@@ -37,12 +37,7 @@ export GPG_TTY=`tty`
 export MD_DATA="$DOTFILES/md"
 
 ### Maude
-maude_home="$SRC/maude"
-maude_main="$maude_home/src/Main"
-full_maude="$maude_home/full-maude"
-maude_formal_environment="$maude_home/MFE/src"
-MAUDE_LIB="/usr/share/maude"
-export MAUDE_LIB="$MAUDE_LIB:$maude_main:$full_maude:$maude_formal_environment"
+export MAUDE_VERSION="maude-alpha114"
 
 ### K Framework
 K_VERSION=uiuck
