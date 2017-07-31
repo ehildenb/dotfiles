@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = ssh://github/cynic-net/git-ci
+	branch = experimental
+	commit = 85113969d70dae427041400b85d7c83991ffbdff
+	parent = b30e3a81af8239496987d3acba4b2811ee67e183
+	cmdver = 0.3.1
