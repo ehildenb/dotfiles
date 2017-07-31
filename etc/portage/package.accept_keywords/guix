@@ -1,0 +1,4 @@
+dev-scheme/guile ~amd64
+dev-scheme/guile ~amd64
+sys-apps/guix ~amd64
+dev-scheme/guile-json ~amd64
