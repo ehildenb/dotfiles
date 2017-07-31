@@ -15,6 +15,8 @@
     tool = vimdiff2
 
 [alias]
+    fa = fetch --all
+
     pushf = push --force-with-lease
 
     hist = log --abbrev-commit --decorate --date=relative --graph --topo-order \
