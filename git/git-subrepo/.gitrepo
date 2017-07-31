@@ -7,5 +7,5 @@
 	remote = ssh://github/ingydotnet/git-subrepo
 	branch = master
 	commit = a7ee886e0260e847dea6240eaa6278fb2f23be8a
-	parent = 09beb1b58c8f0a98ea556c9b43161488da5b2086
+	parent = d02605cfb4bdc282c40629b231f65687cb029167
 	cmdver = 0.3.1
