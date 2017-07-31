@@ -67,6 +67,11 @@ export XDG_DOWNLOAD_DIR="$DOWNLOADS"
 export XDG_DESKTOP_DIR="/dev/null"
 export XDG_RUNTIME_DIR="/tmp"
 
+# git subrepo
+# -----------
+
+source "$DOTFILES/git/git-subrepo/.rc"
+
 # Host-Specific Environments
 # --------------------------
 
