@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# run with: source `which ksetup`
+
 # setup PATH
 K_RELEASE="$SRC/k/$K_VERSION/k-distribution/target/release/k"
 k_path="$K_RELEASE/lib/native/linux"
@@ -13,10 +15,3 @@ export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$k_ld_library_path"
 
 # setup OCaml for RV-K
 [[ "$K_VERSION" == 'rvk' ]] && eval `opam config env`
-
-kcommand="$1" && shift
-case "$kcommand" in
-    run)   krun    $@ ;;
-    build) kompile $@ ;;
-    *)     echo "Unsupported K command: '$kcommand'..." && exit 1
-esac
