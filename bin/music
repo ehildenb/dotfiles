@@ -102,12 +102,14 @@ music_dl() {
 # search for music
 # -----------------
 music_search() {
-    site="$1"
-    tags="$2"
-    number="$3"
+    site="$1" && shift
+    old_IFS="$IFS"
+    local IFS="_"
+    tags="$*"
+    local IFS="$old_IFS"
+    number=3
     [[ -z "$site" ]] && return 1
     [[ -z "$tags" ]] && return 1
-    [[ -z "$number" ]] && number=3
     # ((hop=$RANDOM % 3))
     hop=0
 
