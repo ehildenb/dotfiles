@@ -47,7 +47,7 @@ music_scrape() {
     typeset -A sites
     sites[soundcloud]="soundcloud.com"
     sites[youtube]="youtube.com/watch\|youtu.be/"
-	sites[all]="$(echo "$sites" | sed -n 's/ /\\|/gp')"
+    sites[all]="$(echo "$sites" | sed -n 's/ /\\|/gp')"
 
     scrape_site="$1"
     extractor="$2"
@@ -108,12 +108,13 @@ music_search() {
     [[ -z "$site" ]] && return 1
     [[ -z "$tags" ]] && return 1
     [[ -z "$number" ]] && number=3
-    ((hop=$RANDOM % 3))
+    # ((hop=$RANDOM % 3))
+    hop=0
 
     case "$site" in
         reddit)
             site_url='https://www.reddit.com/r'
-			search_site="$site_url/$tags"
+            search_site="$site_url/$tags"
             if [[ "$hop" == '1' ]]; then
                 tags="$(music_wget "$search_site" \
                     | grep -v 'div id="header"' \
@@ -124,7 +125,7 @@ music_search() {
                     | cut --delimiter='/' --field=5 \
                     | shuf | head -n1)"
                 search_site="$site_url/$tags"
-			fi
+            fi
             ;;
         youtube)
             site_url='https://www.youtube.com/watch?v='
@@ -151,12 +152,11 @@ music_search() {
             return 1
             ;;
     esac
-	
-    search_result=($(music_scrape "$search_site" 'all' \
-                        | shuf | head -n"$number"))
-	[[ -z "$search_result" ]] && return 1
+
+    search_result=($(music_scrape "$search_site" 'all' | shuf | head -n"$number"))
+    [[ -z "$search_result" ]] && return 1
     for search in $search_result; do
-	    music_dl "$search" "$site-$tags"
+        music_dl "$search" "$site-$tags"
     done
 }
 
