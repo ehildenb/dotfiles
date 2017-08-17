@@ -1,4 +1,0 @@
-[submodule "git/git-ci"]
-	path = git/git-ci
-	url = ssh://github/cynic-net/git-ci
-	branch = experimental
