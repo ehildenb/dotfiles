@@ -6,11 +6,19 @@
 wifi_file="/etc/wpa_supplicant/wifi_networks"
 wifi_config="$DOTFILES$wifi_file"
 wifi_card="wlp4s0"
+wired_card="enp3s0"
 
 # get current network
 # -------------------
 wifi_print() {
-    iw dev "$wifi_card" link | grep 'SSID:' | awk -F ': ' '{ print $2 }'
+    ip route | head -n1 | grep "$wired_card" &>/dev/null \
+        && echo "Ethernet" \
+        && return 0
+    ip route | head -n1 | grep "$wifi_card" &>/dev/null \
+        && iw dev "$wifi_card" link | grep 'SSID:' | awk -F ': ' '{ print $2 }' \
+        && return 0
+    echo "???"
+    return 1
 }
 
 # reconnect using wpa_supplicant
