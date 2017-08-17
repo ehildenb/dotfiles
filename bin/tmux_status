@@ -63,7 +63,7 @@ case "$stat_command" in
         output="$output $(get_date)    |"
         output="$output Bat: $(hw bat)    |"
         output="$output Temps: $(hw temp | tr '\n' ' ')   |"
-        output="$output Net: $(wifi print) - $(wifi list first)    |"
+        output="$output Net: $(net print) - $(net list first)    |"
         output="$output Uptime: $(get_uptime)"
         ;;
 

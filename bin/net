@@ -1,0 +1,180 @@
+#!/usr/bin/env zsh
+
+# constants
+# ---------
+wifi_file="/etc/wpa_supplicant/wifi_networks"
+wifi_config="$DOTFILES$wifi_file"
+wifi_card="wlp4s0"
+wired_card="enp3s0"
+
+# Wired Network
+# =============
+
+# reconnect using dhcpcd
+# ----------------------
+wired_connect() {
+    sudo dhcpcd -k "$wired_card"
+    sudo dhcpcd "$wired_card"
+}
+
+# wired interface
+# ---------------
+net_wired() {
+    wired_command="$1" && shift
+    case "$wired_command" in
+        c|connect)
+            wired_connect $@
+            ;;
+        *)
+            echo "Unrecognized wired command: '$wired_command'"
+            ;;
+    esac
+}
+
+# Wireless Network
+# ================
+
+# reconnect using wpa_supplicant
+# ------------------------------
+wifi_connect() {
+    sudo pkill wpa_supplicant
+    sudo dhcpcd -k "$wifi_card"
+    sudo wpa_supplicant -B -Dnl80211 -i"$wifi_card" -c"$wifi_file"
+    sudo dhcpcd "$wifi_card"
+}
+
+# scan for networks in area
+# -------------------------
+wifi_scan() {
+    sudo iw dev "$wifi_card" scan \
+        | grep 'SSID:' \
+        | sed -e 's/^[ \t]*SSID:[ \t]*//' \
+        | grep -v '\x00'
+}
+
+# create new network connection
+# -----------------------------
+wifi_new() {
+    ssid="$1"
+    [[ -z "$ssid" ]] && return 1
+    printf "[o]pen or [c]losed network: "
+    read network_type
+    echo
+    echo "Outputing to '$wifi_config'..."
+    case "$network_type" in
+        o*|O*)
+            echo 'network={'            | tee -a "$wifi_config"
+            echo '    ssid="'"$ssid"'"' | tee -a "$wifi_config"
+            echo '    key_mgmt=NONE'    | tee -a "$wifi_config"
+            echo '}'                    | tee -a "$wifi_config"
+            ;;
+        c*|C*)
+            echo "enter passphrase..."
+            wpa_passphrase "$ssid" | tee -a "$wifi_config"
+            ;;
+        *)
+            echo "Unrecognized network type: '$network_type'"
+            ;;
+    esac
+}
+
+# nice interactive wifi-finder
+# ----------------------------
+wifi_menu() {
+    counter=0
+    typeset -A networks
+    wifi_scan | while read wifi_network; do
+        networks[$counter]="$wifi_network"
+        echo "$counter: $wifi_network"
+        counter="$(($counter + 1))"
+    done
+    printf "Which network: "
+    read network_num
+    if [[ "$network_num" -lt '0' || "$network_num" -gt "${#networks}" ]]; then
+        echo "Out of range."
+        return 1
+    fi
+    wifi_new "${networks[$network_num]}" $@
+}
+
+# wifi interface
+# --------------
+net_wifi() {
+    wifi_command="$1" && shift
+    case "$wifi_command" in
+        c|connect)
+            wifi_connect $@
+            ;;
+        s|scan)
+            wifi_scan $@
+            ;;
+        n|new)
+            wifi_new $@
+            ;;
+        m|menu)
+            wifi_menu $@
+            ;;
+        *)
+            echo "Unrecognized command: '$wifi_command'"
+            ;;
+    esac
+}
+
+# All Networks
+# ------------
+
+# get current network
+# -------------------
+net_print() {
+    ip route | head -n1 | grep "$wired_card" &>/dev/null \
+        && echo "Ethernet" \
+        && return 0
+    ip route | head -n1 | grep "$wifi_card" &>/dev/null \
+        && iw dev "$wifi_card" link | grep 'SSID:' | awk -F ': ' '{ print $2 }' \
+        && return 0
+    echo "???"
+    return 1
+}
+
+# get network status
+# ------------------
+net_list() {
+    net_card="$1"
+    [[ -z "$net_card" ]] && net_card="$wifi_card"
+    net_list_out="$(ip route | grep 'default' | cut --delimiter=' ' --fields='5,8' \
+        |   case "$net_card" in
+                first)
+                    head -n1
+                    ;;
+                second)
+                    head -n2 | tail -n1
+                    ;;
+                *)
+                    grep "$net_card"
+                    ;;
+            esac \
+        | cut --delimiter=' ' --field='2')"
+    [[ "$net_list_out" == "scope" ]] && net_list_out=""
+    echo "$net_list_out"
+}
+
+# interface
+# ---------
+net_command="$1" && shift
+case "$net_command" in
+    p|print)
+        net_print $@
+        ;;
+    l|list)
+        net_list $@
+        ;;
+    w|wifi)
+        net_wifi $@
+        ;;
+    e|ether)
+        net_wired $@
+        ;;
+    *)
+        echo "Unrecognized command: '$wifi_command'"
+        ;;
+esac
