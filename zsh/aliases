@@ -282,11 +282,24 @@ today() {
 
 # startx aliases
 # --------------
-alias mpv='startx /usr/bin/mpv'
-alias firefox='sudo -u sandbox -- startx /usr/bin/firefox -width 1920 -height 1080'
-alias private='sudo -u sandbox -- startx /usr/bin/firefox -private -width 1920 -height 1080'
-alias midori='sudo -u sandbox -- startx /usr/bin/midori'
-alias slack='sudo -u sandbox -- startx /usr/bin/slack'
+alias as_sandbox='sudo -u sandbox'
+i3socket() {
+    i3_sandbox=$(as_sandbox -- ls /tmp/ | grep i3-sandbox | head -n1)
+    i3_socket=$(as_sandbox -- ls "/tmp/$i3_sandbox/" | grep ipc-socket | head -n1)
+    echo "/tmp/$i3_sandbox/$i3_socket"
+}
+starti3() {
+    as_sandbox -- rm -rf /tmp/i3-sandbox*
+    as_sandbox -- startx /usr/bin/i3
+}
+in_i3() {
+    workspace="$1" && shift
+    as_sandbox -- i3-msg --socket $(i3socket) "workspace $workspace; exec $@"
+}
+firefox() { in_i3 1 /usr/bin/firefox          $@ }
+private() { in_i3 4 /usr/bin/firefox -private $@ }
+slack()   { in_i3 2 /usr/bin/slack            $@ }
+mpv()     { in_i3 3 /usr/bin/mpv              $@ }
 
 # mpv on remote server
 # --------------------
