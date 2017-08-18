@@ -5,6 +5,9 @@
     name  = Everett Hildenbrandt
     email = hildenb2@illinois.edu
 
+[commit]
+    verbose = true
+
 [push]
     default = simple
 
