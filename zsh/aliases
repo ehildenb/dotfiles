@@ -296,10 +296,10 @@ in_i3() {
     workspace="$1" && shift
     as_sandbox -- i3-msg --socket $(i3socket) "workspace $workspace; exec $@"
 }
-firefox() { in_i3 1 /usr/bin/firefox          $@ }
-private() { in_i3 4 /usr/bin/firefox -private $@ }
-slack()   { in_i3 2 /usr/bin/slack            $@ }
-mpv()     { in_i3 3 /usr/bin/mpv              $@ }
+firefox() { in_i3 1 "/usr/bin/firefox $@" }
+private() { in_i3 4 "/usr/bin/firefox -private $@" }
+slack()   { in_i3 2 "/usr/bin/slack $@" }
+mpv()     { in_i3 3 "/usr/bin/mpv $@" }
 
 # mpv on remote server
 # --------------------
