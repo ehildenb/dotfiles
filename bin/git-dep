@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -e
+
+context=0 && echo "$1" | grep '^[0-9]*$' &> /dev/null \
+          && context="$1" \
+          && shift
+
+commit="$1"; shift
+
+split_line() {
+    while read line_nums; do
+        neg="$(echo $line_nums | cut --delimiter=' ' --field=1 | tr -d '\-')"
+        pos="$(echo $line_nums | cut --delimiter=' ' --field=2 | tr -d '\+')"
+
+        start_neg="$(echo $neg | cut --delimiter=',' --field=1)"
+        start_pos="$(echo $pos | cut --delimiter=',' --field=1)"
+
+        width_neg="0" && echo "$neg" | grep ',' &>/dev/null \
+                      && width_neg="$(echo $neg | cut --delimiter=',' --field=2)"
+
+        width_pos="0" && echo "$pos" | grep ',' &>/dev/null \
+                      && width_pos="$(echo $pos | cut --delimiter=',' --field=2)"
+
+        start="$(echo -e "$start_neg\n$start_pos" | sort -n | head -n 1)"
+        end="$(echo -e "$start_neg + $width_neg\n$start_pos + $width_pos" | bc | sort -r -n | head -n 1)"
+
+        echo "$start,$end"
+    done
+}
+
+show_commits() {
+    show_file="$1"
+    git show -p -U"$context" "$commit" "$show_file" | grep '^@@' | cut --fields=2,3 --delimiter=' ' | tr -d '\-\+'
+}
+
+dependencies() {
+    dep_file="$1"
+    deps=""
+    echo $deps
+}
+
+log_lines=""
+while [[ "$#" -gt '0' ]]; do
+    file="$1"; shift
+    for section in $(show_commits "$file" | split_line); do
+        log_lines="$log_lines -L $section:$file"
+    done
+done
+
+# echo "$log_lines"
+git log $log_lines "$commit"
