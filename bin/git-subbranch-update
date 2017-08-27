@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+
+git fa
+git remote prune origin
+
+current_branch="$(git rev-parse --abbrev-ref HEAD)"
+main_branch="$1"; shift
+
+for branch in $@; do
+    git checkout -B "$branch" "origin/$branch"
+    git rebase "$main_branch" || exit 1
+    git pushf
+    git checkout "$current_branch"
+    git branch -D "$branch"
+done
