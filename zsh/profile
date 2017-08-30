@@ -11,7 +11,7 @@ export MUSIC="$MEDIA/music"
 export SCRATCH="$HOME/scratch"
 
 ### Defaults
-export EDITOR="kak"
+export EDITOR="vim"
 export VISUAL="$EDITOR"
 export VIEWER=mupdf-x11
 which "$VIEWER" &>/dev/null || VIEWER=mupdf
