@@ -67,4 +67,3 @@ env_files=("profile" "aliases")
 for env_file in $env_files; do
     [[ -f "$zsh_dir/$env_file" ]] && source "$zsh_dir/$env_file"
 done
-color dark
