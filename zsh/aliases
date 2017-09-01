@@ -3,7 +3,6 @@
 
 # colorized output
 # ----------------
-alias ls='ls --color=auto'
 [[ "$OS_DISTRO" != "freebsd" ]] || alias ls='ls -G'
 alias grep='grep --color=auto'
 alias wifi='net wifi'
