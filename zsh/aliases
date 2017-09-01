@@ -30,6 +30,7 @@ shortcut() {
             500*)       long_path="$HOME/work/class/uiuc-math500${short_path#500}" ;;
             570*)       long_path="$HOME/work/class/uiuc-math570${short_path#570}" ;;
             576*)       long_path="$HOME/reads/uiuc-cs576${short_path#576}"        ;;
+            476*)       long_path="$HOME/work/ta/cs476/fa2017${short_path#476}"    ;;
             ci*)        long_path="$HOME/work/fsl-ci${short_path#ci}"              ;;
             evm*)       long_path="$HOME/work/evm-semantics${short_path#evm}"      ;;
             fm*)        long_path="$HOME/work/fm_seminar${short_path#fm}"          ;;
@@ -123,6 +124,7 @@ o() {
         500)    site='http://www.math.illinois.edu/~ruiloja/Math500/'                           ;;
         421)    site='https://courses.engr.illinois.edu/cs421/su2016/'                          ;;
         576)    site='https://courses.engr.illinois.edu/cs576/sp2017/'                          ;;
+        476)    site='https://courses.engr.illinois.edu/cs476/fa2017/'                          ;;
         522)    site='https://courses.engr.illinois.edu/cs522'                                  ;;
         fm)     site='https://wiki.illinois.edu/wiki/display/fmseminar/Formal+Methods+Seminar'  ;;
         github) site='https://github.com'                                                       ;;
