@@ -208,6 +208,15 @@ crop_pdf() {
         setdistillerparams" -f "$input_file"
 }
 
+# join pdfs
+join_pdf() {
+    output_file="$1" && shift
+    [[ -f "$output_file" ]] \
+        && echo "File '$output_file' exists!!!" \
+        && return 1
+    gs -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$output_file $@
+}
+
 # markdown publishing
 md() {
     format="$1"
