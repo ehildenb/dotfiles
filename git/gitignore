@@ -12,3 +12,4 @@ stack.yaml
 *.7z
 *.tmp
 *kompiled
+*~
