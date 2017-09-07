@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source /home/ehildenb/.aliases
+source "$DOTFILES/zsh/aliases"
 old_md5=""
 new_md5=""
 
