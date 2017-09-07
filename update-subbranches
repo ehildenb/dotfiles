@@ -1,9 +1,0 @@
-#!/usr/bin/env zsh
-
-git checkout server \
-    && git rebase master \
-    && git pushf \
-    && git checkout fslci \
-    && git rebase server \
-    && git pushf \
-    && git checkout master
