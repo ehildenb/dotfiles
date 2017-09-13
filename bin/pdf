@@ -1,0 +1,77 @@
+#!/usr/bin/env zsh
+
+# Mostly a wrappeer around GhostScript for some common PDF manip.
+
+# crop pdf
+# --------
+crop_pdf() {
+    start_page="$1"  && shift
+    stop_page="$1"   && shift
+    input_file="$1"  && shift
+    output_file="$1" && shift
+    [[ -z "$start_page" ]] || [[ -z "$stop_page" ]] \
+        || [[ ! -f "$input_file" ]] || [[ -z "$output_file" ]] \
+        && return 1
+    gs -dFirstPage="$start_page" -dLastPage="$stop_page" \
+        -sOutputFile="$output_file" -dSAFER -dNOPAUSE -dBATCH \
+        -dPDFSETTING=/default -sDEVICE=pdfwrite -dCompressFonts=true \
+        -c ".setpdfwrite << /EncodeColorImages true /DownsampleMonoImages false \
+        /SubsetFonts true /ASCII85EncodePages false \
+        /DefaultRenderingIntent /Default /ColorConversionStrategy \
+        /LeaveColorUnchanged /MonoImageDownsampleThreshold 1.5 \
+        /ColorACSImageDict << /VSamples [ 1 1 1 1 ] /HSamples [ 1 1 1 1 ] \
+        /QFactor 0.4 /Blend 1 >> /GrayACSImageDict << /VSamples [ 1 1 1 1 ] \
+        /HSamples [ 1 1 1 1 ] /QFactor 0.4 /Blend 1 >> \
+        /PreserveOverprintSettings false /MonoImageResolution 300 \
+        /MonoImageFilter /FlateEncode /GrayImageResolution 300 \
+        /LockDistillerParams false /EncodeGrayImages true /MaxSubsetPCT 100 \
+        /GrayImageDict << /VSamples [ 1 1 1 1 ] /HSamples [ 1 1 1 1 ] \
+        /QFactor 0.4 /Blend 1 >> /ColorImageFilter /FlateEncode \
+        /EmbedAllFonts true /UCRandBGInfo /Remove /AutoRotatePages /PageByPage \
+        /ColorImageResolution 300 /ColorImageDict << /VSamples [ 1 1 1 1 ] \
+        /HSamples [ 1 1 1 1 ] /QFactor 0.4 /Blend 1 >> /CompatibilityLevel 1.7 \
+        /EncodeMonoImages true /GrayImageDownsampleThreshold 1.5 \
+        /AutoFilterGrayImages false /GrayImageFilter /FlateEncode \
+        /DownsampleGrayImages false /AutoFilterColorImages false \
+        /DownsampleColorImages false /CompressPages true \
+        /ColorImageDownsampleThreshold 1.5 /PreserveHalftoneInfo false >> \
+        setdistillerparams" -f "$input_file"
+}
+
+# join pdfs
+join_pdf() {
+    output_file="$1" && shift
+    [[ -f "$output_file" ]] \
+        && echo "File '$output_file' exists!!!" \
+        && return 1
+    gs -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$output_file $@
+}
+
+# rotate pdfs
+rotate_pdf() {
+    direction="$1"   && shift
+    inputfile="$1"   && shift
+    output_file="$1" && shift
+    case "$direction" in
+        r|right) orientation=3 ;;
+        l|left)  orientation=2 ;;
+        # h|horiz) orientation=0 ;;
+        # v|vert)  orientation=1 ;;
+        *)  echo "Unsupported rotation direction: '$direction' ..."
+            exit 1 ;;
+    esac
+    gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile="$output_file" \
+        -c "<</Orientation $orientation>> setpagedevice" -f "$input_file" -c quit
+}
+
+# Main
+# ====
+
+pdf_command="$1" && shift
+case "$pdf_command" in
+    c|crop)   crop_pdf   $@ ;;
+    j|join)   join_pdf   $@ ;;
+    # r|rotate) rotate_pdf $@ ;;
+    *)  echo "Unsupported pdf command: '$pdf_command' ..."
+        exit 1 ;;
+esac
