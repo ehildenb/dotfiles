@@ -3,11 +3,10 @@
 source ~/dotfiles/zsh/aliases
 
 # setup MAUDE_LIB
-maude_home="$SRC/maude/$MAUDE_VERSION"
+maude_home="$SRC/maude"
 maude_main="$maude_home/src/Main"
 full_maude="$SRC/maude/full-maude"
-maude_formal_environment="$maude_home/MFE/src"
-export MAUDE_LIB="/usr/share/maude:$maude_main:$full_maude:$maude_formal_environment"
+export MAUDE_LIB="/usr/share/maude:$maude_main:$full_maude"
 
 # setup LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$SRC/yices-2.5.2/build/x86_64-unknown-linux-gnu-release/lib"
