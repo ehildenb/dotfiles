@@ -64,9 +64,7 @@ hw_redshift() {
         day)   temperature='4800' ;;
         night) temperature='2200' ;;
     esac
-    export DISPLAY=:0
-    echo "$temperature"
-    redshift -O "$temperature"
+    echo "export DISPLAY=:0; redshift -O $temperature; exit" | sudo -u sandbox $(which zsh)
 }
 
 
