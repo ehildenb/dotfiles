@@ -142,12 +142,24 @@ o() {
 # printing
 # --------
 p() {
+    printer='siebl-2203-printer' && [[ "$1" == '--printer' ]] && shift && printer="siebl-$1-printer" && shift
     copies='1' && echo "$1" | grep '^[0-9]*$' &>/dev/null && copies="$1" && shift
     sides='-o sides=two-sided-long-edge' && [[ "$1" == 'onesided' ]] && sides='-o sides=one-sided' && shift
-    pages='' && [[ "$1" == 'pages'    ]] && pages='-o page-ranges='"$2" && shift && shift
+    pages='' && [[ "$1" == 'pages' ]] && pages='-o page-ranges='"$2" && shift && shift
     file="$(shortcut "$1")" && [[ ! -f "$file" ]] && echo "No file '$file'" && return 1
     shift
     lpr '-#'$copies $pages $sides $@ "$file"
+}
+
+print_setup() {
+    printer_name="$1" && shift
+    sudo lpadmin -p "$printer_name" -P /etc/cups/ppd/"$printer_name".ppd \
+                 -o printer-is-shared=false -o printer-error-policy=abort-job \
+                 -o job-sheets-default=none -o sides=two-sided-long-edge \
+                 -o wrap=true -o prettyprint=true \
+                 -v lpd://engr-print-01.engr.illinois.edu/"$printer_name"
+    sudo cupsaccept "$printer_name"
+    sudo cupsenable "$printer_name"
 }
 
 # mail
