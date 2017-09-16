@@ -18,6 +18,8 @@
     tool = vimdiff2
 
 [alias]
+    st = status --short
+
     fa = fetch --all
 
     pushf = push --force-with-lease
