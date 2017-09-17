@@ -11,6 +11,21 @@ becho() { echo '\033[0;34m'$@'\033[0m' }
 gecho() { echo '\033[0;32m'$@'\033[0m' }
 recho() { echo '\033[0;31m'$@'\033[0m' }
 
+# longer tail/head
+# ----------------
+alias tail='tail -n30'
+alias head='head -n30'
+
+# compression
+# -----------
+alias tarx='tar -xvf'
+tarc() { tar -cvf $1.tar $1 }
+zipd() { zip -rv $1.zip $1 }
+alias unrar='unrar e'
+
+# Shortcut Commands
+# =================
+
 # shortcuts in home directory
 # ---------------------------
 shortcut() {
@@ -59,60 +74,30 @@ shortcut() {
 #hash -d -- evm="$HOME/work/evm-modeling"       ;;
 #hash -d -- reviews="$HOME/work/reviews"        ;;
 
-# convenient cd
-# -------------
-chpwd() { ls }              # ls when cd
+# shortcut cd
+# -----------
+chpwd() { ls ; } # ls when cd
 c() {
     dirname="$1"
     cd "$(shortcut "$dirname")"
 }
 
-# longer tail/head
-# ----------------
-alias tail='tail -n30'
-alias head='head -n30'
-
-# compression
-# -----------
-alias tarx='tar -xvf'
-tarc() { tar -cvf $1.tar $1 }
-zipd() { zip -rv $1.zip $1 }
-alias unrar='unrar e'
-
-# backup
-# ------
-backup() {
-    dest="$1"
-    [[ ! -d "$dest" ]] && return 1
-    rsync --progress --partial --archive --verbose --update --delete \
-        dotfiles .mail media .passwd reads src .ssh work "$dest"
-}
-
-# simple web server
-# -----------------
-http() {
-    python -m http.server $@
-}
-
-# Shortcuts/Bookmarks
-# ===================
-
-# editor
-# ------
+# shortcut editor
+# ---------------
 e() {
     file="$1" && shift
     $EDITOR "$(shortcut "$file")" $@
 }
 
-# viewer
-# ------
+# shortcut viewer
+# ---------------
 v() {
     pdf="$1" && shift
     $VIEWER "$(shortcut "$pdf")" $@
 }
 
-# browser
-# -------
+# shortcut browser
+# ----------------
 o() {
     header=()
     [[ "$1" == 'spoof' ]] \
@@ -137,6 +122,24 @@ o() {
             ;;
     esac
     $BROWSER $header $site
+}
+
+# Utilities
+# =========
+
+# backup
+# ------
+backup() {
+    dest="$1"
+    [[ ! -d "$dest" ]] && return 1
+    rsync --progress --partial --archive --verbose --update --delete \
+        dotfiles .mail media .passwd reads src .ssh work "$dest"
+}
+
+# simple web server
+# -----------------
+http() {
+    python -m http.server $@
 }
 
 # printing
@@ -185,6 +188,7 @@ m() {
 }
 
 # markdown publishing
+# -------------------
 md() {
     format="$1"
     md_doc="$2"
@@ -204,6 +208,17 @@ md() {
            || echo "pandoc error ..." >&2
 }
 
+# schedule today
+# --------------
+today() {
+    day_offset="$1"
+    schedule_file="$PERSONAL/schedule.md"
+    [[ -z "$day_offset" ]] && day_offset='0'
+    dDay="$(date --date="$day_offset days" +%A | awk '{print tolower($0)}')"
+    dDate="$(date --date="$day_offset days" +'%b %-d')"
+    pandoc-tangle --from=markdown --to=markdown \
+                  --section="$dDay|$dDate" "$schedule_file"
+}
 
 # System
 # ======
@@ -233,27 +248,6 @@ rebuild_kernel() {
         && sudo make install \
         && sudo grub-mkconfig -o /boot/grub/grub.cfg
 }
-
-# RV K
-# ----
-alias rvk="$SRC/k/k-distribution/target/release/k/bin/krun"
-alias rvkompile="$SRC/k/k-distribution/target/release/k/bin/kompile"
-
-# Scheduling
-# ==========
-
-# schedule today
-# --------------
-today() {
-    day_offset="$1"
-    schedule_file="$PERSONAL/schedule.md"
-    [[ -z "$day_offset" ]] && day_offset='0'
-    dDay="$(date --date="$day_offset days" +%A | awk '{print tolower($0)}')"
-    dDate="$(date --date="$day_offset days" +'%b %-d')"
-    pandoc-tangle --from=markdown --to=markdown \
-                  --section="$dDay|$dDate" "$schedule_file"
-}
-
 
 # X-11
 # ====
