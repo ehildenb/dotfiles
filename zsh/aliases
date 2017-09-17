@@ -161,9 +161,8 @@ v() {
 # ----------------
 o() {
     header=()
-    [[ "$1" == 'spoof' ]] \
-        && header=('-header' 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0') \
-        && shift
+    [[ "$1" == 'spoof' ]] && header=('-header' 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0') && shift
+    [[ "$1" == 'proxy' ]] && ssh -N -f proxy && ssh_proxy=$! && export HTTP_PROXY='http://localhost:8123/' && shift
     site="$1" && shift
     [[ -z "$site" ]] && site = 'https://google.com' # homepage
     case "$site" in                                 # bookmarks
@@ -184,6 +183,7 @@ o() {
             ;;
     esac
     $BROWSER $header $site
+    [[ -n "$ssh_proxy" ]] && kill "$ssh_proxy"
 }
 
 # shortcut tmux sessions
