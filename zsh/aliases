@@ -168,10 +168,7 @@ print_setup() {
 # mail
 # ----
 m() {
-    if [[ "$#" -lt '1' ]]; then
-        mutt
-        return
-    fi
+    [[ "$#" -lt '1' ]] && mutt && return
     case "$1" in
         c|check)
             if [[ "$(ps aux | grep -c offlineimap)" -gt '1' ]]; then
