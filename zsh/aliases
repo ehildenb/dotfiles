@@ -23,6 +23,10 @@ tarc() { tar -cvf $1.tar $1 }
 zipd() { zip -rv $1.zip $1 }
 alias unrar='unrar e'
 
+# shorter git
+# -----------
+alias g=git
+
 # Shortcut Commands
 # =================
 
