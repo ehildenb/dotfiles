@@ -251,24 +251,10 @@ rebuild_kernel() {
 
 # startx aliases
 # --------------
-alias as_sandbox='sudo -u sandbox'
-i3socket() {
-    i3_sandbox=$(as_sandbox -- ls /tmp/ | grep i3-sandbox | head -n1)
-    i3_socket=$(as_sandbox -- ls "/tmp/$i3_sandbox/" | grep ipc-socket | head -n1)
-    echo "/tmp/$i3_sandbox/$i3_socket"
-}
-starti3() {
-    as_sandbox -- rm -rf /tmp/i3-sandbox*
-    as_sandbox -- startx /usr/bin/i3
-}
-in_i3() {
-    workspace="$1" && shift
-    as_sandbox -- i3-msg --socket $(i3socket) "workspace $workspace; exec $@"
-}
-firefox() { in_i3 1 "/usr/bin/firefox $@" }
-private() { in_i3 4 "/usr/bin/firefox -private $@" }
-slack()   { in_i3 2 "/usr/bin/slack $@" }
-mpv()     { in_i3 3 "/usr/bin/mpv $@" }
+firefox() { my3 launch 1 "/usr/bin/firefox $@" }
+private() { my3 launch 4 "/usr/bin/firefox -private $@" }
+slack()   { my3 launch 2 "/usr/bin/slack $@" }
+mpv()     { my3 launch 3 "/usr/bin/mpv $@" }
 
 # mpv on remote server
 # --------------------
