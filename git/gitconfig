@@ -20,6 +20,7 @@
 [alias]
     st = status --short
 
+    f  = fetch
     fa = fetch --all
 
     pushf = push --force-with-lease
