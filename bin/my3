@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+
+# Utilities
+# ---------
+
+alias as_sandbox='sudo -u sandbox'
+
+start_i3()  { as_sandbox -- startx /usr/bin/i3 ; }
+socket_i3() { as_sandbox -- find /tmp -regex '/tmp/i3-sandbox.*/ipc-socket.*' 2>/dev/null ; }
+clean_i3()  { as_sandbox -- find /tmp -type d -regex '/tmp/i3-sandbox.*' -delete 2>/dev/null ; }
+msg_i3()    { as_sandbox -- i3-msg --socket $(socket_i3) "$@" ; }
+kill_i3()   { msg_i3 exit ; clean_i3 ; }
+
+in_i3() {
+    workspace="$1" && shift
+    msg_i3 "workspace $workspace; exec $@"
+}
+
+# Main
+# ----
+
+my3_command="$1"
+[[ -z "$my3_command" ]] && start_i3 && exit 0
+shift
+
+case "$my3_command" in
+    launch) in_i3 "$@" ;;
+    msg)    msg_i3 "$@" ;;
+    kill)   kill_i3 ;;
+    *)      echo "Unrecognized my3 option: '$my3_command'."
+            exit 1 ;;
+esac
