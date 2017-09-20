@@ -86,6 +86,14 @@ c() {
     cd "$(shortcut "$dirname")"
 }
 
+# shortcut mv and cd
+# ------------------
+mc() {
+    dirname="$1" && shift
+    mv $@ "$(shortcut "$dirname")"
+    c "$(shortcut "$dirname")"
+}
+
 # shortcut editor
 # ---------------
 e() {
