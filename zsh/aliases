@@ -42,7 +42,7 @@ shortcut() {
             contacts)   long_path="$DOTFILES/mail/mutt/contacts"                   ;;
             aliases)    long_path="$DOTFILES/zsh/aliases"                          ;;
             schedule)   long_path="$HOME/personal/schedule.md"                     ;;
-            maude)      long_path="$HOME/reads/tools/maude-manual.pdf"             ;;
+            maude)      long_path="$SRC/maude${short_path#maude}"                  ;;
             wifi)       long_path="$DOTFILES/etc/wpa_supplicant/wifi_networks"     ;;
             dotfiles*)  long_path="$DOTFILES${short_path#dotfiles}"                ;;
             bin*)       long_path="$DOTFILES/bin${short_path#bin}"                 ;;
