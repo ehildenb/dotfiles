@@ -78,6 +78,13 @@ shortcut() {
 #hash -d -- evm="$HOME/work/evm-modeling"       ;;
 #hash -d -- reviews="$HOME/work/reviews"        ;;
 
+# shortcut ls
+# -----------
+l() {
+    dirname="$1" && shift
+    ls "$(shortcut "$dirname")" $@
+}
+
 # shortcut cd
 # -----------
 chpwd() { ls ; } # ls when cd
