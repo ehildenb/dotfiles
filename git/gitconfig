@@ -20,6 +20,8 @@
 [alias]
     st = status --short
 
+    b = branch
+
     f  = fetch
     fa = fetch --all
 
