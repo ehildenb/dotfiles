@@ -48,6 +48,7 @@ shortcut() {
             bin*)       long_path="$DOTFILES/bin${short_path#bin}"                 ;;
             500*)       long_path="$HOME/work/class/uiuc-math500${short_path#500}" ;;
             570*)       long_path="$HOME/work/class/uiuc-math570${short_path#570}" ;;
+            584*)       long_path="$HOME/work/uiuc-cs584${short_path#584}"         ;;
             576*)       long_path="$HOME/reads/uiuc-cs576${short_path#576}"        ;;
             476*)       long_path="$HOME/work/ta/cs476/fa2017${short_path#476}"    ;;
             ci*)        long_path="$HOME/work/fsl-ci${short_path#ci}"              ;;
