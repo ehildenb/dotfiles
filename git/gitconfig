@@ -22,6 +22,8 @@
 
     b = branch
 
+    dc = diff --cached
+
     f  = fetch
     fa = fetch --all
 
