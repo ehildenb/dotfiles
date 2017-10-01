@@ -42,8 +42,8 @@ shortcut() {
             contacts)   long_path="$DOTFILES/mail/mutt/contacts"                   ;;
             aliases)    long_path="$DOTFILES/zsh/aliases"                          ;;
             schedule)   long_path="$HOME/personal/schedule.md"                     ;;
-            maude)      long_path="$SRC/maude${short_path#maude}"                  ;;
             wifi)       long_path="$DOTFILES/etc/wpa_supplicant/wifi_networks"     ;;
+            maude*)     long_path="$SRC/maude${short_path#maude}"                  ;;
             dotfiles*)  long_path="$DOTFILES${short_path#dotfiles}"                ;;
             bin*)       long_path="$DOTFILES/bin${short_path#bin}"                 ;;
             500*)       long_path="$HOME/work/class/uiuc-math500${short_path#500}" ;;
