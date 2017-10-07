@@ -90,30 +90,43 @@ l() {
 # -----------
 chpwd() { ls ; } # ls when cd
 c() {
-    dirname="$1"
-    cd "$(shortcut "$dirname")"
+    dirname="$1" && shift
+    actual_dir="$(shortcut "$dirname")"
+    cd "$@" "$actual_dir"
 }
 
 # shortcut mv and cd
 # ------------------
 mc() {
     dirname="$1" && shift
-    mv $@ "$(shortcut "$dirname")"
-    c "$(shortcut "$dirname")"
+    actual_dir="$(shortcut "$dirname")"
+    [[ ! -d "$actual_dir" ]] \
+        && recho "Not a directory: '$actual_dir'" \
+        && return 1
+    mv "$@" "$actual_dir"
+    cd "$actual_dir"
 }
 
 # shortcut editor
 # ---------------
 e() {
     file="$1" && shift
-    $EDITOR "$(shortcut "$file")" $@
+    actual_file="$(shortcut "$file")"
+    [[ ! -f "$actual_file" ]] \
+        && recho "Not a file: $actual_file" \
+        && return 1
+    $EDITOR "$@" "$actual_file"
 }
 
 # shortcut viewer
 # ---------------
 v() {
     pdf="$1" && shift
-    $VIEWER "$(shortcut "$pdf")" $@
+    actual_pdf="$(shortcut "$pdf")"
+    [[ ! -f "$actual_pdf" ]] \
+        && recho "Not a file: $actual_pdf" \
+        && return 1
+    $VIEWER "$@" "$actual_pdf"
 }
 
 # shortcut browser
