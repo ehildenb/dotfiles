@@ -44,6 +44,8 @@ shortcut() {
             schedule)   long_path="$HOME/personal/schedule.md"                     ;;
             wifi)       long_path="$DOTFILES/etc/wpa_supplicant/wifi_networks"     ;;
             maude*)     long_path="$SRC/maude${short_path#maude}"                  ;;
+            psi*)       long_path="$SRC/psi${short_path#psi}"                      ;;
+            ising*)     long_path="$(shortcut 584)/project/${short_path#ising}"    ;;
             dotfiles*)  long_path="$DOTFILES${short_path#dotfiles}"                ;;
             bin*)       long_path="$DOTFILES/bin${short_path#bin}"                 ;;
             500*)       long_path="$HOME/work/class/uiuc-math500${short_path#500}" ;;
