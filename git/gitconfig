@@ -11,6 +11,9 @@
 [push]
     default = simple
 
+[url "ssh://github/"]
+    pushInsteadOf = "https://github.com/"
+
 [pull]
     rebase = true
 
