@@ -90,7 +90,8 @@ l() {
 # -----------
 chpwd() { ls ; } # ls when cd
 c() {
-    dirname="$1" && shift
+    dirname="$1"
+    [[ ! -z "$dirname" ]] && shift
     actual_dir="$(shortcut "$dirname")"
     cd "$@" "$actual_dir"
 }
