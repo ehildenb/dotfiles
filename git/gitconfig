@@ -23,9 +23,11 @@
 [alias]
     st = status --short
 
-    b = branch
-
+    d  = diff
     dc = diff --cached
+
+    b  = branch
+    ba = branch --all
 
     c  = commit
     ca = commit --all
