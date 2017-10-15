@@ -26,6 +26,9 @@ PATH="$PATH:/usr/sbin"
 PATH="$PATH:$DOTFILES/bin"
 export PATH
 
+### ccache
+export PATH="/usr/lib/ccache/bin:$PATH"
+
 ### Settings
 export LANG="en_US.UTF-8"
 export GPG_TTY=`tty`
