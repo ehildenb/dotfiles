@@ -1,13 +1,8 @@
-stack.yaml
-.stack-work
+/.stack-work
 *.sw*
 .*.kak.*
 *.o
 *.so
-*.zip
-*.tgz
-*.gz
-*.tar
 *.iso
 *.7z
 *.tmp
