@@ -84,7 +84,8 @@ shortcut() {
 # shortcut ls
 # -----------
 l() {
-    dirname="$1" && shift
+    dirname="$1"
+    [[ ! -z "$dirname" ]] && shift
     ls "$(shortcut "$dirname")" $@
 }
 
@@ -115,9 +116,6 @@ mc() {
 e() {
     file="$1" && shift
     actual_file="$(shortcut "$file")"
-    [[ ! -f "$actual_file" ]] \
-        && recho "Not a file: $actual_file" \
-        && return 1
     $EDITOR "$@" "$actual_file"
 }
 
