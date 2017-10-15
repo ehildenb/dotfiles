@@ -145,6 +145,7 @@ o() {
         576)    site='https://courses.engr.illinois.edu/cs576/sp2017/'                          ;;
         476)    site='https://courses.engr.illinois.edu/cs476/fa2017/'                          ;;
         522)    site='https://courses.engr.illinois.edu/cs522'                                  ;;
+        584)    site='https://wiki.illinois.edu/wiki/pages/viewpage.action?pageId=642598908'    ;;
         fm)     site='https://wiki.illinois.edu/wiki/display/fmseminar/Formal+Methods+Seminar'  ;;
         github) site='https://github.com'                                                       ;;
         gitlab) site='https://gitlab-beta.engr.illinois.edu'                                    ;;
