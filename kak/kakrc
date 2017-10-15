@@ -21,6 +21,9 @@ set global autowrap_column 80
 # scrolloff
 set global scrolloff 12,30
 
+# disable mouse support
+set global ui_options ncurses_enable_mouse=false
+
 # Colors
 # ======
 
@@ -43,8 +46,18 @@ def monitor -params .. -docstring "Monitor output of program" %{ %sh{
     printf %s\\n "edit! -fifo ${monitor_output} -scroll *monitor*"
 }}
 
-# Markdown manipulation
-# =====================
+# Keybindings
+# ===========
+
+# :re sources kakrc
+def -allow-override re %{ source "~/.config/kak/kakrc" }
+
+# S saves
+map global normal S :wa<ret>
+
+# Ctrl+n/p next and prev buffer
+map global normal <c-n> :buffer-next<ret>
+map global normal <c-p> :buffer-previous<ret>
 
 # format text with pandoc
 map global user g %{ | pandoc --from=markdown --to=markdown --columns=80 <ret> }
