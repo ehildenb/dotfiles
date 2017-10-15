@@ -27,6 +27,9 @@
 
     dc = diff --cached
 
+    c  = commit
+    ca = commit --all
+
     f  = fetch
     fa = fetch --all
 
