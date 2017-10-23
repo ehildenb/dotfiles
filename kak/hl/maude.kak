@@ -18,6 +18,7 @@ hook global BufCreate .*[.](maude) %{
 addhl -group / regions -default code maude \
     string   '"'     (?<!\\)(\\\\)*"      '' \
     comment ---\(   \)---              ---\( \
+    comment ---\(   ---\)              ---\( \
     comment  (---) $                      '' \
     macro   ^\h*?\K# (?<!\\)\n            ''
 
