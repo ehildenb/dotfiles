@@ -75,7 +75,7 @@ case "$command" in
         emerge --newuse sys-kernel/gentoo-sources linux-firmware grub os-prober \
                         pciutils usbutils acpi parted \
                         iw wpa_supplicant dhcpcd \
-                        dcron cups sysklogd logrotate \
+                        dcron cups sysklogd logrotate pfl \
                         sudo pm-utils git htop zip dosfstools dos2unix ncurses \
                         zsh tmux kakoune vim w3m
         rc-update add keymaps boot
@@ -121,7 +121,7 @@ case "$command" in
         sw install --noreplace \
            mutt offlineimap msmtp \
            cmus ffmpeg alsa-utils youtube-dl \
-           texlive texmfind texlive-latexextra texlive-fontsextra texlive-mathextra texlive-xetex \
+           texlive texlive-latexextra texlive-fontsextra texlive-mathextra texlive-xetex \
            rtorrent firefox xinit xorg-server bitcoin-cli bitcoind \
            weechat bitlbee app-text/tree fbterm \
            virtual/jdk dev-java/icedtea maven-bin jre scala sbt \
