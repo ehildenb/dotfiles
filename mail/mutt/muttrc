@@ -43,7 +43,7 @@ bind index n search-next
 bind index N search-opposite
 
 # mark message as new
-bind index ^N toggle-new
+bind index <esc>N toggle-new
 
 # jump to previous/next unread
 bind index K previous-new-then-unread
