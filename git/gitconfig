@@ -36,6 +36,7 @@
 
     c  = commit
     ca = commit --all
+    cs = commit --amend
 
     f  = fetch
     fa = fetch --all
