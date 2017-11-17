@@ -1,3 +1,6 @@
+[init]
+    templatedir = ~/dotfiles/git/template
+
 [core]
     excludesFile = ~/dotfiles/git/gitignore
 

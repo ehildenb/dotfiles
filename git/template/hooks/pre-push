@@ -1,0 +1,4 @@
+if grep no-push &>/dev/null; then
+    echo "Refusing to push a branch labelled with 'no-push'." >&2
+    exit 1
+fi
