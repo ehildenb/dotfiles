@@ -27,6 +27,10 @@ alias unrar='unrar e'
 # -----------
 alias g=git
 
+# nicer diff
+# ----------
+alias gdiff='git diff --no-index'
+
 # Shortcut Commands
 # =================
 
