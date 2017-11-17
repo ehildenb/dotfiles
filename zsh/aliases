@@ -311,3 +311,13 @@ xdo_remote() {
     remote_command="$remote_command"' xdotool key $keyline; done'
     xdotoolize | ssh "$ssh_serv" "$remote_command"
 }
+
+# K Framework
+# ===========
+
+# initialize k path
+# -----------------
+initk () {
+    [[ -z "$K_VERSION" ]] && K_VERSION=uiuck
+    export PATH=$SRC/k/$K_VERSION/k-distribution/target/release/k/bin:$PATH
+}
