@@ -47,7 +47,9 @@ shortcut() {
             aliases)    long_path="$DOTFILES/zsh/aliases"                          ;;
             schedule)   long_path="$HOME/personal/schedule.md"                     ;;
             wifi)       long_path="$DOTFILES/etc/wpa_supplicant/wifi_networks"     ;;
+            ssh)        long_path="$HOME/.ssh/config"                              ;;
             csm-pl)     long_path="$HOME/work/csm-prog-lang${short_path#csm-pl}"   ;;
+            src*)       long_path="$SRC/${short_path#src}"                         ;;
             maude*)     long_path="$SRC/maude${short_path#maude}"                  ;;
             psi*)       long_path="$SRC/psi${short_path#psi}"                      ;;
             ising*)     long_path="$HOME/work/ising${short_path#ising}"            ;;
