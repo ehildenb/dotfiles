@@ -45,7 +45,7 @@ while true; do
     if [[ "$old_md5" != "$new_md5" ]]; then
         old_md5="$new_md5"
         becho "Executing: $@"
-        $@
+        eval "$@"
         if [[ "$?" == '0' ]]; then
             becho "READY: $@"
         else
