@@ -1,0 +1,3 @@
+xrdb ~/dotfiles/X/Xresources
+
+exec i3
