@@ -59,6 +59,9 @@ map global normal S :wa<ret>
 map global normal <c-n> :buffer-next<ret>
 map global normal <c-p> :buffer-previous<ret>
 
+# TODO: make this work when the pane to send to is not `1`
+map global user r %{ $ tmux send-keys -t '0.1' "$(cat -)" "C-m" <ret> }
+
 # format text with pandoc
 map global user g %{ | pandoc --from=markdown --to=markdown --columns=80 <ret> }
 
