@@ -13,8 +13,7 @@ export SCRATCH="$HOME/scratch"
 ### Defaults
 export EDITOR="kak"
 export VISUAL="$EDITOR"
-#export VIEWER="jfbview"
-export VIEWER=(startx /usr/bin/mupdf)
+export VIEWER=mupdf
 export BROWSER="w3m"
 export PUBLISHER="git"
 export PLAYER="mpv"
