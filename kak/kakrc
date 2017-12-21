@@ -49,6 +49,9 @@ def monitor -params .. -docstring "Monitor output of program" %{ %sh{
 # Keybindings
 # ===========
 
+# ,a sets autoreload to true on a given buffer
+map global user a %{ : set buffer autoreload true <C-m> }
+
 # :re sources kakrc
 def -allow-override re %{ source "~/.config/kak/kakrc" }
 
