@@ -294,8 +294,8 @@ rebuild_kernel() {
 # startx aliases
 # --------------
 firefox() { my3 launch 1 "/usr/bin/firefox $@" }
-private() { my3 launch 4 "/usr/bin/firefox -private $@" }
-slack()   { my3 launch 2 "/usr/bin/slack $@" }
+private() { my3 launch 2 "/usr/bin/firefox -private $@" }
+slack()   { my3 launch 1 "/usr/bin/slack $@" }
 mpv()     { my3 launch 3 "/usr/bin/mpv $@" }
 
 # mpv on remote server
