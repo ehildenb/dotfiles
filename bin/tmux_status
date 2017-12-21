@@ -56,14 +56,15 @@ get_email() {
 
 
 # TS_STAT_TYPE is 'status' or 'notifications'
+separator="  |"
 stat_command="$1"
 case "$stat_command" in
     s|status)
         output=""
-        output="$output $(get_date)    |"
-        output="$output Bat: $(hw bat)    |"
-        output="$output Temps: $(hw temp | tr '\n' ' ')   |"
-        output="$output Net: $(net print) - $(net list first)    |"
+        output="$output $(get_date)$separator"
+        output="$output Bat: $(hw bat)$separator"
+        output="$output Temps: $(hw temp | tr '\n' ' ')$separator"
+        output="$output Net: $(net print | head -c10) - $(net list first)$separator"
         output="$output Uptime: $(get_uptime)"
         ;;
 
@@ -71,8 +72,8 @@ case "$stat_command" in
         bright="$(get_bright)"
         email="$(get_email)"
         output=""
-        [[ -n "$bright" ]] && output="Brightness: $bright    |"
-        [[ -n "$email" ]]  && output="$output Email: $email    |"
+        [[ -n "$bright" ]] && output="Brightness: $bright$separator"
+        [[ -n "$email" ]]  && output="$output Email: $email$separator"
         [[ -n "$output" ]] && output="$output "
         ;;
 
