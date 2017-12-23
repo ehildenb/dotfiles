@@ -32,13 +32,12 @@ case "$command" in
         ;;
     'chroot')
         dest="$1" && shift || exit 1
-        sudo cp -r $DOTFILES/etc/portage/{make.conf,repos.conf,package.use} $dest/etc/portage
-        sudo cp $DOTFILES/etc/portage/{make.conf,package.accept_keywords/intel,package.use/ghostscript} \
-                $DOTFILES/etc/conf.d/linux /etc/{fstab,resolv.conf} \
-                $dest/tmp
-        sudo cp $(which git) $0:A $dest/usr/bin/
-        sudo sed --in-place 's*#!/usr/bin/env zsh*#!/usr/bin/env bash*' $dest/usr/bin/gentoo-install
-        sudo chroot $dest /bin/bash
+        sudo cp $DOTFILES/etc/conf.d/{linux,keymaps,consolefont} $dest/tmp
+        sudo cp /etc/{fstab,resolv.conf} $dest/etc/
+        mkdir -p $dest/tmp/bin
+        sudo cp $(which git) $0 $dest/tmp/bin
+        sudo rsync --recursive --ignore-times $DOTFILES/etc/portage/ $dest/etc/portage/
+        sudo chroot $dest /bin/bash -i
         ;;
     'init-emerge')
         cp /tmp/resolv.conf /etc/resolv.conf
