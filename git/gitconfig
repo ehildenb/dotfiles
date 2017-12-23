@@ -38,6 +38,8 @@
     ca = commit --all
     cs = commit --amend
 
+    rc = rebase --continue
+
     f  = fetch
     fa = fetch --all
 
