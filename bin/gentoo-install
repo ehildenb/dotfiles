@@ -35,12 +35,13 @@ case "$command" in
         sudo cp /etc/{fstab,resolv.conf} $dest/etc/
         sudo git clone 'https://github.com/ehildenb/dotfiles' "$dest/tmp/dotfiles"
         sudo cp $(which git) $0 "$dest/tmp/dotfiles/bin"
+        warn "MAKE SURE A STATICALLY-LINKED "'`git`'" BINARY EXISTS AT '$dest/tmp/dotfiles/bin/git'"
+        warn 'RUN `export PATH="/tmp/dotfiles/bin:$PATH` UPON CHROOTING IN'
         sudo chroot $dest /bin/bash -i
         ;;
     'init-emerge')
         source /etc/profile
         export PS1="(chroot) $PS1"
-        export PATH="/tmp/dotfiles/bin:$PATH"
         rsync --recursive --ignore-times /tmp/dotfiles/etc/portage/ /etc/portage/
         emerge --sync
         pushd /etc/portage
@@ -65,6 +66,7 @@ case "$command" in
         echo 'LC_COLLATE="C"'    >> /etc/env.d/02locale
         echo 'hostname="gentoo-ehildenb"' > /etc/conf.d/hostname
         env-update && source /etc/profile && export PS1="(chroot) $PS1"
+        warn 'RUN `export PATH="/tmp/dotfiles/bin:$PATH`'
         ;;
     'install-base')
         emerge --newuse sys-kernel/gentoo-sources linux-firmware grub os-prober \
