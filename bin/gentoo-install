@@ -32,17 +32,20 @@ case "$command" in
         ;;
     'chroot')
         dest="$1" && shift || exit 1
-        sudo cp $DOTFILES/etc/conf.d/{linux,keymaps,consolefont} $dest/tmp
         sudo cp /etc/{fstab,resolv.conf} $dest/etc/
-        mkdir -p $dest/tmp/bin
-        sudo cp $(which git) $0 $dest/tmp/bin
-        sudo rsync --recursive --ignore-times $DOTFILES/etc/portage/ $dest/etc/portage/
+        sudo cp $(which git) $0 $dest/tmp/git
         sudo chroot $dest /bin/bash -i
         ;;
     'init-emerge')
+        warn 'MAKE SURE YOU HAVE A WORKING `git` BINARY AT `/tmp/git`'
         source /etc/profile
         export PS1="(chroot) $PS1"
-        export PATH="/tmp/bin:$PATH"
+        pushd tmp
+        ./tmp/git clone 'https://github.com/ehildenb/dotfiles'
+        mv git dotfiles/bin
+        popd
+        export PATH="/tmp/dotfiles/bin:$PATH"
+        rsync --recursive --ignore-times /tmp/dotfiles/etc/portage/ /etc/portage/
         emerge --sync
         pushd /etc/portage
         ln -s -f ../../usr/portage/gentoo/profiles/default/linux/amd64/13.0 make.profile
@@ -74,7 +77,7 @@ case "$command" in
                         dcron cups sysklogd logrotate pfl \
                         sudo pm-utils git htop zip dosfstools dos2unix ncurses \
                         zsh tmux kakoune vim w3m
-        mv /tmp/{keymaps,consolefont} /etc/conf.d/
+        mv /tmp/dotfiles/etc/conf.d/{keymaps,consolefont} /etc/conf.d/
         rc-update add keymaps     boot
         rc-update add consolefont boot
         rc-update add dcron       boot
@@ -100,7 +103,7 @@ case "$command" in
     'cleanup')
         warn "MAKE SURE YOU HAVE LEFT THE 'chroot'"
         dest="$1" && shift || exit 1
-        sudo rm -rf "$dest/tmp/*"
+        sudo rm -rf "$dest/tmp/dotfiles"
         sudo umount -l "$dest/dev/shm"
         sudo umount -l "$dest/dev/pts"
         sudo umount -R "$dest"
