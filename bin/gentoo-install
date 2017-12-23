@@ -106,15 +106,17 @@ case "$command" in
         sudo umount -R "$dest"
         ;;
     'install-packages')
+        source $DOTFILES/zsh/aliases
         sw install --noreplace \
            mutt offlineimap msmtp \
            cmus ffmpeg alsa-utils youtube-dl \
            texlive texlive-latexextra texlive-fontsextra texlive-mathextra texlive-xetex \
-           rtorrent firefox xinit xorg-server bitcoin-cli bitcoind \
+           pandoc pandoc-citeproc app-text/tree fbterm \
+           rtorrent firefox xinit xorg-server i3 \
            weechat bitlbee app-text/tree fbterm \
            virtual/jdk dev-java/icedtea maven-bin jre scala sbt \
            redshift mupdf graphismagick ghostscript-gpl
-           # pandoc pandoc-citeproc \
+        warn "ADD CRON ENTRY '*/12 * * * * /usr/bin/offlineimap'"
         ;;
     *)
         warn "UNRECOGNIZED OPTION '$command'"
