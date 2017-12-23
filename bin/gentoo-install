@@ -100,7 +100,7 @@ case "$command" in
     'cleanup')
         warn "MAKE SURE YOU HAVE LEFT THE 'chroot'"
         dest="$1" && shift || exit 1
-        [[ -f "$dest/usr/bin/gentoo-install" ]] && sudo rm "$dest/usr/bin/gentoo-install"
+        sudo rm -rf "$dest/tmp/*"
         sudo umount -l "$dest/dev/shm"
         sudo umount -l "$dest/dev/pts"
         sudo umount -R "$dest"
