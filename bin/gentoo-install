@@ -24,9 +24,9 @@ case "$command" in
     'mount')
         dest="$1" && shift || exit 1
         sudo mount -t proc /proc $dest/proc
-        sudo mount --rbind /sys $dest/sys
+        sudo mount --rbind /sys  $dest/sys
         sudo mount --make-rslave $dest/sys
-        sudo mount --rbind /dev $dest/dev
+        sudo mount --rbind /dev  $dest/dev
         sudo mount --make-rslave $dest/dev
         sudo chmod 1777 /dev/shm
         ;;
