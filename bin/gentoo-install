@@ -105,15 +105,6 @@ case "$command" in
         sudo umount -l "$dest/dev/pts"
         sudo umount -R "$dest"
         ;;
-    'init-setup')
-        source $DOTFILES/zsh/aliases
-        sudo cp $DOTFILES/etc/conf.d/{keymaps,consolefont} /etc/conf.d/
-        cp_etc wpa_supplicant/
-        cp_etc portage/
-        cp_etc cups/
-        cp_etc X11/
-        warn "ADD CRONTAB ENTRY '*/12 * * * * /usr/bin/offlineimap'"
-        ;;
     'install-packages')
         sw install --noreplace \
            mutt offlineimap msmtp \
