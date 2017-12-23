@@ -33,17 +33,13 @@ case "$command" in
     'chroot')
         dest="$1" && shift || exit 1
         sudo cp /etc/{fstab,resolv.conf} $dest/etc/
-        sudo cp $(which git) $0 $dest/tmp/git
+        sudo git clone 'https://github.com/ehildenb/dotfiles' "$dest/tmp/dotfiles"
+        sudo cp $(which git) $0 "$dest/tmp/dotfiles/bin"
         sudo chroot $dest /bin/bash -i
         ;;
     'init-emerge')
-        warn 'MAKE SURE YOU HAVE A WORKING `git` BINARY AT `/tmp/git`'
         source /etc/profile
         export PS1="(chroot) $PS1"
-        pushd tmp
-        ./tmp/git clone 'https://github.com/ehildenb/dotfiles'
-        mv git dotfiles/bin
-        popd
         export PATH="/tmp/dotfiles/bin:$PATH"
         rsync --recursive --ignore-times /tmp/dotfiles/etc/portage/ /etc/portage/
         emerge --sync
@@ -61,7 +57,7 @@ case "$command" in
         passwd
         ;;
     'auto-config')
-        echo "America/Chicago" > /etc/timezone
+        echo "America/Denver" > /etc/timezone
         emerge --config sys-libs/timezone-data
         sed --in-place 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
         locale-gen
