@@ -68,18 +68,17 @@ case "$command" in
         env-update && source /etc/profile && export PS1="(chroot) $PS1"
         ;;
     'install-base')
-        mkdir -p /etc/portage/package.accept_keywords
-        cp /tmp/intel /etc/portage/package.accept_keywords/intel
         emerge --newuse sys-kernel/gentoo-sources linux-firmware grub os-prober \
                         pciutils usbutils acpi parted \
                         iw wpa_supplicant dhcpcd \
                         dcron cups sysklogd logrotate pfl \
                         sudo pm-utils git htop zip dosfstools dos2unix ncurses \
                         zsh tmux kakoune vim w3m
-        rc-update add keymaps boot
+        mv /tmp/{keymaps,consolefont} /etc/conf.d/
+        rc-update add keymaps     boot
         rc-update add consolefont boot
-        rc-update add dcron boot
-        rc-update add cupsd default
+        rc-update add dcron       boot
+        rc-update add cupsd       default
         ;;
     'build-kernel')
         warn "MAKE SURE THAT THE KERNEL CONFIG IS AT '/usr/src/linux/.config'"
