@@ -40,14 +40,14 @@ case "$command" in
         sudo chroot $dest /bin/bash -i
         ;;
     'init-emerge')
-        cp /tmp/resolv.conf /etc/resolv.conf
         source /etc/profile
         export PS1="(chroot) $PS1"
+        export PATH="/tmp/bin:$PATH"
         emerge --sync
-        [[ -f "/usr/bin/git" ]] && rm /usr/bin/git
         pushd /etc/portage
         ln -s -f ../../usr/portage/gentoo/profiles/default/linux/amd64/13.0 make.profile
         popd
+        emerge --oneshot portage
         emerge --update --deep --newuse @world
         eselect news read all
         ;;
