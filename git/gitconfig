@@ -51,5 +51,11 @@
     histd = log --abbrev-commit --decorate --date=relative --graph --topo-order \
              --format=format:'%C(bold green)%h%C(reset) - %C(green)%ar%C(reset) - %C(dim blue)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
 
+    hists = log --stat --abbrev-commit --decorate --date=relative --graph --topo-order \
+             --format=format:'%C(bold green)%h%C(reset) - %C(green)%ar%C(reset) - %C(dim blue)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
+
+    histp = log --patch --abbrev-commit --decorate --date=relative --graph --topo-order \
+             --format=format:'%C(bold green)%h%C(reset) - %C(green)%ar%C(reset) - %C(dim blue)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
+
     merged   = for-each-ref 'refs/remotes/**' --format=$'%(authordate)\t%(refname)\t%(subject)' --merged
     unmerged = for-each-ref 'refs/remotes/**' --format=$'%(authordate)\t%(refname)\t%(subject)' --no-merged
