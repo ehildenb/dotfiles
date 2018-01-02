@@ -45,11 +45,10 @@ case "$command" in
         sudo cp /etc/{fstab,resolv.conf} $dest/etc/
         sudo git clone "$repo" "$dest/$tmp_dotfiles"
         sudo cp "$git_bin" "$dest/$tmp_bin/"
+        warn 'RUN `source /etc/profile ; export PS1="(chroot)" $PS1`'
         sudo chroot $dest /bin/bash -i
         ;;
     'init-emerge')
-        source /etc/profile
-        export PS1="(chroot) $PS1"
         rsync --recursive --ignore-times "/$tmp_dotfiles/etc/portage/" /etc/portage/
         emerge --sync
         pushd /etc/portage
