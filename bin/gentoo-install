@@ -55,7 +55,8 @@ case "$command" in
         ln -s -f ../../usr/portage/gentoo/profiles/default/linux/amd64/17.0 make.profile
         popd
         emerge --oneshot portage
-        emerge --update --deep --newuse @world
+        source $DOTFILES/zsh/aliases
+        sw update
         eselect news read all
         ;;
     'interactive-config')
