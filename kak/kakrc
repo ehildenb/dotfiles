@@ -66,7 +66,8 @@ map global normal <c-p> :buffer-previous<ret>
 map global user r %{ $ tmux send-keys -t '0.1' "$(cat -)" "C-m" <ret> }
 
 # format text with pandoc
-map global user g %{ | pandoc --from=markdown --to=markdown --columns=80 <ret> }
+map global user g %{ | pandoc --from=markdown --to=markdown --wrap=preserve <ret> }
+map global user w %{ | pandoc --from=markdown --to=markdown --columns=80    <ret> }
 
 # custom commands
 map global user h XypjXHr=A<ret><esc>
