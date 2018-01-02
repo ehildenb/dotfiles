@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
-### Settings
+### Settings/Utilities
+### ------------------
 
-dest="root" ### Where root partition will be mounted
+dest="$(pwd)/root"
+tmp_dotfiles="tmp/dotfiles"
+tmp_bin="$tmp_dotfiles/bin"
 
-### Warning Command
+[[ -d "/$tmp_bin" ]] && export PATH="/$tmp_bin:$PATH"
 
 warn() {
     while read -t 0; do :; done
@@ -40,15 +43,14 @@ case "$command" in
         repo="$1"    && shift || exit 1
         git_bin="$1" && shift || exit 1
         sudo cp /etc/{fstab,resolv.conf} $dest/etc/
-        sudo git clone "$repo" "$dest/tmp/dotfiles"
-        sudo cp "$git_bin" "$dest/tmp/dotfiles/bin/"
-        warn 'RUN `export PATH="/tmp/dotfiles/bin:$PATH`'
+        sudo git clone "$repo" "$dest/$tmp_dotfiles"
+        sudo cp "$git_bin" "$dest/$tmp_bin/"
         sudo chroot $dest /bin/bash -i
         ;;
     'init-emerge')
         source /etc/profile
         export PS1="(chroot) $PS1"
-        rsync --recursive --ignore-times /tmp/dotfiles/etc/portage/ /etc/portage/
+        rsync --recursive --ignore-times "/$tmp_dotfiles/etc/portage/" /etc/portage/
         emerge --sync
         pushd /etc/portage
         ln -s -f ../../usr/portage/gentoo/profiles/default/linux/amd64/13.0 make.profile
@@ -72,7 +74,6 @@ case "$command" in
         echo 'LC_COLLATE="C"'    >> /etc/env.d/02locale
         echo 'hostname="gentoo-ehildenb"' > /etc/conf.d/hostname
         env-update && source /etc/profile && export PS1="(chroot) $PS1"
-        warn 'RUN `export PATH="/tmp/dotfiles/bin:$PATH`'
         ;;
     'install-base')
         emerge --newuse sys-kernel/gentoo-sources linux-firmware grub os-prober \
@@ -81,7 +82,7 @@ case "$command" in
                         dcron cups sysklogd logrotate pfl \
                         sudo pm-utils git htop zip dosfstools dos2unix ncurses \
                         zsh tmux kakoune vim w3m
-        mv /tmp/dotfiles/etc/conf.d/{keymaps,consolefont} /etc/conf.d/
+        mv "/$tmp_dotfiles/etc/conf.d/{keymaps,consolefont}" /etc/conf.d/
         rc-update add keymaps     boot
         rc-update add consolefont boot
         rc-update add dcron       boot
@@ -106,7 +107,7 @@ case "$command" in
         ;;
     'cleanup')
         warn "MAKE SURE YOU HAVE LEFT THE 'chroot'"
-        sudo rm -rf "$dest/tmp/dotfiles"
+        sudo rm -rf "$dest/$tmp_dotfiles"
         sudo umount -l "$dest/dev/shm"
         sudo umount -l "$dest/dev/pts"
         sudo umount -R "$dest"
