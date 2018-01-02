@@ -59,3 +59,5 @@
 
     merged   = for-each-ref 'refs/remotes/**' --format=$'%(authordate)\t%(refname)\t%(subject)' --merged
     unmerged = for-each-ref 'refs/remotes/**' --format=$'%(authordate)\t%(refname)\t%(subject)' --no-merged
+
+    server = daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/
