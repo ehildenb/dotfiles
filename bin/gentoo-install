@@ -31,13 +31,13 @@ case "$command" in
         sudo chmod 1777 /dev/shm
         ;;
     'chroot')
-        dest="$1" && shift || exit 1
-        repo="$1" && shift || exit 1
+        dest="$1"    && shift || exit 1
+        repo="$1"    && shift || exit 1
+        git_bin="$1" && shift || exit 1
         sudo cp /etc/{fstab,resolv.conf} $dest/etc/
         sudo git clone "$repo" "$dest/tmp/dotfiles"
-        sudo cp $(which git) $0 "$dest/tmp/dotfiles/bin"
-        warn "MAKE SURE A STATICALLY-LINKED "'`git`'" BINARY EXISTS AT '$dest/tmp/dotfiles/bin/git'"
-        warn 'RUN `export PATH="/tmp/dotfiles/bin:$PATH` UPON CHROOTING IN'
+        sudo cp "$git_bin" "$dest/tmp/dotfiles/bin/"
+        warn 'RUN `export PATH="/tmp/dotfiles/bin:$PATH`'
         sudo chroot $dest /bin/bash -i
         ;;
     'init-emerge')
