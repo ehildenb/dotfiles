@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+### Settings
+
+dest="root" ### Where root partition will be mounted
+
+### Warning Command
+
 warn() {
     while read -t 0; do :; done
     echo '================================================================================'
@@ -9,12 +15,13 @@ warn() {
     read
 }
 
+### Main Functionality
+
 command="$1"
 shift
 
 case "$command" in
     'stage3')
-        dest="$1"    && shift || exit 1
         tarball="$1" && shift || exit 1
         warn "MAKE SURE THAT THE ROOT PARTITION IS FORMATTED AND MOUNTED AT '$dest'"
         warn "MAKE SURE THAT '$dest/boot' EXISTS, AND THAT THE BOOT PARTITION IS MOUNTED THERE"
@@ -22,7 +29,6 @@ case "$command" in
                  --file="$tarball" --directory="$dest"
         ;;
     'mount')
-        dest="$1" && shift || exit 1
         sudo mount -t proc /proc $dest/proc
         sudo mount --rbind /sys  $dest/sys
         sudo mount --make-rslave $dest/sys
@@ -31,7 +37,6 @@ case "$command" in
         sudo chmod 1777 /dev/shm
         ;;
     'chroot')
-        dest="$1"    && shift || exit 1
         repo="$1"    && shift || exit 1
         git_bin="$1" && shift || exit 1
         sudo cp /etc/{fstab,resolv.conf} $dest/etc/
@@ -101,7 +106,6 @@ case "$command" in
         ;;
     'cleanup')
         warn "MAKE SURE YOU HAVE LEFT THE 'chroot'"
-        dest="$1" && shift || exit 1
         sudo rm -rf "$dest/tmp/dotfiles"
         sudo umount -l "$dest/dev/shm"
         sudo umount -l "$dest/dev/pts"
