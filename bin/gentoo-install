@@ -81,7 +81,8 @@ case "$command" in
                         dcron cups sysklogd logrotate pfl \
                         sudo pm-utils git htop zip dosfstools dos2unix ncurses \
                         zsh tmux kakoune vim w3m
-        mv "/$tmp_dotfiles/etc/conf.d/{keymaps,consolefont}" /etc/conf.d/
+        mv "/$tmp_dotfiles/etc/conf.d/keymaps"     /etc/conf.d/
+        mv "/$tmp_dotfiles/etc/conf.d/consolefont" /etc/conf.d/
         rc-update add keymaps     boot
         rc-update add consolefont boot
         rc-update add dcron       boot
