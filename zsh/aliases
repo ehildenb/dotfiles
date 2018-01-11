@@ -181,7 +181,7 @@ backup() {
 # simple web server
 # -----------------
 http() {
-    python -m http.server $@
+    python3 -m http.server $@
 }
 
 # printing
