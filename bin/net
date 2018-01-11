@@ -141,7 +141,7 @@ net_print() {
 net_list() {
     net_card="$1"
     [[ -z "$net_card" ]] && net_card="$wifi_card"
-    net_list_out="$(ip route | grep 'default' | cut --delimiter=' ' --fields='5,8' \
+    net_list_out="$(ip route | grep 'default' | cut --delimiter=' ' --fields='5,7' \
         |   case "$net_card" in
                 first)
                     head -n1
