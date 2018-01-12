@@ -63,7 +63,7 @@ case "$stat_command" in
         output=""
         output="$output $(get_date)$separator"
         output="$output Temps: $(hw temp | tr '\n' ' ')$separator"
-        output="$output Net: $(net print | head -c10) - $(net list first)$separator"
+        output="$output Net: $(net print | head -c10) - $(net list)$separator"
         output="$output Uptime: $(get_uptime)"
         ;;
 
