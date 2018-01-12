@@ -123,6 +123,18 @@ net_wifi() {
 # All Networks
 # ------------
 
+# get current device
+# ------------------
+net_dev() {
+    current_route="$(ip route | grep 'default')"
+    dev=''
+    case "$(ip route | grep 'default')" in
+        *$wired_card*) dev=$wired_card ;;
+        *$wifi_card* ) dev=$wifi_card  ;;
+    esac
+    echo "$dev"
+}
+
 # get current network
 # -------------------
 net_print() {
@@ -162,6 +174,9 @@ net_list() {
 # ---------
 net_command="$1" && shift
 case "$net_command" in
+    d|dev)
+        net_dev $@
+        ;;
     p|print)
         net_print $@
         ;;
