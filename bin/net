@@ -151,7 +151,7 @@ net_print() {
 # get network status
 # ------------------
 net_list() {
-    ip route | grep "$(net_dev).*src" | head -n1 | cut --delimiter=' ' --fields='7'
+    ip route | grep "$(net_dev).*src" | head -n1 | sed -n 's/.*src \([0-9.]*\) .*/\1/p'
 }
 
 # interface
