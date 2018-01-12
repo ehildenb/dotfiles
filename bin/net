@@ -174,22 +174,10 @@ net_list() {
 # ---------
 net_command="$1" && shift
 case "$net_command" in
-    d|dev)
-        net_dev $@
-        ;;
-    p|print)
-        net_print $@
-        ;;
-    l|list)
-        net_list $@
-        ;;
-    w|wifi)
-        net_wifi $@
-        ;;
-    e|ether)
-        net_wired $@
-        ;;
-    *)
-        echo "Unrecognized command: '$wifi_command'"
-        ;;
+    d|dev)   net_dev   $@ ;;
+    p|print) net_print $@ ;;
+    l|list)  net_list  $@ ;;
+    w|wifi)  net_wifi  $@ ;;
+    e|ether) net_wired $@ ;;
+    *)       echo "Unrecognized command: '$wifi_command'" ;;
 esac
