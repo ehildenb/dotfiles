@@ -29,6 +29,10 @@ bitcoin/
 bin/old/
 bin/pandoc-tangle
 bin/pandoc_website
+bin/git-ci
+bin/pd
+bin/psi
+bin/pvs
 
 google-googletalkplugin/
 
