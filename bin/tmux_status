@@ -62,7 +62,6 @@ case "$stat_command" in
     s|status)
         output=""
         output="$output $(get_date)$separator"
-        output="$output Bat: $(hw bat)$separator"
         output="$output Temps: $(hw temp | tr '\n' ' ')$separator"
         output="$output Net: $(net print | head -c10) - $(net list first)$separator"
         output="$output Uptime: $(get_uptime)"
@@ -74,6 +73,7 @@ case "$stat_command" in
         output=""
         [[ -n "$bright" ]] && output="Brightness: $bright$separator"
         [[ -n "$email" ]]  && output="$output Email: $email$separator"
+        output="$output Bat: $(hw bat)$separator"
         [[ -n "$output" ]] && output="$output "
         ;;
 
