@@ -1,190 +1,22 @@
 #!/usr/bin/env zsh
 
-# sync with repos
-# ---------------
-sw_sync() {
-    os="$1"
-    shift
-    case "$os" in
-        gentoo)
-            sudo emerge --sync $@
-            ;;
-        freebsd)
-            sudo portsnap fetch update $@
-            ;;
-        debian)
-            sudo apt-get update $@
-            ;;
-        arch)
-            sudo pacman -Sy $@
-            ;;
-        *)
-            echo "Unsupported OS for sync: $os"
-            return 1
-            ;;
-    esac
-}
+sw_sync() { sudo emerge --sync $@ ; }
 
-# search repos
-# ------------
-sw_search() {
-    os="$1"
-    shift
-    case "$os" in
-        gentoo)
-            emerge --search $@
-            ;;
-        *)
-            echo "Unsupported OS for search: $os"
-            return 1
-            ;;
-    esac 
-}
+sw_search() { emerge --search $@ ; }
 
-# Update local packages
-# ---------------------
-sw_update() {
-    os="$1"
-    shift
-    case "$os" in
-        gentoo)
-            sudo emerge --verbose --ask --update --deep \
+sw_update() { sudo emerge --verbose --ask --update --deep \
                         --newuse --changed-use --keep-going \
-                        --backtrack=100 @world $@
-            ;;
-        freebsd)
-            sudo portmaster -L
-            echo "Press Enter to continue, Ctrl-C to quit..."
-            read
-            sudo portmaster -a $@
-            ;;
-        debian)
-            sudo apt-get upgrade
-            ;;
-        arch)
-            sudo pacman -Syu $@
-            ;;
-        *)
-            echo "Unsupported OS for update: $os"
-            return 1
-            ;;
-    esac
-}
+                        --backtrack=100 @world $@ ; }
 
-# Install package
-# ---------------
-sw_install() {
-    os="$1"
-    shift
-    case "$os" in
-        gentoo)
-            sudo emerge --ask --keep-going --verbose $@ || return 1
-            ;;
-        debian)
-            sudo apt-get install $@ || return 1
-            ;;
-        arch)
-            sudo pacman -S $@
-            ;;
-        freebsd)
-            pkg_name="$1"
-            pkgs=($(echo /usr/ports/*/*$pkg_name*))
-            counter='1'
-            for pkg in $pkgs; do
-                echo "$counter: $pkg"
-                counter="$(($counter + 1))"
-            done
-            printf "Which package: "
-            read pkg_num
-            pkg="${pkgs[$pkg_num]#/usr/ports/}"
-            sudo portmaster "$pkg"
-            ;;
-        *)
-            echo "Unsupported OS for install: $os"
-            return 1
-            ;;
-    esac
-    [[ -d "$DOTFILES/sw" ]] && echo "$@" >> "$DOTFILES/sw/recently_installed"
-}
+sw_install() { sudo emerge --ask --keep-going --verbose $@ \
+                && [[ -d "$DOTFILES/sw" ]] && echo "$@" >> "$DOTFILES/sw/recently_installed" ; }
 
-# Remove package
-# --------------
-sw_remove() {
-    os="$1"
-    shift
-    case "$os" in
-        gentoo)
-            sudo emerge --ask --keep-going --verbose --depclean $@
-            ;;
-        debian)
-            sudo apt-get remove $@
-            ;;
-        arch)
-            sudo pacman -Rs $@
-            ;;
-        freebsd)
-            sudo pkg delete $@
-            ;;
-        *)
-            echo "Unsupported OS for update: $os"
-            return 1
-            ;;
-    esac
-}
+sw_remove() { sudo emerge --ask --keep-going --verbose --depclean $@ ; }
 
-# Clean up state
-# --------------
-sw_clean() {
-    os="$1"
-    shift
-    case "$os" in
-        gentoo)
-            sudo emerge --ask --keep-going @preserved-rebuild
-            ;;
-        *)
-            echo "Unsupported OS for clean: $os"
-            return 1
-            ;;
-    esac
-}
-
+sw_clean() { sudo emerge --ask --keep-going @preserved-rebuild ; }
 
 # Functionality Wrapper
 # =====================
 
-# Current distro being used
-# -------------------------
-os="$OS_DISTRO"
-if [[ -z "$os" ]]; then
-    echo "Environment variable 'OS_DISTRO' undefined."
-    exit 1
-fi
-
-# Handle commands
-# ---------------
-sw_command="$1"
-shift
-case "$sw_command" in
-    sync)
-        sw_sync $os $@
-        ;;
-    search)
-        sw_search $os $@
-        ;;
-    update)
-        sw_update $os $@
-        ;;
-    install)
-        sw_install $os $@
-        ;;
-    remove)
-        sw_remove $os $@
-        ;;
-    clean)
-        sw_clean $os $@
-        ;;
-    *)
-        echo "Unrecognized software command: $sw_command"
-        exit 1
-        ;;
-esac
+command="$1" && shift
+sw_$command $@
