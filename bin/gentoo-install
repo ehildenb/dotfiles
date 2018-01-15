@@ -52,7 +52,7 @@ case "$command" in
         rsync --recursive --ignore-times "/$tmp_dotfiles/etc/portage/" /etc/portage/
         emerge --sync
         pushd /etc/portage
-        ln -s -f ../../usr/portage/gentoo/profiles/default/linux/amd64/13.0 make.profile
+        ln -s -f ../../usr/portage/gentoo/profiles/default/linux/amd64/17.0 make.profile
         popd
         emerge --oneshot portage
         emerge --update --deep --newuse @world
