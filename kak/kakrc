@@ -2,10 +2,10 @@
 # ========
 
 # line numbers
-hook global WinCreate .* %{ addhl number_lines }
+hook global WinCreate .* %{ addhl window number_lines }
 
 # brackets highlighting
-hook global WinCreate .* %{ addhl show_matching }
+hook global WinCreate .* %{ addhl window show_matching }
 
 # soft tabs, width 4
 set global indentwidth 4
@@ -15,11 +15,11 @@ hook global BufSetOption filetype=(?!makefile).* %{
 }
 
 # auto wrap at 80 chars
-set global autowrap_column 80
+# set global autowrap_column 80
 # hook global WinCreate .*\.md %{ autowrap-enable }
 
 # scrolloff
-set global scrolloff 12,30
+set global scrolloff 12,5
 
 # disable mouse support
 set global ui_options ncurses_enable_mouse=false
