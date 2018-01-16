@@ -70,6 +70,6 @@ map global user g %{ | pandoc --from=markdown --to=markdown --wrap=preserve <ret
 map global user w %{ | pandoc --from=markdown --to=markdown --columns=80    <ret> }
 
 # custom commands
-map global user h XypjXHr=A<ret><esc>
-map global user s XypjXHr-A<ret><esc>XHd
+map global user h xypxHr=A<ret><esc>
+map global user s xypxHr-A<ret><esc>
 map global user b %{ | pandoc-citeproc --bib2yaml --format=biblatex <ret> }
