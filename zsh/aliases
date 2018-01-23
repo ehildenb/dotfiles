@@ -166,6 +166,19 @@ o() {
     $BROWSER $header $site
 }
 
+# shortcut tmux sessions
+# ----------------------
+ts() {
+    command="$1" ; shift
+    session="$1" ; shift
+    case "$command" in
+        new)    tmux -S /tmp/shareds new    -s "$session" ;;
+        attach) tmux -S /tmp/shareds attach -t "$session" ;;
+        *)      echo "Unrecognized 'ts' command: '$command' ..." >&2
+                return 1 ;;
+    esac
+}
+
 # Utilities
 # =========
 
