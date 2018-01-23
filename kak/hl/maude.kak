@@ -4,12 +4,8 @@
 # Detection
 # ---------
 
-hook global BufSetOption mimetype=text/x-maude %{
-    set buffer filetype maude
-}
-
 hook global BufCreate .*[.](maude) %{
-    set buffer filetype maude
+    set-option buffer filetype maude
 }
 
 # Highlighters
@@ -42,10 +38,21 @@ add-highlighter shared/maude/code regex \b(QID|CONVERSION|STRING|RAT|FLOAT|COUNT
 # Initialization
 # ==============
 
-hook global WinSetOption filetype=maude %[
-    add-highlighter ref maude
-]
+hook -group maude-highlight global WinSetOption filetype=maude %{
+    add-highlighter window ref maude
+}
+
+hook global WinSetOption filetype=maude %{
+    hook window InsertEnd  .* -group maude-hooks  maude-filter-around-selections
+    hook window InsertChar .* -group maude-indent maude-indent-on-char
+    hook window InsertChar \n -group maude-indent maude-indent-on-new-line
+}
+
+hook -group maude-highlight global WinSetOption filetype=(?!maude).* %{
+    remove-highlighter window/maude
+}
 
 hook global WinSetOption filetype=(?!maude).* %{
-    rmhl maude
+    remove-hooks window maude-indent
+    remove-hooks window maude-hooks
 }
