@@ -31,6 +31,10 @@ alias g=git
 # ----------
 alias gdiff='git diff --no-index'
 
+# local bin
+# ---------
+local_bin() { export PATH=$DOTFILES/bin:$PATH ; }
+
 # Shortcut Commands
 # =================
 
