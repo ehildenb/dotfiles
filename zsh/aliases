@@ -66,6 +66,7 @@ shortcut() {
             476*)       long_path="$HOME/work/ta/cs476/fa2017${short_path#476}"    ;;
             ci*)        long_path="$HOME/work/fsl-ci${short_path#ci}"              ;;
             evm*)       long_path="$HOME/work/evm-semantics${short_path#evm}"      ;;
+            wasm*)      long_path="$HOME/work/wasm-semantics${short_path#wasm}"    ;;
             fm*)        long_path="$HOME/work/fm_seminar${short_path#fm}"          ;;
             kat*)       long_path="$HOME/work/k/kat/${short_path#kat}"             ;;
             oppen*)     long_path="$HOME/work/oppen-bus${short_path#oppen}"        ;;
