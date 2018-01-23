@@ -33,6 +33,7 @@ bin/git-ci
 bin/pd
 bin/psi
 bin/pvs
+bin/stack
 
 google-googletalkplugin/
 
