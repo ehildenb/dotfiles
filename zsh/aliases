@@ -35,6 +35,14 @@ alias gdiff='git diff --no-index'
 # ---------
 local_bin() { export PATH=$DOTFILES/bin:$PATH ; }
 
+# file subtraction
+# ----------------
+fminus() {
+    subtractFrom="$1"
+    subtractOut="$2"
+    grep --fixed-strings --line-regexp --invert-match --file "$subtractOut" "$subtractFrom"
+}
+
 # Shortcut Commands
 # =================
 
