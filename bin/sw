@@ -1,19 +1,17 @@
 #!/usr/bin/env zsh
 
-sw_sync() { sudo emerge --sync $@ ; }
+sw_sync() { sudo pacman --sync --refresh $@ ; }
 
-sw_search() { emerge --search $@ ; }
+sw_search() { pacman --sync --search $@ ; }
 
-sw_update() { sudo emerge --verbose --ask --update --deep \
-                        --newuse --changed-use --keep-going \
-                        --backtrack=100 @world $@ ; }
+sw_update() { sudo pacman --sync --sysupgrade $@ ; }
 
-sw_install() { sudo emerge --ask --keep-going --verbose $@ \
-                && [[ -d "$DOTFILES/sw" ]] && echo "$@" >> "$DOTFILES/sw/recently_installed" ; }
+sw_install() { sudo pacman --sync $@ ; }
 
-sw_remove() { sudo emerge --ask --keep-going --verbose --depclean $@ ; }
+sw_remove() { sudo pacman --remove --recursive $@ ; }
 
-sw_clean() { sudo emerge --ask --keep-going @preserved-rebuild $@ ; }
+sw_clean() { sudo pacman --remove --recursive --nosave \
+		$(pacman --query --unrequired --deps --quiet) $@ ; }
 
 # Functionality Wrapper
 # =====================
