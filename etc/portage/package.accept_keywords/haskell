@@ -2,3 +2,4 @@ app-text/pandoc ~amd64
 */*::haskell ~amd64
 dev-haskell/* ~amd64
 app-text/cmark ~amd64
+=dev-haskell/stack-9.9.9 **
