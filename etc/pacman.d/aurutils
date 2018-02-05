@@ -1,0 +1,8 @@
+[options]
+CacheDir = /var/cache/pacman/pkg
+CacheDir = /var/cache/pacman/aurutils
+CleanMethod = KeepCurrent
+
+[aurutils]
+SigLevel = Optional TrustAll
+Server = file:///var/cache/pacman/aurutils
