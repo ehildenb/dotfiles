@@ -183,10 +183,11 @@ o() {
 # ----------------------
 ts() {
     command="$1" ; shift
-    session="$1" ; shift
+    session="$1"
     case "$command" in
         new)    tmux -S /tmp/shareds new    -s "$session" ;;
         attach) tmux -S /tmp/shareds attach -t "$session" ;;
+        list)   tmux -S /tmp/shareds list-sessions        ;;
         *)      echo "Unrecognized 'ts' command: '$command' ..." >&2
                 return 1 ;;
     esac
