@@ -43,6 +43,10 @@ fminus() {
     grep --fixed-strings --line-regexp --invert-match --file "$subtractOut" "$subtractFrom"
 }
 
+# hledger
+# -------
+alias hl="hledger --file $HOME/admin/ledger/current.ledger"
+
 # Shortcut Commands
 # =================
 
