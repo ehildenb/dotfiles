@@ -9,7 +9,7 @@ urxvt*shading: 10
 URxvt*.scrollBar:    false
 
 !URxvt.font:         9x15
-URxvt*.font:         xft:inconsolata:pixelsize=18
+URxvt*.font:         xft:inconsolata:pixelsize=20
 !disable weird keycap modes
 URxvt*.iso14755:     false
 URxvt*.iso14755_52:  false
