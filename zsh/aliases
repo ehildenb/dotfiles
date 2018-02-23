@@ -43,6 +43,18 @@ fminus() {
     grep --fixed-strings --line-regexp --invert-match --file "$subtractOut" "$subtractFrom"
 }
 
+# ssh_agent
+# ---------
+ssh_agent_setup() {
+    proc="$(ps aux | grep 'ssh-agent -s' | grep -v grep | tr --squeeze-repeats '[:space:]')"
+    [[ "$?" != '0' ]] \
+        && eval $(ssh-agent -s) \
+        && return 0
+    pid="$(echo "$proc" | cut --delimiter=' ' --field='2')"
+    SSH_AGENT_PID="$pid" ssh-agent -k
+    eval $(ssh-agent -s)
+    ssh-add ~/.ssh/user
+}
 
 # Shortcut Commands
 # =================
@@ -61,9 +73,11 @@ shortcut() {
             schedule)   long_path="$HOME/personal/schedule.md"                     ;;
             wifi)       long_path="$DOTFILES/etc/wpa_supplicant/wifi_networks"     ;;
             ssh)        long_path="$HOME/.ssh/config"                              ;;
+            ledger)     long_path="$HOME/admin/ledger/current.ledger"              ;;
             csm-pl)     long_path="$HOME/work/csm-prog-lang${short_path#csm-pl}"   ;;
             src*)       long_path="$SRC/${short_path#src}"                         ;;
             maude*)     long_path="$SRC/maude${short_path#maude}"                  ;;
+            tangle*)    long_path="$SRC/pandoc-tangle${short_path#tangle}"         ;;
             psi*)       long_path="$SRC/psi${short_path#psi}"                      ;;
             ising*)     long_path="$HOME/work/ising${short_path#ising}"            ;;
             dotfiles*)  long_path="$DOTFILES${short_path#dotfiles}"                ;;
@@ -73,11 +87,11 @@ shortcut() {
             584*)       long_path="$HOME/work/uiuc-cs584${short_path#584}"         ;;
             576*)       long_path="$HOME/reads/uiuc-cs576${short_path#576}"        ;;
             476*)       long_path="$HOME/work/ta/cs476/fa2017${short_path#476}"    ;;
-            ci*)        long_path="$HOME/work/fsl-ci${short_path#ci}"              ;;
+            ci*)        long_path="$HOME/src/fsl-ci${short_path#ci}"               ;;
             evm*)       long_path="$HOME/src/evm-semantics${short_path#evm}"       ;;
             wasm*)      long_path="$HOME/src/wasm-semantics${short_path#wasm}"     ;;
             fm*)        long_path="$HOME/work/fm_seminar${short_path#fm}"          ;;
-            kat*)       long_path="$HOME/work/k/kat/${short_path#kat}"             ;;
+            kat*)       long_path="$HOME/src/kat/${short_path#kat}"                ;;
             oppen*)     long_path="$HOME/work/oppen-bus${short_path#oppen}"        ;;
             k*)         long_path="$HOME/src/k/$K_VERSION${short_path#k}"          ;;
             reads*)     long_path="$HOME/reads${short_path#reads}"                 ;;
