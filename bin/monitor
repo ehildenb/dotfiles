@@ -44,12 +44,12 @@ while true; do
     new_md5="$($diff_command | md5sum)"
     if [[ "$old_md5" != "$new_md5" ]]; then
         old_md5="$new_md5"
-        becho "Executing: $@"
+        becho "Executing $(date +%H:%M:%S): $@"
         eval "$@"
         if [[ "$?" == '0' ]]; then
-            becho "READY: $@"
+            becho "READY $(date +%H:%M:%S): $@"
         else
-            recho "READY: $@"
+            recho "READY $(date +%H:%M:%S): $@"
         fi
         while read -t 0; do :; done
     fi
