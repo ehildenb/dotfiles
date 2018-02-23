@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+ledger_file="$HOME/admin/ledger/current.ledger"
+HL=(hledger --file=$ledger_file)
+
+hl_command="$1" ; shift
+case "$hl_command" in
+    day)  $HL balance date:today       "$@" ;;
+    week) $HL balance date:'this week' "$@" ;;
+    bal)  $HL balance --depth 1        "$@" ;;
+    sf)   $HL balance --monthly sf     "$@" ;;
+    *)    $HL "$hl_command"            "$@" ;;
+esac
