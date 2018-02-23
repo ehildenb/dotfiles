@@ -69,7 +69,12 @@ map global user r %{ $ tmux send-keys -t '0.1' "$(cat -)" "C-m" <ret> }
 map global user g %{ | pandoc --from=markdown --to=markdown --wrap=preserve <ret> }
 map global user w %{ | pandoc --from=markdown --to=markdown --columns=80    <ret> }
 
-# custom commands
+# underline headers/subheaders
 map global user h xypxHr=A<ret><esc>
 map global user s xypxHr-A<ret><esc>
+
+# convert bibtex to yaml
 map global user b %{ | pandoc-citeproc --bib2yaml --format=biblatex <ret> }
+
+# insert current date in ledger format
+map global user t %{ ! date +%Y/%m/%d <ret> kA }
