@@ -40,7 +40,7 @@ case "$monitor_type" in
         ;;
 esac
 
-while true; do
+run() {
     new_md5="$($diff_command | md5sum)"
     if [[ "$old_md5" != "$new_md5" ]]; then
         old_md5="$new_md5"
@@ -53,6 +53,10 @@ while true; do
         fi
         while read -t 0; do :; done
     fi
+}
+
+while true; do
+    run $@
     read -s -k 1 -t 2 input
     case "$input" in
         r)
@@ -60,7 +64,20 @@ while true; do
             ;;
         z)
             tmux resize-pane -Z
-            read -s -k 1
+            # allow user to (continually) re-run while in full screen
+            while true; do
+                read -s -k 1 input
+                case "$input" in
+                    r)
+                        old_md5=""
+                        run $@
+                        ;;
+                    *)
+                        break
+                        ;;
+                esac
+            done
+
             tmux resize-pane -Z
             tmux select-pane -t 0
             new_md5="$($diff_command | md5sum)"
