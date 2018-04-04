@@ -66,36 +66,37 @@ shortcut() {
     long_path="$short_path"
     if [[ ! -f "$short_path" && ! -d "$short_path" ]]; then
         case "$short_path" in
-            '')         long_path="$HOME"                                          ;;
-            '-')        long_path="-"                                              ;;
-            contacts)   long_path="$DOTFILES/mail/mutt/contacts"                   ;;
-            aliases)    long_path="$DOTFILES/zsh/aliases"                          ;;
-            schedule)   long_path="$HOME/personal/schedule.md"                     ;;
-            wifi)       long_path="$DOTFILES/etc/wpa_supplicant/wifi_networks"     ;;
-            ssh)        long_path="$HOME/.ssh/config"                              ;;
-            ledger)     long_path="$HOME/admin/ledger/current.ledger"              ;;
-            csm-pl)     long_path="$HOME/work/csm-prog-lang${short_path#csm-pl}"   ;;
-            src*)       long_path="$SRC/${short_path#src}"                         ;;
-            maude*)     long_path="$SRC/maude${short_path#maude}"                  ;;
-            tangle*)    long_path="$SRC/pandoc-tangle${short_path#tangle}"         ;;
-            psi*)       long_path="$SRC/psi${short_path#psi}"                      ;;
-            ising*)     long_path="$HOME/work/ising${short_path#ising}"            ;;
-            dotfiles*)  long_path="$DOTFILES${short_path#dotfiles}"                ;;
-            bin*)       long_path="$DOTFILES/bin${short_path#bin}"                 ;;
-            500*)       long_path="$HOME/work/class/uiuc-math500${short_path#500}" ;;
-            570*)       long_path="$HOME/work/class/uiuc-math570${short_path#570}" ;;
-            584*)       long_path="$HOME/work/uiuc-cs584${short_path#584}"         ;;
-            576*)       long_path="$HOME/reads/uiuc-cs576${short_path#576}"        ;;
-            476*)       long_path="$HOME/work/ta/cs476/fa2017${short_path#476}"    ;;
-            ci*)        long_path="$HOME/src/fsl-ci${short_path#ci}"               ;;
-            evm*)       long_path="$HOME/src/evm-semantics${short_path#evm}"       ;;
-            wasm*)      long_path="$HOME/src/wasm-semantics${short_path#wasm}"     ;;
-            fm*)        long_path="$HOME/work/fm_seminar${short_path#fm}"          ;;
-            kat*)       long_path="$HOME/src/kat/${short_path#kat}"                ;;
-            oppen*)     long_path="$HOME/work/oppen-bus${short_path#oppen}"        ;;
-            k*)         long_path="$HOME/src/k/$K_VERSION${short_path#k}"          ;;
-            reads*)     long_path="$HOME/reads${short_path#reads}"                 ;;
-            scratch*)   long_path="$SCRATCH${short_path#scratch}"                  ;;
+            '')         long_path="$HOME"                                               ;;
+            '-')        long_path="-"                                                   ;;
+            contacts)   long_path="$DOTFILES/mail/mutt/contacts"                        ;;
+            aliases)    long_path="$DOTFILES/zsh/aliases"                               ;;
+            schedule)   long_path="$HOME/personal/schedule.md"                          ;;
+            wifi)       long_path="$DOTFILES/etc/wpa_supplicant/wifi_networks"          ;;
+            ssh)        long_path="$HOME/.ssh/config"                                   ;;
+            ledger)     long_path="$HOME/admin/ledger/current.ledger"                   ;;
+            csm-pl)     long_path="$HOME/work/csm-prog-lang${short_path#csm-pl}"        ;;
+            src*)       long_path="$SRC/${short_path#src}"                              ;;
+            maude*)     long_path="$SRC/maude${short_path#maude}"                       ;;
+            tangle*)    long_path="$SRC/pandoc-tangle${short_path#tangle}"              ;;
+            psi*)       long_path="$SRC/psi${short_path#psi}"                           ;;
+            ising*)     long_path="$HOME/work/ising${short_path#ising}"                 ;;
+            dotfiles*)  long_path="$DOTFILES${short_path#dotfiles}"                     ;;
+            bin*)       long_path="$DOTFILES/bin${short_path#bin}"                      ;;
+            500*)       long_path="$HOME/work/class/uiuc-math500${short_path#500}"      ;;
+            570*)       long_path="$HOME/work/class/uiuc-math570${short_path#570}"      ;;
+            584*)       long_path="$HOME/work/uiuc-cs584${short_path#584}"              ;;
+            576*)       long_path="$HOME/reads/uiuc-cs576${short_path#576}"             ;;
+            476*)       long_path="$HOME/work/ta/cs476/fa2017${short_path#476}"         ;;
+            ci*)        long_path="$HOME/src/fsl-ci${short_path#ci}"                    ;;
+            evm*)       long_path="$HOME/src/evm-semantics${short_path#evm}"            ;;
+            plutus*)    long_path="$HOME/src/plutus-core-semantics${short_path#plutus}" ;;
+            wasm*)      long_path="$HOME/src/wasm-semantics${short_path#wasm}"          ;;
+            fm*)        long_path="$HOME/work/fm_seminar${short_path#fm}"               ;;
+            kat*)       long_path="$HOME/src/kat/${short_path#kat}"                     ;;
+            oppen*)     long_path="$HOME/work/oppen-bus${short_path#oppen}"             ;;
+            k*)         long_path="$HOME/src/k/$K_VERSION${short_path#k}"               ;;
+            reads*)     long_path="$HOME/reads${short_path#reads}"                      ;;
+            scratch*)   long_path="$SCRATCH${short_path#scratch}"                       ;;
         esac
     fi
     printf "%s\n" "$long_path"
