@@ -33,7 +33,7 @@ alias gdiff='git diff --no-index'
 
 # local bin
 # ---------
-local_bin() { export PATH=$DOTFILES/bin:$PATH ; }
+local_bin() { export PATH=$DOTFILES/bin:$HOME/.local/bin:$PATH ; }
 
 # file subtraction
 # ----------------
