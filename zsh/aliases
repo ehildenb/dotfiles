@@ -218,7 +218,7 @@ backup() {
     dest="$1"
     [[ ! -d "$dest" ]] && return 1
     rsync --progress --partial --archive --verbose --update --delete \
-        .mail .passwd .ssh admin dotfiles media personal reads src work "$dest"
+        .mail .ssh admin dotfiles media personal reads src work "$dest"
 }
 
 # simple web server
