@@ -27,9 +27,12 @@ hw_temp() {
 
 hw_mem() {
     lid_file='/proc/acpi/button/lid/LID0/state'
-    while grep 'open' "$lid_file" &> /dev/null; do sleep 2; done                        # lid closed
     for i in $(seq 1 30); do [[ "$(lpstat | wc -l)" == '0' ]] && break;
         echo "waiting for print queue ..."
+        sleep 2;
+    done
+    while grep 'open' "$lid_file" &> /dev/null; do
+        echo "waiting for lid to close ..."
         sleep 2;
     done
     sudo pm-suspend
