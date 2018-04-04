@@ -1,13 +1,56 @@
 #!/usr/bin/env zsh
 
-ledger_file="$HOME/admin/ledger/current.ledger"
+admin_dir="$HOME/admin"
+ledger_dir="$admin_dir/ledger"
+schwab_dir="$admin_dir/schwab"
+schwab_rules="$schwab_dir/csv.rules"
+ledger_file="$ledger_dir/current.ledger"
 HL=(hledger --file=$ledger_file)
 
-hl_command="$1" ; shift
+die() {
+    echo "ERROR: $@"
+    exit 1
+}
+
+check_clean_work_dir() {
+    command_run="$1" && shift
+    git --work-tree=$admin_dir --git-dir=$admin_dir/.git diff-index --quiet HEAD -- $ledger_dir \
+        || die "Will not run '$command_run' with untracked changes."
+}
+
+hl_scrub() {
+    file="$1" && shift
+    check_clean_work_dir "scrub"
+    tmp_ledger="$(mktemp ledger.XXXXXX)"
+    trap "rm -rf $tmp_ledger" INT TERM EXIT
+    hledger --file="$file" print > "$tmp_ledger"
+    mv "$tmp_ledger" "$file"
+}
+
+hl_archive() {
+    month="$1" && shift
+    check_clean_work_dir "archive"
+    storage_file="$ledger_dir/$(echo "$month" | tr -d '/').ledger"
+    tmp_ledger="$(mktemp ledger.XXXXXX)"
+    trap "rm -rf $tmp_ledger" INT TERM EXIT
+    $HL print "date:$month" > "$tmp_ledger"
+    mv "$tmp_ledger" "$storage_file"
+}
+
+hl_schwab() {
+    statement_date="$1" ; shift
+    hledger --rules-file "$schwab_rules" --file "$schwab_dir/$statement_date.csv" "$@"
+}
+
+hl_command="$1" && shift
 case "$hl_command" in
-    day)  $HL balance date:today       "$@" ;;
-    week) $HL balance date:'this week' "$@" ;;
-    bal)  $HL balance --depth 1        "$@" ;;
-    sf)   $HL balance --monthly sf     "$@" ;;
-    *)    $HL "$hl_command"            "$@" ;;
+    day)     $HL balance date:today       "$@" ;;
+    week)    $HL balance date:'this week' "$@" ;;
+    bal)     $HL balance --depth 1        "$@" ;;
+    assets)  $HL balance "$@" assets           ;;
+    sf)      $HL balance --monthly sf     "$@" ;;
+    scrub)   hl_scrub                     "$@" ;;
+    archive) hl_archive                   "$@" ;;
+    schwab)  hl_schwab                    "$@" ;;
+    *)       $HL "$hl_command"            "$@" ;;
 esac
