@@ -18,6 +18,17 @@ check_clean_work_dir() {
         || die "Will not run '$command_run' with untracked changes."
 }
 
+headerN() {
+    level="$1" ; shift
+    replace_char=''
+    [[ "$level" == '1' ]] && replace_char='='
+    [[ "$level" == '2' ]] && replace_char='-'
+    echo
+    echo "$@"
+    echo "$@" | tr '[[:blank:][:alnum:]]' "$replace_char"
+    echo
+}
+
 hl_scrub() {
     file="$1" && shift
     check_clean_work_dir "scrub"
