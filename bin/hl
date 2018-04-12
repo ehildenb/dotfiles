@@ -53,6 +53,42 @@ hl_schwab() {
     hledger --rules-file "$schwab_rules" --file "$schwab_dir/$statement_date.csv" "$@"
 }
 
+hl_invoice_by_line_summary() {
+    account="$1" ; shift
+    $HL print "$account" "$@" | grep -e '^[^ ]' -e "$account" \
+        | while read date_desc; do
+            read account_hours
+            date="$(echo "$date_desc" | cut --delimiter=' ' --field='1')"
+            desc="$(echo "$date_desc" | cut --delimiter=' ' --field='2-')"
+            hour="$(echo "$account_hours" | tr --squeeze-repeats '[:space:]' | cut --delimiter=' ' --field=2)"
+            echo "$date  $hour  $desc"
+        done
+}
+
+hl_invoice_project() {
+    category="$1" ; shift
+    account="$1"  ; shift
+    headerN 2 "$category"
+    hl_invoice_by_line_summary "$account" "$@"
+    total_hours="$($HL balance "$account" "$@" | tail -n1 | tr --squeeze-repeats '[:space:]' | cut --delimiter=' ' --field=2)"
+    echo "Total       $total_hours"
+}
+
+hl_invoice() {
+    company="$1"    ; shift
+    date_range="$1" ; shift
+    case "$company" in
+        rv) headerN 1 "Runtime Verification Invoice"
+            headerN 2 "Summary"
+            $HL balance --daily --average --row-total work:rv date:"$date_range" "$@"
+            hl_invoice_project "Admin"        work:rv:admin   date:"$date_range" "$@"
+            hl_invoice_project "Kore"         work:rv:sbc     date:"$date_range" "$@"
+            hl_invoice_project "IOHK"         work:rv:ide     date:"$date_range" "$@"
+            hl_invoice_project "Verification" work:rv:kevm    date:"$date_range" "$@"
+            ;;
+    esac
+}
+
 hl_command="$1" && shift
 case "$hl_command" in
     day)     $HL balance date:today       "$@" ;;
