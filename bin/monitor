@@ -3,10 +3,15 @@
 source "$DOTFILES/zsh/aliases"
 old_md5=""
 new_md5=""
+time_between='2'
 
 monitor_type="$1" && shift
 
 case "$monitor_type" in
+    poll)
+        time_between="$1" && shift
+        diff_command=("date")
+        ;;
     git)
         diff_command=("git" "diff")
         ;;
@@ -57,7 +62,7 @@ run() {
 
 while true; do
     run $@
-    read -s -k 1 -t 2 input
+    read -s -k 1 -t "$time_between" input
     case "$input" in
         r)
             old_md5=""
