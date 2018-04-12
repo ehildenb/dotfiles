@@ -99,5 +99,6 @@ case "$hl_command" in
     scrub)   hl_scrub                     "$@" ;;
     archive) hl_archive                   "$@" ;;
     schwab)  hl_schwab                    "$@" ;;
+    invoice) hl_invoice                   "$@" ;;
     *)       $HL "$hl_command"            "$@" ;;
 esac
