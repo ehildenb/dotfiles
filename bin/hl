@@ -87,6 +87,14 @@ hl_invoice() {
             hl_invoice_project "IOHK"         work:rv:ide     date:"$date_range" "$@"
             hl_invoice_project "Verification" work:rv:kevm    date:"$date_range" "$@"
             ;;
+        ef) headerN 1 "Ethereum Foundation Invoice"
+            headerN 2 "Summary"
+            $HL balance --average --row-total work:ef       date:"$date_range" "$@"
+            hl_invoice_project "Admin"        work:ef:admin date:"$date_range" "$@"
+            hl_invoice_project "KEVM"         work:ef:kevm  date:"$date_range" "$@"
+            hl_invoice_project "KWASM"        work:ef:kwasm date:"$date_range" "$@"
+            hl_invoice_project "EEI/EVMC"     work:ef:eei   date:"$date_range" "$@"
+            ;;
     esac
 }
 
