@@ -61,7 +61,7 @@ hl_invoice_by_line_summary() {
             date="$(echo "$date_desc" | cut --delimiter=' ' --field='1')"
             desc="$(echo "$date_desc" | cut --delimiter=' ' --field='2-')"
             hour="$(echo "$account_hours" | tr --squeeze-repeats '[:space:]' | cut --delimiter=' ' --field=2)"
-            echo "$date  $hour  $desc"
+            echo "$date | $hour  | $desc"
         done
 }
 
@@ -71,7 +71,8 @@ hl_invoice_project() {
     headerN 2 "$category"
     hl_invoice_by_line_summary "$account" "$@"
     total_hours="$($HL balance "$account" "$@" | tail -n1 | tr --squeeze-repeats '[:space:]' | cut --delimiter=' ' --field=2)"
-    echo "Total       $total_hours"
+    [[ "$(printf "$total_hours" | wc -c)" == '3' ]] && total_hours="$total_hours "
+    echo "**Total**  | $total_hours | -"
 }
 
 hl_invoice() {
