@@ -28,7 +28,7 @@ headerN() {
     [[ "$level" == '2' ]] && replace_char='-'
     echo
     echo "$@"
-    echo "$@" | tr '[[:blank:][:alnum:]]' "$replace_char"
+    echo "$@" | tr '[[:blank:][:alnum:]/]' "$replace_char"
     echo
 }
 
@@ -62,7 +62,8 @@ hl_etherscan() {
 
 hl_invoice_by_line_summary() {
     account="$1" ; shift
-    $HL print "$account" "$@" | grep -e '^[^ ]' -e "$account" \
+    job="$(echo "$account" | cut --delimiter=':' --field=1-2)"
+    $HL print "$account" "$@" | grep -e '^[^ ]' -e "^    $job" \
         | while read date_desc; do
             read account_hours
             date="$(echo "$date_desc" | cut --delimiter=' ' --field='1')"
@@ -88,11 +89,11 @@ hl_invoice() {
     case "$company" in
         rv) headerN 1 "Runtime Verification Invoice"
             headerN 2 "Summary"
-            $HL balance --daily --average --row-total work:rv date:"$date_range" "$@"
-            hl_invoice_project "Admin"        work:rv:admin   date:"$date_range" "$@"
-            hl_invoice_project "Kore"         work:rv:sbc     date:"$date_range" "$@"
-            hl_invoice_project "IOHK"         work:rv:ide     date:"$date_range" "$@"
-            hl_invoice_project "Verification" work:rv:kevm    date:"$date_range" "$@"
+            $HL balance --daily --average --row-total work:rv    date:"$date_range" "$@"
+            hl_invoice_project "Admin"        work:rv:admin      date:"$date_range" "$@"
+            hl_invoice_project "Kore"         work:rv:'(sbc|kore)' date:"$date_range" "$@"
+            hl_invoice_project "IOHK"         work:rv:ide        date:"$date_range" "$@"
+            hl_invoice_project "Verification" work:rv:kevm       date:"$date_range" "$@"
             ;;
         ef) headerN 1 "Ethereum Foundation Invoice"
             headerN 2 "Summary"
