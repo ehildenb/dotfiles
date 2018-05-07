@@ -4,6 +4,9 @@ admin_dir="$HOME/admin"
 ledger_dir="$admin_dir/ledger"
 schwab_dir="$admin_dir/schwab"
 schwab_rules="$schwab_dir/csv.rules"
+schwab_file="$schwab_dir/exported-transactions.csv"
+etherscan_rules="crypto/etherscan.rules"
+etherscan_file="crypto/etherscan.csv"
 ledger_file="$ledger_dir/current.ledger"
 HL=(hledger --file=$ledger_file)
 
@@ -50,7 +53,11 @@ hl_archive() {
 
 hl_schwab() {
     statement_date="$1" ; shift
-    hledger --rules-file "$schwab_rules" --file "$schwab_dir/$statement_date.csv" "$@"
+    hledger --rules-file "$schwab_rules" --file "$schwab_file" "$@"
+}
+
+hl_etherscan() {
+    hledger --rules-file "$etherscan_rules" --file "$etherscan_file" "$@"
 }
 
 hl_invoice_by_line_summary() {
@@ -100,14 +107,15 @@ hl_invoice() {
 
 hl_command="$1" && shift
 case "$hl_command" in
-    day)     $HL balance date:today       "$@" ;;
-    week)    $HL balance date:'this week' "$@" ;;
-    bal)     $HL balance --depth 1        "$@" ;;
-    assets)  $HL balance "$@" assets           ;;
-    sf)      $HL balance --monthly sf     "$@" ;;
-    scrub)   hl_scrub                     "$@" ;;
-    archive) hl_archive                   "$@" ;;
-    schwab)  hl_schwab                    "$@" ;;
-    invoice) hl_invoice                   "$@" ;;
-    *)       $HL "$hl_command"            "$@" ;;
+    day)       $HL balance date:today       "$@" ;;
+    week)      $HL balance date:'this week' "$@" ;;
+    bal)       $HL balance --depth 1        "$@" ;;
+    assets)    $HL balance "$@" assets           ;;
+    sf)        $HL balance --monthly sf     "$@" ;;
+    scrub)     hl_scrub                     "$@" ;;
+    archive)   hl_archive                   "$@" ;;
+    schwab)    hl_schwab                    "$@" ;;
+    etherscan) hl_etherscan                 "$@" ;;
+    invoice)   hl_invoice                   "$@" ;;
+    *)         $HL "$hl_command"            "$@" ;;
 esac
