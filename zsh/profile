@@ -23,6 +23,7 @@ export PRINTER="siebl-2203-printer"
 PATH="$PATH:/sbin"
 PATH="$PATH:/usr/sbin"
 PATH="$PATH:$DOTFILES/bin"
+PATH="$PATH:$HOME/.local/bin"
 PATH="$PATH:$SRC/k/k-distribution/target/release/k/bin"
 export PATH
 
