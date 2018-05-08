@@ -1,0 +1,21 @@
+# required by dev-util/buildbot-0.9.15_p1::gentoo
+# required by buildbot (argument)
+dev-python/twisted ~amd64
+# required by dev-python/twisted-17.9.0::gentoo
+# required by dev-util/buildbot-0.9.15_p1::gentoo
+# required by buildbot (argument)
+dev-python/hyperlink ~amd64
+# required by dev-python/twisted-17.9.0::gentoo
+# required by dev-util/buildbot-0.9.15_p1::gentoo
+# required by buildbot (argument)
+dev-python/automat ~amd64
+# required by dev-python/automat-0.6.0::gentoo
+# required by dev-python/twisted-17.9.0::gentoo
+# required by dev-util/buildbot-0.9.15_p1::gentoo
+# required by buildbot (argument)
+dev-python/m2r ~amd64
+# required by buildbot (argument)
+dev-util/buildbot ~amd64
+# required by dev-util/buildbot-0.9.15_p1::gentoo[-test]
+# required by buildbot (argument)
+dev-util/buildbot-worker ~amd64

@@ -1,0 +1,12 @@
+# required by app-admin/haskell-updater-1.2.12::haskell
+# required by dev-lang/ghc-8.0.2::haskell[-ghcbootstrap]
+# required by dev-haskell/data-default-instances-old-locale-0.0.1::haskell
+# required by dev-haskell/data-default-0.7.1.1::haskell
+# required by app-text/pandoc-2.1.1::haskell
+# required by @selected
+# required by @world (argument)
+=sys-apps/portage-2.3.28 ~amd64
+# required by sys-apps/portage-2.3.28::gentoo[rsync-verify,-build]
+# required by @selected
+# required by @world (argument)
+=app-portage/gemato-13.0 ~amd64

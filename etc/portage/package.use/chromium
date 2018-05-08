@@ -1,0 +1,10 @@
+# required by x11-misc/xdg-utils-1.1.1-r1::gentoo
+# required by www-client/chromium-64.0.3282.167::gentoo
+# required by chromium (argument)
+app-text/xmlto text
+# required by www-client/chromium-64.0.3282.167::gentoo
+# required by chromium (argument)
+dev-libs/libxml2 icu
+# required by www-client/chromium-64.0.3282.167::gentoo
+# required by chromium (argument)
+sys-libs/zlib minizip
