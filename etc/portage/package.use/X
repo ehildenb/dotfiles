@@ -1,2 +1,7 @@
 >=x11-base/xorg-server-1.19.5 glamor
 x11-terms/rxvt-unicode xft
+media-libs/imlib2 X
+# required by media-libs/giblib-1.2.4-r1::gentoo
+# required by media-gfx/scrot-0.8_p13::gentoo
+# required by scrot (argument)
+>=media-libs/imlib2-1.4.9 X
