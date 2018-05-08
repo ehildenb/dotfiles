@@ -7,6 +7,10 @@ time_between='2'
 
 monitor_type="$1" && shift
 
+timestamp() { date +'%F %H:%M:%S'          ; }
+recho()     { echo '\033[0;31m'$@'\033[0m' ; }
+becho()     { echo '\033[0;34m'$@'\033[0m' ; }
+
 case "$monitor_type" in
     poll)
         time_between="$1" && shift
@@ -49,12 +53,12 @@ run() {
     new_md5="$($diff_command | md5sum)"
     if [[ "$old_md5" != "$new_md5" ]]; then
         old_md5="$new_md5"
-        becho "Executing $(date +%H:%M:%S): $@"
+        becho "Executing $(timestamp): $@"
         eval "$@"
         if [[ "$?" == '0' ]]; then
-            becho "READY $(date +%H:%M:%S): $@"
+            becho "READY $(timestamp): $@"
         else
-            recho "READY $(date +%H:%M:%S): $@"
+            recho "READY $(timestamp): $@"
         fi
         while read -t 0; do :; done
     fi
