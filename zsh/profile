@@ -23,7 +23,7 @@ export PRINTER="siebl-2203-printer"
 PATH="$PATH:/sbin"
 PATH="$PATH:/usr/sbin"
 PATH="$PATH:$DOTFILES/bin"
-PATH="$PATH:$SRC/k/rvk/k-distribution/target/release/k/bin"
+PATH="$PATH:$SRC/k/k-distribution/target/release/k/bin"
 export PATH
 
 ### ccache
@@ -41,9 +41,6 @@ export MD_DATA="$DOTFILES/md"
 
 ### Maude
 export MAUDE_VERSION="maude-alpha114"
-
-### K Framework
-export K_VERSION=rvk
 
 ### LLVM Dev
 export LLVM_ROOT="$HOME/work/uiuc-cs526/llvm"
