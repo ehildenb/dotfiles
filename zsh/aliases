@@ -4,7 +4,7 @@
 # colorized output
 # ----------------
 alias ls='ls --color=auto'
-[[ "$OS_DISTRO" == "freebsd" ]] && alias ls='ls -G'
+[[ "$OS_DISTRO" != "freebsd" ]] || alias ls='ls -G'
 alias grep='grep --color=auto'
 alias wifi='net wifi'
 becho() { echo '\033[0;34m'$@'\033[0m' ; }
@@ -116,14 +116,6 @@ shortcut() {
 #hash -d -- scratch="$SCRATCH"                  ;;
 #hash -d -- evm="$HOME/work/evm-modeling"       ;;
 #hash -d -- reviews="$HOME/work/reviews"        ;;
-
-# shortcut ls
-# -----------
-l() {
-    dirname="$1"
-    [[ ! -z "$dirname" ]] && shift
-    ls "$(shortcut "$dirname")" $@
-}
 
 # shortcut cd
 # -----------
@@ -333,13 +325,6 @@ rebuild_kernel() {
 
 # X-11
 # ====
-
-# startx aliases
-# --------------
-firefox() { my3 launch 1 "/usr/bin/firefox $@" }
-private() { my3 launch 2 "/usr/bin/firefox -private $@" }
-slack()   { my3 launch 1 "/usr/bin/slack $@" }
-skype()   { my3 launch 1 "/usr/bin/skypeforlinux $@" }
 
 # mpv on remote server
 # --------------------
