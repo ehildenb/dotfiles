@@ -30,7 +30,7 @@
   };
 
   # Set your time zone.
-  # time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "America/Denver";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
