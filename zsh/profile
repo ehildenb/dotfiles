@@ -81,7 +81,7 @@ case "$HOST" in
         ;;
     *)
         OS_DISTRO=""
-        ETC=""
+        ETC="/etc"
         ;;
 esac
 export OS_DISTRO
