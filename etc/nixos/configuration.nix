@@ -69,12 +69,42 @@
   # services.xserver.displayManager.sddm.enable = true;
   # services.xserver.desktopManager.plasma5.enable = true;
 
+  services.xserver = {
+    enable = true;
+    layout = "dvorak";
+    xkbOptions = "ctrl:nocaps";
+    windowManager.i3.enable = true;
+    displayManager.sessionCommands = ''
+        ${pkgs.xlibs.xrdb}/bin/xrdb ~/dotfiles/X/Xresources
+        ${pkgs.xlibs.xset}/bin/xset r rate 200 40
+    '';
+  };
+
+  fonts = {
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      anonymousPro
+      dejavu_fonts
+      font-droid
+      freefont_ttf
+      google-fonts
+      inconsolata
+      liberation_ttf
+      powerline-fonts
+      source-code-pro
+      terminus_font
+      ttf_bitstream_vera
+      ubuntu_font_family
+    ];
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ehildenb = {
     isNormalUser = true;
     home = "/home/ehildenb";
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "video" "audio" ];
+    extraGroups = [ "wheel" "tty" "video" "audio" "input" ];
   };
 
   # This value determines the NixOS release with which your system is to be
