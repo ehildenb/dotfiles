@@ -155,7 +155,7 @@ v() {
     [[ ! -f "$actual_pdf" ]] \
         && recho "Not a file: $actual_pdf" \
         && return 1
-    $VIEWER "$@" "$actual_pdf"
+    nohup $VIEWER "$@" "$actual_pdf" &>/dev/null &
 }
 
 # shortcut browser
