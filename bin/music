@@ -257,6 +257,7 @@ case "$music_command" in
         ;;
     init)
         amixer set Master 94%
+        amixer set Master mute on
         amixer set Headphone 94%
         amixer set Speaker 94%
         amixer set PCM 10%
