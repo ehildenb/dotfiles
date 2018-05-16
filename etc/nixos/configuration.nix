@@ -73,6 +73,8 @@
     enable = true;
     layout = "dvorak";
     xkbOptions = "ctrl:nocaps";
+    libinput.enable = true;
+    libinput.tapping = true;
     windowManager.i3.enable = true;
     displayManager.sessionCommands = ''
         ${pkgs.xlibs.xrdb}/bin/xrdb ~/dotfiles/X/Xresources

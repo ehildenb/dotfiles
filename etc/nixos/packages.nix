@@ -9,8 +9,8 @@
     wget vim w3m zsh tmux git kakoune htop nmap
     cmus alsaUtils rtorrent mpv youtube-dl
     pandoc texlive.combined.scheme-full hledger
-    xorg.xinit xorg.xorgserver xorg.xf86inputevdev xorg.xf86videointel xorg.xf86inputsynaptics
+    xorg.xinit xorg.xorgserver xorg.xf86inputevdev xorg.xf86videointel
     i3 rxvt_unicode mupdf firefox inconsolata
-    python3 bc
+    python3 bc dos2unix
   ];
 }
