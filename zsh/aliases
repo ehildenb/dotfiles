@@ -244,22 +244,7 @@ print_setup() {
 
 # mail
 # ----
-m() {
-    [[ "$#" -lt '1' ]] && mutt && return
-    case "$1" in
-        c|check)
-            if [[ "$(ps aux | grep -c offlineimap)" -gt '1' ]]; then
-                pkill -9 offlineimap
-                rm ~/.offlineimap/pid
-            fi
-            offlineimap
-            ;;
-        *)
-            echo "Unrecognized option: '$1'"
-            return 1
-            ;;
-    esac
-}
+m() { mukk "$@" ; }
 
 # markdown publishing
 # -------------------
