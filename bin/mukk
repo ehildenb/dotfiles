@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# fail on any command failure
+set -e
+
+# settings
+sync=(offlineimap)
+index=(notmuch new)
+
+# reporting
+_report() { echo "== mukk: $@" >&2 ; }
+_warn()   { _report "[WARNING] $@" ; }
+_die()    { _report "[ERROR] $@" ; exit 1 ; }
+
+# Functionality
+# -------------
+
+mukk_sync() {
+    while [[ "$(ps aux | grep -c "$sync")" -gt '1' ]]; do
+        _warn "Potential instance of '$sync' running..."
+        sleep 2
+    done
+    "${sync[@]}"
+    "${index[@]}"
+}
+
+mukk_index() {
+    "${index[@]}"
+}
+
+# Main
+# ====
+
+_usage() {
+    exit_status="$1"
+    echo "
+    usage: $0 [(s|sync)|(i|index)]
+
+        $0 (s|sync):  invoke '$sync'
+        $0 (i|index): invoke '$index'"
+    exit "$exit_status"
+}
+
+{ mukk_command="$1" && shift ; } || _usage 1
+case "$mukk_command" in
+    s|sync)  mukk_sync  "$@" ;;
+    i|index) mukk_index "$@" ;;
+    *)       echo "Unrecognized command: '$mukk_command'"
+             _usage 1
+             ;;
+esac
