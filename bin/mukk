@@ -6,6 +6,8 @@ set -e
 # settings
 sync=(offlineimap)
 index=(notmuch new)
+list=(notmuch search)
+read=(notmuch tag -inbox)
 
 # reporting
 _report() { echo "== mukk: $@" >&2 ; }
@@ -20,12 +22,20 @@ mukk_sync() {
         _warn "Potential instance of '$sync' running..."
         sleep 2
     done
-    "${sync[@]}"
+    "${sync[@]}" "$@"
     "${index[@]}"
 }
 
 mukk_index() {
-    "${index[@]}"
+    "${index[@]}" "$@"
+}
+
+mukk_list() {
+    "${list[@]}" "$@"
+}
+
+mukk_read() {
+    "${read[@]}" "$@"
 }
 
 # Main
@@ -34,10 +44,14 @@ mukk_index() {
 _usage() {
     exit_status="$1"
     echo "
-    usage: $0 [(s|sync)|(i|index)]
+    usage:
+        $0 (s|sync):            download new email
+        $0 (i|index):           tag/index existing email
+        $0 (l|list) [FILTER+]:  list given emails
+        $0 (r|read) [FILTER+]:  remove 'inbox' tag from given emails
 
-        $0 (s|sync):  invoke '$sync'
-        $0 (i|index): invoke '$index'"
+    where:
+        FILTER:  filters on the emails to apply"
     exit "$exit_status"
 }
 
@@ -45,6 +59,8 @@ _usage() {
 case "$mukk_command" in
     s|sync)  mukk_sync  "$@" ;;
     i|index) mukk_index "$@" ;;
+    l|list)  mukk_list  "$@" ;;
+    r|read)  mukk_read  "$@" ;;
     *)       echo "Unrecognized command: '$mukk_command'"
              _usage 1
              ;;
