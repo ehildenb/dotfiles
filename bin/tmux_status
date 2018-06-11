@@ -35,14 +35,7 @@ get_bright() {
 
 # new emails
 get_email() {
-    email_dir="$HOME/.mail/uiuc/INBOX/new/"
-    from_me='^From: Everett Hildenbrandt <hildenb2@illinois.edu>$'
-    num_email='0'
-    for email in $(ls "$email_dir"); do
-        grep "$from_me" "$email_dir/$email" &>/dev/null \
-            && continue
-        num_email=$(($num_email + 1))
-    done
+    num_email="$(mukk list tag:inbox | wc -l)"
     [[ "$num_email" != "0" ]] && echo "$num_email"
     return 0
 }
