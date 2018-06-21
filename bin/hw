@@ -60,6 +60,19 @@ hw_brightness() {
     fi
 }
 
+# screen resolution
+# -----------------
+
+hw_xrandr() {
+    xrandr_mode="$1" ; shift
+    case "$xrandr_mode" in
+        home)   xrandr --output eDP1 --off            --output HDMI1 --mode 1920x1080 ;;
+        laptop) xrandr --output eDP1 --mode 1920x1080                                 ;;
+        work)   xrandr --output eDP1 --off            --output HDMI1 --mode 3840x2160 ;;
+        *)      echo "Unknown xrandr mode: '$xrandr_mode'"                            ;;
+    esac
+}
+
 # screen redshift
 # ---------------
 
@@ -70,13 +83,7 @@ hw_redshift() {
         day)   temperature='4800' ;;
         night) temperature='2200' ;;
     esac
-
-    for display in 0 1 2 3 4 5 6 7 8; do
-        echo
-        echo "DISPLAY $display"
-        echo "export DISPLAY=:$display; redshift -O $temperature; exit" | sudo -u sandbox $(which zsh)
-        export DISPLAY=:$display; redshift -O $temperature
-    done
+    export DISPLAY=:$display; redshift -O $temperature
 }
 
 
@@ -87,7 +94,8 @@ case "$hw_command" in
     bat)           hw_bat $@                                  ;;
     temp)          hw_temp $@                                 ;;
     mem)           hw_mem $@                                  ;;
-    br|brightness) hw_brightness $@                           ;;
-    rs|redshift)   hw_redshift $@                             ;;
+    br|brightness) hw_brightness "$@"                         ;;
+    rs|redshift)   hw_redshift   "$@"                         ;;
+    mon|monitor)   hw_xrandr     "$@"                         ;;
     *)             echo "Unrecognized command: '$hw_command'" ;;
 esac
