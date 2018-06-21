@@ -1,19 +1,16 @@
 #!/usr/bin/env zsh
 
-sw_sync() { sudo emerge --sync $@ ; }
+sw_sync() { sudo nix-channel --update nixos "$@" ; }
 
-sw_search() { emerge --search $@ ; }
+sw_search() { nix search "$@" ; }
 
-sw_update() { sudo emerge --verbose --ask --update --deep \
-                        --newuse --changed-use --keep-going \
-                        --backtrack=100 @world $@ ; }
+sw_update() { sudo nixos-rebuild switch --upgrade "$@" ; }
 
-sw_install() { sudo emerge --ask --keep-going --verbose $@ \
-                && [[ -d "$DOTFILES/sw" ]] && echo "$@" >> "$DOTFILES/sw/recently_installed" ; }
+sw_install() { echo "Install packages by adding to $DOTFILES/nixos/packages.nix" ; }
 
-sw_remove() { sudo emerge --ask --keep-going --verbose --depclean $@ ; }
+sw_remove() { echo "Remove packages by removing from $DOTFILES/nixos/packages.nix" ; }
 
-sw_clean() { sudo emerge --ask --keep-going @preserved-rebuild $@ ; }
+sw_clean() { echo "No clean." ; }
 
 # Functionality Wrapper
 # =====================
