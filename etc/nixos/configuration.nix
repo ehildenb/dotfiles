@@ -30,7 +30,7 @@
   };
 
   # Set your time zone.
-  time.timeZone = "America/Denver";
+  time.timeZone = "America/Chicago";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -42,7 +42,8 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
+  services.openssh.ports = [6446];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
