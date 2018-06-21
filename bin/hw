@@ -15,11 +15,24 @@ hw_bat() {
 }
 
 hw_temp() {
+    local temps_dir curr_temp sum_temp avg_temp num_temp max_temp temp_str
+    max_temp='0'
+    num_temp='0'
+    sum_temp='0'
+    temp_str=''
     temps_dir='/sys/class/thermal'
     for temp_file in $(ls -d $temps_dir/thermal_zone*); do
-        temp="$(cat "$temp_file/temp")"
-        echo $(($temp/1000))
+        curr_temp="$(cat "$temp_file/temp")"
+        [[ "$curr_temp" != '0' ]] || continue
+        [[ "$curr_temp" -gt '1000' ]] && curr_temp=$((curr_temp / 1000))
+        [[ "$curr_temp" -gt "$max_temp" ]] && max_temp="$curr_temp"
+        sum_temp=$((sum_temp + curr_temp))
+        num_temp=$((num_temp + 1))
+        temp_str="$temp_str $curr_temp"
     done
+    avg_temp="$(echo "scale=1 ; $sum_temp / $num_temp ;" | bc)"
+    temp_str="max: $max_temp avg: $avg_temp"
+    echo "$temp_str"
 }
 
 # suspend/hibernate
