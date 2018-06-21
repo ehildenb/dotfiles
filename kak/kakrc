@@ -78,3 +78,11 @@ map global user b %{ | pandoc-citeproc --bib2yaml --format=biblatex <ret> }
 
 # insert current date in ledger format
 map global user t %{ ! date +%Y/%m/%d <ret> kA }
+
+# Custom RCs
+# ==========
+
+%sh{
+localconfdir="$XDG_CONFIG_HOME/kak"
+    cat $localconfdir/mukk.kak
+}
