@@ -6,8 +6,10 @@ set -e
 # settings
 sync=(offlineimap)
 index=(notmuch new)
-list=(notmuch search)
-read=(notmuch tag -inbox)
+list=(notmuch search tag:inbox tag:unread)
+show=(notmuch show)
+read=(notmuch tag -inbox -unread)
+reply=(notmuch reply)
 
 # reporting
 _report() { echo "== mukk: $@" >&2 ; }
@@ -34,8 +36,16 @@ mukk_list() {
     "${list[@]}" "$@"
 }
 
+mukk_show() {
+    "${show[@]}" "$@"
+}
+
 mukk_read() {
     "${read[@]}" "$@"
+}
+
+mukk_reply() {
+    "${reply[@]}" "$@"
 }
 
 # Main
@@ -45,10 +55,12 @@ _usage() {
     exit_status="$1"
     echo "
     usage:
-        $0 (s|sync):            download new email
-        $0 (i|index):           tag/index existing email
-        $0 (l|list) [FILTER+]:  list given emails
-        $0 (r|read) [FILTER+]:  remove 'inbox' tag from given emails
+        $0 (s|sync):               download new email
+        $0 (i|index):              tag/index existing email
+        $0 (l|list) [FILTER+]:     list given emails
+        $0 (r|read) [FILTER+]:     remove 'inbox' tag from given emails
+        $0 show  thread:THREADID:  show given emails
+        $0 reply thread:THREADID:  draft reply to given email
 
     where:
         FILTER:  filters on the emails to apply"
@@ -60,7 +72,9 @@ case "$mukk_command" in
     s|sync)  mukk_sync  "$@" ;;
     i|index) mukk_index "$@" ;;
     l|list)  mukk_list  "$@" ;;
+    show)    mukk_show  "$@" ;;
     r|read)  mukk_read  "$@" ;;
+    reply)   mukk_reply "$@" ;;
     *)       echo "Unrecognized command: '$mukk_command'"
              _usage 1
              ;;
