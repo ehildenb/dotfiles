@@ -34,8 +34,13 @@
     d  = diff
     dc = diff --cached
 
+    s  = show
+    sm = show -m
+
     b  = branch
     ba = branch --all
+
+    co = checkout
 
     c  = commit
     ca = commit --all
