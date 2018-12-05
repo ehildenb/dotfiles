@@ -87,7 +87,6 @@ shortcut() {
             584*)       long_path="$HOME/work/uiuc-cs584${short_path#584}"              ;;
             576*)       long_path="$HOME/reads/uiuc-cs576${short_path#576}"             ;;
             476*)       long_path="$HOME/work/ta/cs476/fa2017${short_path#476}"         ;;
-            ci*)        long_path="$HOME/src/fsl-ci${short_path#ci}"                    ;;
             evm*)       long_path="$HOME/src/evm-semantics${short_path#evm}"            ;;
             plutus*)    long_path="$HOME/src/plutus-core-semantics${short_path#plutus}" ;;
             wasm*)      long_path="$HOME/src/wasm-semantics${short_path#wasm}"          ;;
@@ -331,12 +330,12 @@ xdo_remote() {
     xdotoolize | ssh "$ssh_serv" "$remote_command"
 }
 
-# K Framework
-# ===========
+# Random
+# ======
 
-# initialize k path
-# -----------------
-initk () {
-    [[ -z "$K_VERSION" ]] && K_VERSION=uiuck
-    export PATH=$SRC/k/$K_VERSION/k-distribution/target/release/k/bin:$PATH
+# testing run for maude
+# ---------------------
+maude_test() {
+    test_path="$1" && shift
+    monitor files "$test_path.maude" contrib/systems/*.maude contrib/tools/*/*.maude -- ./build test "$test_path" "$@"
 }
