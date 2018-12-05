@@ -3,8 +3,8 @@
 
 [core]
     pager = less -S
-
     excludesFile = ~/dotfiles/git/gitignore
+    attributesFile = ~/dotfiles/git/gitattributes
 
 [user]
     name  = Everett Hildenbrandt
@@ -25,6 +25,9 @@
 [merge]
     tool = vimdiff2
 
+[diff "json"]
+    textconv = jq --monochrome-output --sort-keys .
+
 [alias]
     st = status --short
 
@@ -38,24 +41,39 @@
     ca = commit --all
     cs = commit --amend
 
-    rc = rebase --continue
+    co = checkout
+
+    r   = rebase --interactive
+    rc  = rebase --continue
+    ra  = rebase --abort
+    ret = rebase --edit-todo
+
+    cp  = cherry-pick
+    cpc = cherry-pick --continue
+    cpa = cherry-pick --abort
 
     f  = fetch
     fa = fetch --all
 
-    pushf = push --force-with-lease
+    pushf   = push --force-with-lease
+    pushdev = push --force-with-lease upstream dev:ehildenb
+
+    mergepr = merge --no-ff
 
     hist = log --abbrev-commit --decorate --date=relative --graph --topo-order \
-            --format=format:'%C(bold green)%h%C(reset) - %<(60)%C(green)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
+            --format=format:'%C(bold green)%h%C(reset) - %<(80)%C(green)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
+
+    histci = log --abbrev-commit --decorate --date=relative --graph --topo-order --notes=ci/summary \
+            --format=format:'%C(bold green)%h%C(reset) - %<(80)%C(green)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)\n%N'
 
     histd = log --abbrev-commit --decorate --date=relative --graph --topo-order \
-             --format=format:'%C(bold green)%h%C(reset) - %C(blue)%ar%C(reset) - %<(60)%C(green)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
+             --format=format:'%C(bold green)%h%C(reset) - %C(blue)%ar%C(reset) - %<(80)%C(green)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
 
     hists = log --stat --abbrev-commit --decorate --date=relative --graph --topo-order \
-             --format=format:'%C(bold green)%h%C(reset) - %C(blue)%ar%C(reset) - %<(60)%C(green)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
+             --format=format:'%C(bold green)%h%C(reset) - %C(blue)%ar%C(reset) - %<(80)%C(green)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
 
     histp = log --patch --abbrev-commit --decorate --date=relative --graph --topo-order \
-             --format=format:'%C(bold green)%h%C(reset) - %C(blue)%ar%C(reset) - %C(green)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
+             --format=format:'%C(bold green)%h%C(reset) - %C(blue)%ar%C(reset) - %<(80)%C(green)%s%C(reset) - %C(blue)%an%C(reset)%C(bold yellow)%d%C(reset)'
 
     merged   = for-each-ref 'refs/remotes/**' --format=$'%(authordate)\t%(refname)\t%(subject)' --merged
     unmerged = for-each-ref 'refs/remotes/**' --format=$'%(authordate)\t%(refname)\t%(subject)' --no-merged

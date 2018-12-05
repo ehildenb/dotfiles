@@ -30,6 +30,13 @@ bin/old/
 bin/pandoc-tangle
 bin/pandoc_website
 bin/git-ci
+bin/git-dep
+bin/git-merge-pr
+bin/git-next
+bin/git-rebased-on
+bin/git-replay
+bin/git-test-next
+bin/git-treebase
 bin/pd
 bin/psi
 bin/pvs
