@@ -13,9 +13,12 @@ get_date() {
 
 # uptime
 get_uptime() {
-    uptime | tr --squeeze-repeats '[:space:]' \
-           | cut --delimiter=',' --field=1 \
-           | cut --delimiter=' ' --field=4-
+    uptime_output=""
+    while read amount; do
+        read unit
+        uptime_output="$uptime_output $amount${unit[1]}"
+    done < <(uptime -p | tr ' ' '\n' | tail -n+2)
+    echo "$uptime_output"
 }
 
 # screen brightness
