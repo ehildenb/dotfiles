@@ -43,7 +43,6 @@ get_email() {
     return 0
 }
 
-
 # TS_STAT_TYPE is 'status' or 'notifications'
 separator="  |"
 stat_command="$1"
@@ -51,8 +50,9 @@ case "$stat_command" in
     s|status)
         output=""
         output="$output $(get_date)$separator"
-        output="$output Temps: $(hw temp | tr '\n' ' ')$separator"
         output="$output Net: $(net print | head -c10) - $(net list)$separator"
+        output="$output Temps: $(hw temp | tr -d '\n')$separator"
+        output="$output Load: $(tmux-mem-cpu-load --averages-count 1)$separator"
         output="$output Uptime: $(get_uptime)"
         ;;
 
