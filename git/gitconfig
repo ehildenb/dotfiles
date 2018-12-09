@@ -51,6 +51,7 @@
     r   = rebase --interactive
     rc  = rebase --continue
     ra  = rebase --abort
+    rs  = rebase --skip
     ret = rebase --edit-todo
 
     cp  = cherry-pick
