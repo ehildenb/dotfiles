@@ -20,7 +20,7 @@ hw_temp() {
     num_temp='0'
     sum_temp='0'
     temp_str=''
-    for curr_temp in $(sensors | grep 'temp.:' | tr --squeeze-repeats '[:space:]' | cut --delimiter=' ' --field='2' | cut --characters=2-3); do
+    for curr_temp in $(sensors | grep '°C' | cut --delimiter '+' --field 2 | cut --delimiter 'C' --field 1 | cut --delimiter '.' --field 1); do
         [[ "$curr_temp" != '0' ]] || continue
         [[ "$curr_temp" -gt '1000' ]] && curr_temp=$((curr_temp / 1000))
         [[ "$curr_temp" -gt "$max_temp" ]] && max_temp="$curr_temp"
