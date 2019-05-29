@@ -178,7 +178,7 @@ o() {
         gitlab) site='https://gitlab-beta.engr.illinois.edu'                                    ;;
         maudea) site='http://www.csl.sri.com/~eker/Maude/'                                      ;;
         g|google)
-            site="https://www.google.com/search?q="
+            site="https://www.duckduckgo.com/lite?q="
             search_string="$(echo $@ | tr ' ' '+')"
             site="$site$search_string"
             ;;
@@ -215,7 +215,7 @@ backup() {
 # simple web server
 # -----------------
 http() {
-    python3 -m http.server $@
+    python3 -m http.server 8010 $@
 }
 
 # printing
