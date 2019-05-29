@@ -7,9 +7,10 @@ time_between='2'
 
 monitor_type="$1" && shift
 
-timestamp() { date +'%F %H:%M:%S'          ; }
-recho()     { echo '\033[0;31m'$@'\033[0m' ; }
-becho()     { echo '\033[0;34m'$@'\033[0m' ; }
+timestamp() { date +'%F %H:%M:%S' ; }
+
+recho() { echo ; echo '\033[0;31m'$@'\033[0m' ; }
+becho() { echo ; echo '\033[0;34m'$@'\033[0m' ; }
 
 case "$monitor_type" in
     poll)
