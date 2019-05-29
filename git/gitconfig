@@ -1,14 +1,11 @@
-[init]
-    templatedir = ~/dotfiles/git/template
-
 [core]
     pager = less -S
     excludesFile = ~/dotfiles/git/gitignore
     attributesFile = ~/dotfiles/git/gitattributes
 
 [user]
-    name  = Everett Hildenbrandt
-    email = hildenb2@illinois.edu
+    name = Everett Hildenbrandt
+    email = everett.hildenbrandt@gmail.com
 
 [commit]
     verbose = true
@@ -60,6 +57,8 @@
 
     f  = fetch
     fa = fetch --all
+
+    smu = submodule update --init --recursive
 
     pushf   = push --force-with-lease
     pushdev = push --force-with-lease upstream dev:ehildenb
