@@ -215,6 +215,7 @@ backup() {
 # simple web server
 # -----------------
 http() {
+    ip addr
     python3 -m http.server 8010 $@
 }
 
