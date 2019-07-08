@@ -45,6 +45,9 @@ export MD_DATA="$DOTFILES/md"
 ### Maude
 export MAUDE_VERSION="maude-alpha114"
 
+### KLab
+export KLAB_OUT=/mnt/ramdisk/klab
+
 # XDG dirs
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$DOTFILES"
