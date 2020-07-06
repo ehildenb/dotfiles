@@ -20,6 +20,10 @@ case "$monitor_type" in
     git)
         diff_command=("git" "diff")
         ;;
+    git-rev)
+        rev_name="$1" && shift
+        diff_command=("git" "rev-parse" "$rev_name")
+        ;;
     git-path)
         git_path="$1" && shift
         diff_command=("git" "diff" "--" "$git_path")
