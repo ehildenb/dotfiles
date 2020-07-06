@@ -57,6 +57,10 @@
     rs  = rebase --skip
     ret = rebase --edit-todo
 
+    m   = merge
+    mc  = merge --continue
+    ma  = merge --abort
+
     cp  = cherry-pick
     cpc = cherry-pick --continue
     cpa = cherry-pick --abort
