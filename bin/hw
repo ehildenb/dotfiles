@@ -15,22 +15,23 @@ hw_bat() {
 }
 
 hw_temp() {
-    local temps_dir curr_temp sum_temp avg_temp num_temp max_temp temp_str
-    max_temp='0'
-    num_temp='0'
-    sum_temp='0'
-    temp_str=''
-    for curr_temp in $(sensors | grep 'temp.:' | tr --squeeze-repeats '[:space:]' | cut --delimiter=' ' --field='2' | cut --characters=2-3); do
-        [[ "$curr_temp" != '0' ]] || continue
-        [[ "$curr_temp" -gt '1000' ]] && curr_temp=$((curr_temp / 1000))
-        [[ "$curr_temp" -gt "$max_temp" ]] && max_temp="$curr_temp"
-        sum_temp=$((sum_temp + curr_temp))
-        num_temp=$((num_temp + 1))
-        temp_str="$temp_str $curr_temp"
-    done
-    avg_temp="$(echo "scale=1 ; $sum_temp / $num_temp ;" | bc)"
-    temp_str="max: $max_temp avg: $avg_temp"
-    echo "$temp_str"
+    sensors | grep 'temp1' | tail -n1 | tr --squeeze-repeats '[:space:]' | cut --delimiter='(' --field=1
+}
+
+hw_load() {
+    tmux-mem-cpu-load "$@"
+}
+
+hw_freq() {
+    local total_mhz avg_mhz mhz count
+    count=0
+    avg_mhz='0.0'
+    while read mhz; do
+        avg_mhz="$avg_mhz + $mhz"
+        count="$count + 1"
+    done < <(grep "MHz" /proc/cpuinfo | cut --delimiter=':' --field='2')
+    avg_mhz=$(echo "scale = 2 ; ($avg_mhz) / ($count)" | bc)
+    echo "$avg_mhz MHz"
 }
 
 # suspend/hibernate
@@ -104,6 +105,8 @@ shift
 case "$hw_command" in
     bat)           hw_bat $@                                  ;;
     temp)          hw_temp $@                                 ;;
+    load)          hw_load $@                                 ;;
+    freq)          hw_freq $@                                 ;;
     mem)           hw_mem $@                                  ;;
     br|brightness) hw_brightness "$@"                         ;;
     rs|redshift)   hw_redshift   "$@"                         ;;
