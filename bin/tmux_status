@@ -52,8 +52,8 @@ case "$stat_command" in
         output=""
         output="$output $(get_date)$separator"
         output="$output Net: $(net print | head -c10) - $(net list)$separator"
-        output="$output Temps: $(hw temp | tr -d '\n')$separator"
-        output="$output Load: $(tmux-mem-cpu-load --averages-count 1)$separator"
+        output="$output Load: $(hw load --averages-count 1)$separator"
+        output="$output CPU: $(hw freq) $(hw temp)$separator"
         output="$output Uptime: $(get_uptime)"
         ;;
 
